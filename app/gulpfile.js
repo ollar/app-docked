@@ -7,7 +7,6 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
-    clean = require('gulp-clean'),
     gutil = require('gulp-util'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -38,7 +37,7 @@ gulp.task('coffee', function(){
           // .pipe(uglify())
         .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest('public/js'))
-        .pipe(connect.reload());
+        // .pipe(connect.reload());
 });
 
 
@@ -81,7 +80,7 @@ gulp.task('sass', function(){
         .pipe(autoprefixer())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('public/css'))
-        .pipe(connect.reload());
+        // .pipe(connect.reload());
 });
 
 
@@ -92,13 +91,13 @@ gulp.task('jade', function(){
   .pipe(plumber())
   .pipe(jade().on('error', gutil.log))
   .pipe(gulp.dest('public'))
-  .pipe(connect.reload());
+  // .pipe(connect.reload());
 
   return gulp.src(['src/jade/**/*.jade', '!src/jade/index.jade'])
         .pipe(plumber())
         .pipe(jade().on('error', gutil.log))
         .pipe(gulp.dest('public/js'))
-        .pipe(connect.reload());
+        // .pipe(connect.reload());
 });
 
 
@@ -106,7 +105,7 @@ gulp.task('jade', function(){
 // =============================================================================
 // =============================================================================
 
-gulp.task('default', ['clean', 'connect'], function(){
+gulp.task('default', ['clean'], function(){
   runSequence(['vendor', 'coffee', 'sass', 'jade']);
 
   watch('src/coffee/**', {name: 'Coffee'}, function(){
@@ -121,4 +120,9 @@ gulp.task('default', ['clean', 'connect'], function(){
     gulp.start('jade');
   });
 
+});
+
+
+gulp.task('dev', ['clean'], function(){
+  runSequence(['vendor', 'coffee', 'sass', 'jade']);
 });

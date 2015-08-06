@@ -25,8 +25,7 @@ require [
     dataType: "json"
 
   $.ajaxPrefilter ( options, originalOptions, jqXHR ) ->
-    # options.url = 'http://olarkin.u.simtech:5000' + options.url
-    options.url = 'http://localhost:5000' + options.url
+    options.url = 'http://flask:5000' + options.url
 
     options.crossDomain =
       crossDomain: true

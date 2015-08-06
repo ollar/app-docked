@@ -9,4 +9,6 @@ RUN npm install -g gulp
 RUN npm install
 RUN bower install --allow-root
 
+RUN npm start
+
 CMD gulp
