@@ -1,0 +1,25 @@
+.table-wrapper{
+  display: table;
+  width: 100%;
+
+  &>div{
+    vertical-align: middle;
+    display: table-cell;
+  }
+}
+
+.left{
+  text-align: left;
+}
+
+.right{
+  text-align: right;
+}
+
+.hidden{
+  display: none !important;
+}
+
+.visible{
+  display: block !important;
+}

@@ -1,0 +1,50 @@
+.name <%= title %>
+.description <%= marked(description) %>
+
+.day-assigned <%= humanizeDay(day_linked) %>
+.category <%= humanizeCategory(category) %>
+
+<% if (loggedUser.has('id')){ %>
+.buttons-wrapper.table-wrapper
+  <% if (routeName === '') {%>
+  .left
+    .table-wrapper.qty-wrapper.pure-form
+      .decrease.pure-button -
+      .qty
+        input(type="text", value=1)
+      .increase.pure-button +
+  <% }; %>
+  
+  .right
+    <% if (routeName === 'meals') {%>
+    <% if (loggedUser.id === 1){ %>
+    button.edit.pure-button <%= t('edit') %>
+    button.toggle-enabled.pure-button <%= enabled ? t('disable') : t('enable') %>
+    <% }; %>
+    <% }; %>
+
+    <% if (routeName === '') {%>
+    button.make-order.pure-button.pure-button-primary <%= t('make order') %>
+    <% }; %>
+
+<% if (routeName === '') {%>
+.comments
+  <% if (!_.find(comments, function(comment){return comment.user_id == loggedUser.id})) {%>
+  button.add-comment.pure-button <%= t('add comment') %>
+  <% } else { %>
+  .comments-wrapper
+    <% _comment = _.find(comments, function(comment){return comment.user_id == loggedUser.id}); %>
+    .text(data-id!="<%= _comment.id %>") <%= marked(_comment.content) %>
+    button.remove-comment.pure-button(data-comment-id!="<%= _comment.id %>") <%= t('remove comment') %>
+  <% }; %>
+<% }; %>
+
+<% if (routeName === 'meals') {%>
+.comments
+  .comments-wrapper
+    <% _.each(comments, function(comment){ %>
+    .text(data-id!="<%= comment.id %>", data-user-id!="<%= comment.user_id %>") <%= marked(comment.content) %>
+    <% }); %>
+<% }; %>
+
+<% }; %>

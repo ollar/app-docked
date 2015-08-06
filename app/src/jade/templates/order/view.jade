@@ -1,0 +1,9 @@
+.order-date <%= moment(order_date).format('DD MMMM YYYY') %>
+.user(id!="user_<%= user.id %>") <%= user.username %>
+.table-wrapper.meal-wrapper
+  .name(id!="meal_<%= meal.id %>") <%= meal.title %>
+  .qty &times; <%= quantity %>
+.date <%= t('order made at') %> <%= moment(timestamp_created).format('DD MMMM YYYY') %>
+
+.buttons-wrapper
+  button.pure-button.delete <%= t('delete') %>

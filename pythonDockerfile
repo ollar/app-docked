@@ -1,0 +1,10 @@
+FROM python
+
+ENV DB_ENV_POSTGRES_USER=pg_root
+ENV DB_ENV_POSTGRES_PASSWORD=canteen_cool_pass
+
+ADD ./canteen2 /app
+WORKDIR /app
+RUN pip install -r requirments.txt
+
+CMD python run_werg.py -d
