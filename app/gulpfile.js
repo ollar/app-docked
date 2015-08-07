@@ -1,4 +1,4 @@
-var _ = require('./bower_components/underscore/underscore.js');
+var _ = require('../bower_components/underscore/underscore.js');
 var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     connect = require('gulp-connect'),
@@ -45,24 +45,24 @@ gulp.task('coffee', function(){
 
 gulp.task('vendor', function(){
   var js = {
-    backbone_localStorage: 'bower_components/backbone.localStorage/backbone.localStorage-min.js',
-    backbone: 'bower_components/backbone/backbone-min.js',
-    domReady: 'bower_components/domReady/domReady.js',
-    i18n: 'bower_components/requirejs-i18n/i18n.js',
-    jquery: 'bower_components/jquery/dist/jquery.min.js',
-    requirejs: 'bower_components/requirejs/require.js',
-    text: 'bower_components/text/text.js',
-    underscore: 'bower_components/underscore/underscore-min.js',
-    jcookie: 'bower_components/jquery.cookie/jquery.cookie.js',
-    moment: './bower_components/moment/min/moment.min.js',
-    marked: './bower_components/marked/marked.min.js',
-    hammerjs: './bower_components/hammerjs/hammer.min.js',
-    jhammerjs: './bower_components/jquery-hammerjs/jquery.hammer.js',
-    mandrill: './bower_components/mandrill-api/mandrill.min.js',
+    backbone_localStorage: '../bower_components/backbone.localStorage/backbone.localStorage-min.js',
+    backbone: '../bower_components/backbone/backbone-min.js',
+    domReady: '../bower_components/domReady/domReady.js',
+    i18n: '../bower_components/requirejs-i18n/i18n.js',
+    jquery: '../bower_components/jquery/dist/jquery.min.js',
+    requirejs: '../bower_components/requirejs/require.js',
+    text: '../bower_components/text/text.js',
+    underscore: '../bower_components/underscore/underscore-min.js',
+    jcookie: '../bower_components/jquery.cookie/jquery.cookie.js',
+    moment: '../bower_components/moment/min/moment.min.js',
+    marked: '../bower_components/marked/marked.min.js',
+    hammerjs: '../bower_components/hammerjs/hammer.min.js',
+    jhammerjs: '../bower_components/jquery-hammerjs/jquery.hammer.js',
+    mandrill: '../bower_components/mandrill-api/mandrill.min.js',
   };
 
   var css = {
-    pure: 'bower_components/pure/pure.css'
+    pure: '../bower_components/pure/pure.css'
   };
 
   gulp.src(_.values(css)).pipe(gulp.dest('public/css'));

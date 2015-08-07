@@ -1,29 +1,23 @@
 web:
-  image: nginx
+  build: .
+  dockerfile: nginxDockerfile
 
   volumes_from:
     - node
-
-  volumes:
-    - /app/public:/usr/share/nginx/html
-
   working_dir: /usr/share/nginx/html
-
   ports:
     - "8800:80"
 
 flask:
   build: .
   dockerfile: pythonDockerfile
-
   volumes:
-    - ./canteen2:/app
-
-  working_dir: /app
-
+    - ./canteen2:/back
+  working_dir: /back
   expose:
     - "5000"
-
+  ports:
+    - "5000:5000"
   links:
    - db
 
@@ -31,10 +25,11 @@ node:
   build: .
   dockerfile: nodeDockerfile
   volumes:
-    - ./app:/app
-
+    - ./app:/app/code
   links:
     - flask
+  working_dir: /app/code
+  command: gulp
 
 db:
   image: postgres
