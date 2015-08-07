@@ -4,9 +4,12 @@ web:
 
   volumes_from:
     - node
-  working_dir: /usr/share/nginx/html
+  working_dir: /app/code/public
   ports:
     - "8800:80"
+    - "5000:5000"
+  links:
+    - flask
 
 flask:
   build: .
@@ -16,8 +19,6 @@ flask:
   working_dir: /back
   expose:
     - "5000"
-  ports:
-    - "5000:5000"
   links:
    - db
 
@@ -26,8 +27,6 @@ node:
   dockerfile: nodeDockerfile
   volumes:
     - ./app:/app/code
-  links:
-    - flask
   working_dir: /app/code
   command: gulp
 

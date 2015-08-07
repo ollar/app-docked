@@ -25,22 +25,20 @@ require [
     dataType: "json"
 
   $.ajaxPrefilter ( options, originalOptions, jqXHR ) ->
-    options.url = 'http://flask:5000' + options.url
-
-    options.crossDomain =
-      crossDomain: true
+    options.url = '//localhost:5000' + options.url
 
     options.beforeSend = (xhr)->
       if $.cookie 'access_token'
         xhr.setRequestHeader 'access-token', $.cookie 'access_token'
 
-  $(document).on 'ajaxStart', ->
-    channel = require('channel')
-    channel.trigger 'loading:start'
 
-  $(document).on 'ajaxComplete', ->
-    channel = require('channel')
-    channel.trigger 'loading:done'
+  # $(document).on 'ajaxStart', ->
+  #   channel = require('channel')
+  #   channel.trigger 'loading:start'
+  #
+  # $(document).on 'ajaxComplete', ->
+  #   channel = require('channel')
+  #   channel.trigger 'loading:done'
 
   App.router = new AppRouter()
 
@@ -54,8 +52,7 @@ require [
     smartLists: true
     smartypants: false
 
-  Backbone.history.start()
-    # root: '/bb_app'
-    # pushState: yes
+  Backbone.history.start
+    root: '/'
 
   return
