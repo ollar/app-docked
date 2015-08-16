@@ -1,12 +1,16 @@
 require [
-  'app'
   'jquery'
-  'underscore'
-  'backbone'
-  'router'
-  'models/loggedUser'
   'jquery.cookie'
-  'marked'], (App, $, _, Backbone, AppRouter, LoggedUser, jcookie, marked)->
+  'marionette'
+  'router'
+  'marked'
+  'app'
+  'views/topMenu'], ($, jcookie, Mn, Router, marked, App, TopMenu)->
+
+  # ====================================
+  # Setting help functions and options
+  # ====================================
+
   $.fn.serializeObject = ->
     o = {}
     a = @serializeArray()
@@ -20,28 +24,6 @@ require [
       return
     o
 
-  $.ajaxSetup
-    contentType: "application/json; charset=utf-8"
-    dataType: "json"
-
-  $.ajaxPrefilter ( options, originalOptions, jqXHR ) ->
-    options.url = '//localhost:5000' + options.url
-
-    options.beforeSend = (xhr)->
-      if $.cookie 'access_token'
-        xhr.setRequestHeader 'access-token', $.cookie 'access_token'
-
-
-  # $(document).on 'ajaxStart', ->
-  #   channel = require('channel')
-  #   channel.trigger 'loading:start'
-  #
-  # $(document).on 'ajaxComplete', ->
-  #   channel = require('channel')
-  #   channel.trigger 'loading:done'
-
-  App.router = new AppRouter()
-
   marked.setOptions
     renderer: new marked.Renderer()
     gfm: true
@@ -52,7 +34,46 @@ require [
     smartLists: true
     smartypants: false
 
-  Backbone.history.start
-    root: '/'
+  App.navigate = (route)->
+    Backbone.history.navigate route, yes
+
+  # ====================================
+  # Preparing app
+  # ====================================
+
+  App.on "before:start", ->
+    $.ajaxSetup
+      contentType: "application/json; charset=utf-8"
+      dataType: "json"
+
+    $.ajaxPrefilter ( options, originalOptions, jqXHR ) ->
+      options.url = '//localhost:5000' + options.url
+
+      options.beforeSend = (xhr)->
+        if $.cookie 'access_token'
+          xhr.setRequestHeader 'access-token', $.cookie 'access_token'
+
+
+  App.on 'start', ->
+    new Router()
+    @navigation.show(new TopMenu())
+    Backbone.history.start()
+    console.log @
+
+  # ====================================
+  # Specifying regions
+  # ====================================
+
+  App.addRegions
+    navigation: "#navigation"
+    main: "#main-content"
+    messages: "#message-wrapper"
+    overlay: "#overlay"
+
+  # ====================================
+  # Starting the App
+  # ====================================
+
+  App.start()
 
   return

@@ -3,12 +3,13 @@ define [
   'underscore'
   'backbone'
   'app'
+  'marionette'
   'text!templates/user/form.html'
   'models/user'
   'views/user/login'
-  'channel'
-  'translate'], ($, _, Backbone, App, userFormTemplate, UserModel, LoginView, channel, translate)->
-  UserFormView = Backbone.View.extend
+  # 'channel'
+  'translate'], ($, _, Backbone, App, Mn, userFormTemplate, UserModel, LoginView, translate)->
+  UserFormView = Mn.ItemView.extend
     className: 'user-manage pure-menu-item'
 
     initialize: (options)->
@@ -16,6 +17,8 @@ define [
       @model = @model || new UserModel()
 
     template: _.template(userFormTemplate)
+    templateHelpers: ->
+      t: translate
 
     events:
       'submit #user_form': 'updateUser'
@@ -45,7 +48,7 @@ define [
                 type: 'success'
                 text: 'user created'
 
-              App.router.navigate '', true
+              App.navigate '', true
             )
 
     cancelEdit: (e)->
@@ -56,12 +59,7 @@ define [
           prevView = new @options.front_view {model: @model}
           @$el.before(prevView.render().el)
       else
-        App.router.navigate '', true
+        App.navigate '', true
       @remove()
-
-    render: ->
-      @$el.html @template _.extend @model.toJSON(), {t: translate}
-
-      @
 
   UserFormView

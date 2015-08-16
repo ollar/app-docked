@@ -1,0 +1,27 @@
+.date <%= date %>
+table.pure-table.day
+  thead
+    tr
+      th &nbsp;
+      <% _.each(meals, function(meal){ %>
+      th(id!="mid-<%= meal.get('id') %>")
+        <%= meal.get('title') %>
+        
+      <% }); %>
+  tbody    
+    <% _.each(orders, function(order, key){ %>
+    tr
+      td
+        <%= key %>
+      
+      <% _.each(meals, function(_meal){ %>
+      td
+        <% _.each(order, function(_order){ %>
+        <% if (_order.get('meal_id') == _meal.get('id')){ %>
+        <%= _order.get('quantity') %>
+        <% }; %>
+        <% }); %>
+      <% }); %>
+        
+    <% }); %>
+    

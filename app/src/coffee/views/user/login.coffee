@@ -3,16 +3,19 @@ define [
   'underscore'
   'backbone'
   'app'
-  'channel'
+  'marionette'
+  # 'channel'
   'text!templates/user/login.html'
   'models/loggedUser'
-  'translate'], ($, _, Backbone, App, channel, LoginTemplate, LoggedUserModel, translate) ->
+  'translate'], ($, _, Backbone, App, Mn, LoginTemplate, LoggedUserModel, translate) ->
 
-  LoginView = Backbone.View.extend
+  LoginView = Mn.ItemView.extend
 
     className: "login-form"
 
     template: _.template(LoginTemplate)
+    templateHelpers: ->
+      t: translate
 
     events:
       'submit #login_form': 'submitForm'
@@ -24,11 +27,11 @@ define [
       $.cookie 'id', data.id
       $.cookie 'access_token', data.token
 
-      channel.trigger 'localUser:create', data
-      channel.trigger 'message',
-        text: 'Welcome, <b>'+data.username+'</b>'
+      # channel.trigger 'localUser:create', data
+      # channel.trigger 'message',
+      #   text: 'Welcome, <b>'+data.username+'</b>'
 
-      App.router.navigate '', yes
+      App.navigate '', yes
 
     submitForm: (e)->
       e.preventDefault()
@@ -37,10 +40,5 @@ define [
 
       $.post '/user/login', JSON.stringify(formData), (data, status, xhr)=>
         @loginUser(data)
-
-
-    render: ->
-      @$el.html @template({t: translate})
-      @
 
   LoginView

@@ -1,0 +1,13 @@
+.sort-wrapper.pure-form
+  select#sort(name="sort")
+    option(value="title") <%= t('title') %>
+    option(value="category") <%= t('category') %>
+    option(value="day_linked", selected) <%= t('day assigned') %>
+    option(value="timestamp_created") <%= t('date') %>
+    option(value="enabled") <%= t('enabled') %>
+  button.pure-button.add-new <%= t('add new') %>
+.items-list.pure-menu-list
+.buttons-wrapper.table-wrapper
+  .left
+    button.pure-button.select-all <%= t('select all') %>
+    button.pure-button.remove-all <%= t('remove all') %>

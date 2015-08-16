@@ -1,45 +1,43 @@
-nav#menu.pure-menu
-  .open &#9776;
-  .close &times;
-  .pan-tab 
-  ul.pure-menu-list
-    li.pure-menu-item
-      a.pure-menu-link(href="#") <%= t('home') %>
-    li.pure-menu-separator
-    <% if (!user.id) { %>
-    li.pure-menu-item
-      a.pure-menu-link(href="#login") <%= t('login') %>
-    li.pure-menu-item
-      a.pure-menu-link(href="#register") <%= t('register') %>
-    li.pure-menu-separator
-    <% }; %>
-    <% if (user && user.id === 1) { %>
-    li.pure-menu-item
-      span.pure-menu-heading  <%= t('admin menu') %>
-    li.pure-menu-item
-      a.pure-menu-link(href="#users") <%= t('users') %>
-    li.pure-menu-item
-      a.pure-menu-link(href="#meals") <%= t('meals') %>
-    li.pure-menu-item
-      a.pure-menu-link(href="#stats/week/all") <%= t('common week stats') %>
-    li.pure-menu-item
-      a.pure-menu-link(href="#stats/month/all") <%= t('common month stats') %>
-    li.pure-menu-item
-      a.pure-menu-link(href="#comments") <%= t('comments') %>
-    li.pure-menu-separator
-    <% }; %>
-    <% if (user.id) { %>
-    li.pure-menu-item
-      span.pure-menu-heading  <%= t('my stats') %>
-    li.pure-menu-item
-      a.pure-menu-link(href="#stats/week") <%= t('my week') %>
-    li.pure-menu-item
-      a.pure-menu-link(href="#stats/month") <%= t('my month') %>
-    li.pure-menu-separator
-    li.pure-menu-item
-      a.pure-menu-link(href!="#user/<%= user.id %>") <%= user.username %>
-    li.pure-menu-item
-      a.pure-menu-link(href="#logout") <%= t('logout') %>
-    li.pure-menu-separator
-    <% }; %>
-.overlay
+.open &#9776;
+.close &times;
+.pan-tab 
+ul.pure-menu-list
+  li.pure-menu-item
+    a.pure-menu-link(href="#") <%= t('home') %>
+  li.pure-menu-separator
+  <% if (!id) { %>
+  li.pure-menu-item
+    a.pure-menu-link(href="#login") <%= t('login') %>
+  li.pure-menu-item
+    a.pure-menu-link(href="#register") <%= t('register') %>
+  li.pure-menu-separator
+  <% }; %>
+  <% if (id === 1) { %>
+  li.pure-menu-item
+    span.pure-menu-heading  <%= t('admin menu') %>
+  li.pure-menu-item
+    a.pure-menu-link(href="#users") <%= t('users') %>
+  li.pure-menu-item
+    a.pure-menu-link(href="#meals") <%= t('meals') %>
+  li.pure-menu-item
+    a.pure-menu-link(href="#stats/week/all") <%= t('common week stats') %>
+  li.pure-menu-item
+    a.pure-menu-link(href="#stats/month/all") <%= t('common month stats') %>
+  li.pure-menu-item
+    a.pure-menu-link(href="#comments") <%= t('comments') %>
+  li.pure-menu-separator
+  <% }; %>
+  <% if (id) { %>
+  li.pure-menu-item
+    span.pure-menu-heading  <%= t('my stats') %>
+  li.pure-menu-item
+    a.pure-menu-link(href="#stats/week") <%= t('my week') %>
+  li.pure-menu-item
+    a.pure-menu-link(href="#stats/month") <%= t('my month') %>
+  li.pure-menu-separator
+  li.pure-menu-item
+    a.pure-menu-link(href!="#user/<%= id %>") <%= username %>
+  li.pure-menu-item
+    a.pure-menu-link(href="#logout") <%= t('logout') %>
+  li.pure-menu-separator
+  <% }; %>

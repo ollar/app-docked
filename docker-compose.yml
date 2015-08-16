@@ -17,6 +17,9 @@ flask:
   volumes:
     - ./canteen2:/back
   working_dir: /back
+  environment:
+    - SALT=nuegNurlOshusabCuWasBikvu
+    - SECRET_KEY=whotVaijIrEcveybsOgNelfac
   expose:
     - "5000"
   links:
@@ -33,5 +36,5 @@ node:
 db:
   image: postgres
   environment:
-    - POSTGRES_USER=pg_root
-    - POSTGRES_PASSWORD=canteen_cool_pass
+    - POSTGRES_USER=WeCeheerdEtvicsOgjotenwof
+    - POSTGRES_PASSWORD=gadJesEttOditneogulrijvok

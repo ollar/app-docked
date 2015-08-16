@@ -1,0 +1,7 @@
+li.pure-menu-item(id!="comment-id-<%= id %>")
+  .head 
+    a(href!="#stats/month/u<%= user.id %>") <%= user.username %>
+    span &nbsp;<%= t('posted on') %>&nbsp; 
+    span <%= meal.title %>
+  .content <%= content %>
+  .date <%= moment(timestamp_modified).startOf('hour').fromNow() %>

@@ -58,6 +58,7 @@ define
     'add comment': 'add comment'
     'remove comment': 'remove comment'
     'posted on': 'posted on'
+    'commented': 'commented'
 
     'text': 'text'
 

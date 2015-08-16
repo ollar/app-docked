@@ -77,6 +77,12 @@ class PopulateUsers(Command):
         pass
 
     def run(self, num):
+        admin = User(real_name='Oleg',
+                        username='ollar',
+                        password='1',
+                        email='olegollar@gmail.com')
+        db_session.add(admin)
+
         for i in range(num):
             with open('./words', 'r') as f:
                 word = random.choice(f.read().splitlines())

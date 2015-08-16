@@ -25,9 +25,6 @@ requirejs.config
     'hammerjs': 'libs/hammer.min'
     'jquery.hammer': 'libs/jquery.hammer'
     'mandrill': 'libs/mandrill.min'
-
-  # config:
-  #   i18n:
-  #     locale: 'ru'
+    'marionette': "libs/backbone.marionette.min"
 
   deps: ['main']

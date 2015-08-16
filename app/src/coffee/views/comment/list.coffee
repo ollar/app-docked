@@ -1,38 +1,34 @@
 define [
+  'app'
   'jquery'
   'underscore'
   'backbone'
+  'marionette'
 
-  'models/user'
-  'models/meal'
+  'collections/comments'
 
-  'collections/users'
-  'collections/meals'
+  'views/comment/view'
 
-  'text!templates/comment/view.html'
-  'moment'
+  'text!templates/comment/list_view.html'
+
   'translate'
-], ($, _, Backbone, UserModel, MealModel, UsersCollection, MealsCollection, ViewTemplate, moment, translate) ->
+], (App, $, _, Backbone, Mn, CommentsCollection, CommentView, CommentsListTemplate, translate) ->
 
-  class View extends Backbone.View
-    tagName: 'ul'
-    className: "pure-menu-list comments-list"
+  CommentsListView = Mn.CompositeView.extend
+    className: "pure-menu comments-list"
+
+    collection: new CommentsCollection()
+
+    childView: CommentView
+    childViewContainer: '.pure-menu-list'
 
     events: {}
 
     initialize: (options)->
-      super
-      @content = options.content
-      @ready = 0
+      @collection.fetch()
 
-      @render()
+    template: _.template CommentsListTemplate
+    templateHelpers: ->
+      t: translate
 
-    template: _.template(ViewTemplate)
-
-    render: ->
-      _.each @collection.models, (comment)=>
-        @$el.append @template(_.extend comment.toJSON(), {moment: moment, t: translate})
-
-      @content.html @$el
-
-      @
+  CommentsListView

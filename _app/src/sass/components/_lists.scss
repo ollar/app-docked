@@ -1,0 +1,108 @@
+.menu-wrapper{
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid $border_color;
+}
+
+.items-list{
+  .info{
+    width: 100%;
+  }
+
+  .buttons-wrapper,
+  .comments,
+  .stats-menu{
+    display: none;
+  }
+
+  .pure-menu-item{
+    transition: 0.4s;
+    padding: 10px;
+    margin: 0 0 5px;
+    border: 1px solid $border_color;
+    border-radius: 3px;
+    background: $body_bg;
+
+    &:hover{
+      background: darken($body_bg, 5%);
+    }
+
+    &.disabled{
+      opacity: 0.5;
+    }
+
+    &.success{
+      background: linear-gradient($body_bg, darken($body_bg, 5%));
+      box-shadow: 0 0 0 1px $success, inset 0 0 0 1px $success;
+    }
+
+    &.failed{
+      background: linear-gradient($body_bg, darken($body_bg, 5%));
+      box-shadow: 0 0 0 1px $error, inset 0 0 0 1px $error;
+    }
+
+    &.selected{
+      background: linear-gradient($body_bg, darken($body_bg, 5%));
+      box-shadow: 0 0 0 1px $links, inset 0 0 0 1px $links;
+
+      .buttons-wrapper{
+        display: table;
+      }
+
+      .stats-menu,
+      .comments{
+        display: block;
+      }
+    }
+  }
+
+  .date{
+    margin: 10px 0 0;
+    font-size: 12px;
+    color: lighten($text_color, 20%);
+  }
+}
+
+.sort-wrapper{
+  border-radius: 3px;
+  margin-bottom: 5px;
+  @include clearfix;
+
+  .add-new{
+    float: right;
+  }
+}
+
+.weekday:before{
+  font-size: 2em;
+}
+
+.monday{
+  &:before{
+    content: "\1F63E";
+  }
+}
+
+.tuesday{
+  &:before{
+    content: "\1F63D";
+  }
+}
+
+.wednesday{
+  &:before{
+    content: "\1F63C";
+  }
+}
+
+.thursday{
+  &:before{
+    content: "\1F63A";
+  }
+}
+
+.friday{
+  &:before{
+    content: "\1F63B";
+  }
+}

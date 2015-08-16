@@ -3,11 +3,11 @@ define [
   'underscore'
   'backbone'
   'app'
+  'marionette'
   'text!templates/meal/form.html'
   'collections/meals'
   'models/meal'
-  'channel'
-  'translate'], ($, _, Backbone, App, MealFormTemplate, MealsCollection, MealModel, channel, translate)->
+  'translate'], ($, _, Backbone, App, Mn, MealFormTemplate, MealsCollection, MealModel, translate)->
 
   MealFormView = Backbone.View.extend
     className: 'meal-manage pure-menu-item'
@@ -17,11 +17,15 @@ define [
       @collection = new MealsCollection()
       @model = @model || new MealModel()
 
-    template: _.template(MealFormTemplate)
+    template: _.template MealFormTemplate
+    templateHelpers: ->
+      humanizeDay: @model.humanizeDay
+      humanizeCategory: @model.humanizeCategory
+      t: translate
 
-    events:
-      'submit': 'updateMeal'
-      'click .cancel': 'cancelEdit'
+    # events:
+    #   'submit': 'updateMeal'
+    #   'click .cancel': 'cancelEdit'
 
     updateMeal: (e)->
       e.preventDefault()
@@ -50,13 +54,5 @@ define [
         prevView = new @options.front_view {model: @model}
         @$el.before(prevView.render().el)
       @remove()
-
-    render: ->
-      @$el.html @template _.extend @model.toJSON(),
-        humanizeDay: @model.humanizeDay
-        humanizeCategory: @model.humanizeCategory
-        t: translate
-
-      @
 
   MealFormView

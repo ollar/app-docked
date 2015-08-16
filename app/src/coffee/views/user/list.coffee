@@ -3,24 +3,26 @@ define [
   'underscore'
   'backbone'
   'app'
+  'marionette'
   'collections/users'
   'views/user/view'
-  'views/list'
+  'views/common/empty'
   'text!templates/user/list_view.html'
-  'views/user/form'], ($, _, Backbone, App, UsersCollection, UserView, ListView, UsersListTemplate, UserForm)->
-  UsersListView = ListView.extend
+  'translate'], ($, _, Backbone, App, Mn, UsersCollection, UserView, EmptyView, UsersListTemplate, translate)->
+  UsersListView = Mn.CompositeView.extend
+    className: 'pure-menu menu-wrapper'
+
+    collection: new UsersCollection()
     initialize: ->
-      @listTemplate = UsersListTemplate
-      @view = UserView
+      @collection.fetch()
 
-      ListView.prototype.initialize.apply(this, arguments)
+    template: _.template UsersListTemplate
+    templateHelpers: ->
+      t: translate
 
-      @$list = @$el.find('.pure-menu-list')
+    childView: UserView
+    childViewContainer: '.pure-menu-list'
 
-      @renderData()
-
-      @addView = UserForm
-
-      @
+    emptyView: EmptyView
 
   UsersListView

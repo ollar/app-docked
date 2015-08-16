@@ -1,5 +1,4 @@
 from main.database import Base
-from flask.ext.login import UserMixin
 
 from sqlalchemy import Column, Integer, String, Date, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
@@ -8,7 +7,7 @@ from werkzeug.security import gen_salt
 import datetime
 
 
-class User(Base, UserMixin):
+class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
     real_name = Column(String)

@@ -56,8 +56,8 @@ define
   'comments': 'комментарии'
   'add comment': 'добавить комментарий'
   'remove comment': 'удалить комментарий'
-
-  'posted on': 'написал на'
+  'posted on': 'написал'
+  'commented': 'прокомментировал'
 
   'text': 'текст'
 

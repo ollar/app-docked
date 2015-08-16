@@ -1,0 +1,8 @@
+dl
+  dt.date <%= date %>
+  dd
+    ol.pure-menu.orders-list
+      <% _.each(orders, function(_order){ %>
+      li
+        <span><%= _order.get('meal').title %></span>&nbsp;&mdash;&nbsp;<%= _order.get('quantity') %>
+      <% }); %>

@@ -1,0 +1,14 @@
+.table-wrapper
+  .info
+    .realname <%= real_name %> (<%= username %>)
+    .email <%= email %>
+  
+  .buttons-wrapper
+    button.pure-button.edit <%= t('edit') %>
+    button.pure-button.remove <%= t('delete') %>
+    
+ul.stats-menu.pure-menu-list
+  li
+    a(href!="#stats/week/u<%= id %>") <%= t('week stats') %>
+  li
+    a(href!="#stats/month/u<%= id %>") <%= t('month stats') %>

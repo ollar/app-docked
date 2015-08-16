@@ -4,10 +4,12 @@ USER = os.environ['DB_ENV_POSTGRES_USER']
 PASS = os.environ['DB_ENV_POSTGRES_PASSWORD']
 TABLE_NAME = USER
 
+SALT = os.environ['SALT']
+SECRET_KEY = os.environ['SECRET_KEY']
 
 class Config():
-    SECRET_KEY = "UX\x97\xc7\xd2\xf4\xa1Xf\xdc\xbeuSM\x9b"
-    SALT = "\x85\x88\xf8\x9e\xf5K\xc8O\xebe\xbc'zlz"
+    SECRET_KEY = SECRET_KEY
+    SALT = SALT
     SQLALCHEMY_DATABASE_URI = 'postgresql://{0}:{1}@db/{2}'.format(USER, PASS, TABLE_NAME)
 
 

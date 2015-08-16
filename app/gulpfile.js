@@ -4,9 +4,7 @@ var gulp = require('gulp'),
     connect = require('gulp-connect'),
     del = require('del'),
     coffee = require('gulp-coffee'),
-    concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
-    rename = require('gulp-rename'),
     gutil = require('gulp-util'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -59,6 +57,7 @@ gulp.task('vendor', function(){
     hammerjs: '../bower_components/hammerjs/hammer.min.js',
     jhammerjs: '../bower_components/jquery-hammerjs/jquery.hammer.js',
     mandrill: '../bower_components/mandrill-api/mandrill.min.js',
+    marionette: '../bower_components/marionette/lib/backbone.marionette.min.js',
   };
 
   var css = {
