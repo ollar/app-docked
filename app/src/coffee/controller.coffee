@@ -33,18 +33,19 @@ define [
     login: ->
       @setTitle('Login')
       if $.cookie 'id'
-        @logout()
+        @logout(yes)
       App.main.show(new LoginView())
 
-    logout: ->
+    logout: (quite=false)->
       uid = $.cookie 'id'
       $.removeCookie 'id'
       $.removeCookie 'access_token'
 
-      # channel.trigger 'localUser:destroy', uid
-      # channel.trigger 'message', {text: 'Good bye!'}
+      if !quite
+        App.vent.trigger 'localUser:destroy', uid
+        App.vent.trigger 'message', {text: 'Good bye!'}
 
-      App.navigate '', yes
+        App.navigate '', yes
 
     register: ->
       @setTitle('Register')
@@ -58,7 +59,7 @@ define [
           App.view = new UserFormView({model: model})
           @content.html App.view.render().el
         error: (collection, response, options)=>
-          channel.trigger 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
+          App.vent.trigger 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 
       App.main.show new UserFormView({model: model})
 

@@ -4,7 +4,6 @@ define [
   'backbone'
   'app'
   'marionette'
-  # 'channel'
   'text!templates/user/login.html'
   'models/loggedUser'
   'translate'], ($, _, Backbone, App, Mn, LoginTemplate, LoggedUserModel, translate) ->
@@ -27,9 +26,9 @@ define [
       $.cookie 'id', data.id
       $.cookie 'access_token', data.token
 
-      # channel.trigger 'localUser:create', data
-      # channel.trigger 'message',
-      #   text: 'Welcome, <b>'+data.username+'</b>'
+      App.vent.trigger 'localUser:create', data
+      App.vent.trigger 'message',
+        text: 'Welcome, <b>'+data.username+'</b>'
 
       App.navigate '', yes
 

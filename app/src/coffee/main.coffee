@@ -5,7 +5,8 @@ require [
   'router'
   'marked'
   'app'
-  'views/topMenu'], ($, jcookie, Mn, Router, marked, App, TopMenu)->
+  'views/topMenu'
+  'wreqr'], ($, jcookie, Mn, Router, marked, App, TopMenu, wreqr)->
 
   # ====================================
   # Setting help functions and options

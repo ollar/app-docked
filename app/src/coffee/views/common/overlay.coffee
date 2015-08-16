@@ -14,10 +14,10 @@ define [
         @$el.addClass 'opened'
       , 100
 
-    onDestroy: ->
-      @destroy()
+    # onDestroy: ->
+    #   @destroy()
 
     close: ->
-      App.overlay.empty()
+      App.vent.trigger 'menu:hide'
 
   Overlay

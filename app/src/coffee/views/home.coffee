@@ -7,7 +7,6 @@ define [
   'views/meal/view'
   'text!templates/home/view.html'
   'collections/nextWeekMeals'
-  # 'channel'
   'translate'
   ], ($, _, Backbone, App, Mn, MealView, HomeTemplate, NWMealsCollection, translate)->
   HomeView = Mn.CompositeView.extend
@@ -78,7 +77,7 @@ define [
         _qty = mealView.$el.find('.qty input').val()
         mealModel = mealView.model
 
-        channel.trigger 'order:create',
+        App.vent.trigger 'order:create',
           id: $.cookie 'id'
           qty: _qty
           meal_id: mealModel.get 'id'

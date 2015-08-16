@@ -4,7 +4,6 @@ define [
   'backbone'
   'app'
   'marionette'
-  # 'channel'
   'views/common/overlay'
   'text!templates/top_menu.html'
   'models/loggedUser'
@@ -13,7 +12,7 @@ define [
   TopMenu = Mn.ItemView.extend
     tagName: 'nav'
     className: 'pure-menu'
-    model: new LoggedUserModel()
+    model: new LoggedUserModel({id: $.cookie('id')})
 
     ui:
       'open': '.open'
@@ -32,13 +31,11 @@ define [
       @opened = no
       @model.fetch()
 
+      App.vent.on 'localUser:create:success localUser:update:success localUser:destroy:success', =>
+        @render()
 
-
-      # @listenTo channel, 'localUser:create:success localUser:update:success localUser:destroy:success', ->
-      #   @render()
-      #
-      # @listenTo channel, 'menu:hide', ->
-      #   @closeMenu()
+      App.vent.on 'menu:hide', =>
+        @closeMenu()
 
     template: _.template(TopMenuTemplate)
     templateHelpers: ->
@@ -47,6 +44,7 @@ define [
     openMenu: ->
       @opened = yes
       App.overlay.show(new Overlay())
+      console.log @model
       @toggleOpen()
 
     closeMenu: ->
@@ -56,6 +54,9 @@ define [
 
     toggleOpen: ->
       @$el.toggleClass 'opened', @opened
+
+    onBeforeRender: ->
+      @model.fetch()
 
     onRender: ->
       @hammer = @$el.find('.pan-tab').hammer()
