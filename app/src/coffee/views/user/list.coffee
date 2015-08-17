@@ -8,7 +8,9 @@ define [
   'views/user/view'
   'views/common/empty'
   'text!templates/user/list_view.html'
-  'translate'], ($, _, Backbone, App, Mn, UsersCollection, UserView, EmptyView, UsersListTemplate, translate)->
+  'translate'
+  'behaviors/sort'
+  ], ($, _, Backbone, App, Mn, UsersCollection, UserView, EmptyView, UsersListTemplate, translate, Sort)->
   UsersListView = Mn.CompositeView.extend
     className: 'pure-menu menu-wrapper'
 
@@ -22,6 +24,10 @@ define [
 
     childView: UserView
     childViewContainer: '.pure-menu-list'
+
+    behaviors:
+      Sort:
+        behaviorClass: Sort
 
     emptyView: EmptyView
 

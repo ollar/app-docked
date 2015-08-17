@@ -8,7 +8,9 @@ define [
   'views/order/view'
   'views/common/empty'
   'text!templates/order/list_view.html'
-  'translate'], ($, _, Backbone, App, Mn, OrdersCollection, OrderView, EmptyView, OrdersListTemplate, translate)->
+  'translate'
+  'behaviors/sort'
+  ], ($, _, Backbone, App, Mn, OrdersCollection, OrderView, EmptyView, OrdersListTemplate, translate, Sort)->
   OrdersListView = Mn.CompositeView.extend
     className: 'pure-menu menu-wrapper'
     template: _.template OrdersListTemplate
@@ -21,6 +23,10 @@ define [
     collection: new OrdersCollection()
 
     emptyView: EmptyView
+
+    behaviors:
+      Sort:
+        behaviorClass: Sort
 
     initialize: ->
       @collection.fetch()

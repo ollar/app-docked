@@ -50,6 +50,9 @@ define [
       routeName: @routeName
       t: translate
 
+    qtyEl: _.template(QtyElTemplate)
+    removeOrderButton: _.template(RemoveButtonTemplate)
+
     events:
       'click .edit': 'editMeal'
       'click .toggle-enabled': 'toggleEnabled'
@@ -94,6 +97,21 @@ define [
       , 1000
 
     # ================================
+
+    editMeal: ->
+      mealFormView = new MealFormView
+        model: @model
+        front_view: MealView
+
+      @$el.before mealFormView.render().el
+      console.log mealFormView.render()
+      @remove()
+
+    toggleEnabled: ->
+      @model.save {'enabled': !@model.get('enabled')},
+        success: =>
+          @selected = yes
+          @selectToggle().render()
 
     removeMeal: ->
       App.vent.trigger 'message', {text: 'Meal removed'}

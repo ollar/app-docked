@@ -7,18 +7,15 @@ define [
   'text!templates/order/view.html'
   'moment'
   'behaviors/select'
-  ], ($, _, Backbone, App, Mn, orderViewTemplate, moment, Select)->
+  'translate'
+  ], ($, _, Backbone, App, Mn, orderViewTemplate, moment, Select, translate)->
   OrderView = Mn.ItemView.extend
     className: 'order pure-menu-item'
 
-    # initialize: (options)->
-    #   @options = options || {}
-    #   @selected = no
-    #
-    #   @listenTo channel, 'order:meal_'+@model.get('meal_id')+':remove:success', ->
-    #     @remove()
-
-
+    initialize: (options)->
+      @options = options || {}
+      @listenTo App.vent, 'order:meal_'+@model.get('meal_id')+':remove:success', ->
+        @remove()
 
     events:
       'click .delete': -> App.vent.trigger 'order:remove', @model.get('id'), @model.get('user_id'), @model.get('meal_id')
@@ -26,6 +23,7 @@ define [
     template: _.template(orderViewTemplate)
     templateHelpers: ->
       moment: moment
+      t: translate
 
     behaviors:
       Select:
@@ -33,7 +31,6 @@ define [
 
     onRender: ->
       @$el.attr 'data-order-id', @model.get('id')
-      @$el.toggleClass 'selected', @selected
 
       @
 

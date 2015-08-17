@@ -8,7 +8,10 @@ define [
   'views/meal/view'
   'views/common/empty'
   'text!templates/meal/list_view.html'
-  'translate'], ($, _, Backbone, Mn, App, MealsCollection, MealView, EmptyView, MealsListTemplate, translate)->
+  'translate'
+  'behaviors/sort'
+  'behaviors/select_all'
+  ], ($, _, Backbone, Mn, App, MealsCollection, MealView, EmptyView, MealsListTemplate, translate, Sort, SelectAll)->
   MealsListView = Mn.CompositeView.extend
 
     className: 'pure-menu menu-wrapper'
@@ -22,6 +25,13 @@ define [
 
     initialize: ->
       @collection.fetch()
+
+    behaviors:
+      Sort:
+        behaviorClass: Sort
+      SelectAll:
+        behaviorClass: SelectAll  
+
 
     emptyView: EmptyView
 

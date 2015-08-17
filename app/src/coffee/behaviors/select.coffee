@@ -1,13 +1,15 @@
 define [
-  'app'
   'marionette'
-], (App, Mn) ->
+], (Mn) ->
   Select = Mn.Behavior.extend
+    initialize: ->
+      @view.on 'this:clicked', @toggleState
+
     defaults:
       select: no
 
-    events:
-      'click': 'toggleState'
+    triggers:
+      'click': 'this:clicked'
 
     toggleState: ->
       @options.select = !@options.select

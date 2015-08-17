@@ -1,15 +1,14 @@
 define [
   'jquery'
   'underscore'
-  'backbone'
   'app'
   'marionette'
   'text!templates/meal/form.html'
   'collections/meals'
   'models/meal'
-  'translate'], ($, _, Backbone, App, Mn, MealFormTemplate, MealsCollection, MealModel, translate)->
+  'translate'], ($, _, App, Mn, MealFormTemplate, MealsCollection, MealModel, translate)->
 
-  MealFormView = Backbone.View.extend
+  MealFormView = Mn.ItemView.extend
     className: 'meal-manage pure-menu-item'
 
     initialize: (options)->
@@ -23,13 +22,13 @@ define [
       humanizeCategory: @model.humanizeCategory
       t: translate
 
-    # events:
-    #   'submit': 'updateMeal'
-    #   'click .cancel': 'cancelEdit'
+    events:
+      'submit': 'updateMeal'
+      'click .cancel': 'cancelEdit'
 
     updateMeal: (e)->
       e.preventDefault()
-      @collection.add @model
+      # @collection.add @model
 
       _daysObj = @model.get 'daysObj'
       _categoriesObj = @model.get 'categoriesObj'
@@ -39,9 +38,9 @@ define [
       @model.save $(e.target).serializeObject(),
         success: (model, response, options)=>
           if @model.has 'id'
-            channel.trigger 'message',  {text: 'Meal updated'}
+            App.vent.trigger 'message',  {text: 'Meal updated'}
           else
-            channel.trigger 'message',  {text: 'Meal created'}
+            App.vent.trigger 'message',  {text: 'Meal created'}
           model.set {daysObj: _daysObj, categoriesObj: _categoriesObj}
           mealView = new @options.front_view {model: model}
           @$el.before mealView.render().el
