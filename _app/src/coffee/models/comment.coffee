@@ -8,8 +8,8 @@ define [
     urlRoot: '/comment/'
 
     defaults:
-      user_id: 1
-      meal_id: 1
+      user_id: 0
+      meal_id: 0
       content: ''
 
     initialize: (args...)->

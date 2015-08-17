@@ -30,7 +30,7 @@ define [
       App.vent.trigger 'message',
         text: 'Welcome, <b>'+data.username+'</b>'
 
-      App.navigate '', yes
+      App.navigate ''
 
     submitForm: (e)->
       e.preventDefault()

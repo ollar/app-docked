@@ -1,9 +1,21 @@
 define [
+  'app'
   'marionette'
   'controller'
-  ], (Mn, routeController)->
+  ], (App, Mn, routeController)->
 
-  Router = Mn.AppRouter.extend      
+  Router = Mn.AppRouter.extend
+
+    execute: (callback, args, name)->
+      callback = _.wrap callback, (_callback)=>
+          App.vent.trigger 'loading:start'
+          _callback.apply(@, args)
+          App.vent.trigger 'loading:done'
+          @
+
+      (callback.apply(@, args)) if (callback)
+
+
     appRoutes:
       '': 'home'
       'register': 'register'

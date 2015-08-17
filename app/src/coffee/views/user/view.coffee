@@ -1,11 +1,12 @@
 define [
   'jquery'
   'underscore'
-  'backbone'
   'app'
   'marionette'
   'text!templates/user/view.html'
-  'translate'], ($, _, Backbone, App, Mn, Template, translate)->
+  'translate'
+  'behaviors/select'
+  ], ($, _, App, Mn, Template, translate, Select)->
   UserView = Mn.ItemView.extend
     className: 'user pure-menu-item'
 
@@ -15,6 +16,10 @@ define [
 
     template: _.template Template
     templateHelpers: ->
-      t: translate    
+      t: translate
+
+    behaviors:
+      Select:
+        behaviorClass: Select
 
   UserView

@@ -4,9 +4,8 @@ define [
   'backbone'
 
   'text!templates/comment/form.html'
-  'channel'
   'translate'
-], ($, _, Backbone, FormTemplate, channel, translate) ->
+], ($, _, Backbone, FormTemplate, translate) ->
 
   class View extends Backbone.View
 

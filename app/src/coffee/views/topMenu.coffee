@@ -1,18 +1,17 @@
 define [
   'jquery'
   'underscore'
-  'backbone'
   'app'
   'marionette'
   'views/common/overlay'
   'text!templates/top_menu.html'
   'models/loggedUser'
   'jquery.hammer'
-  'translate'], ($, _, Backbone, App, Mn, Overlay, TopMenuTemplate, LoggedUserModel, hammer, translate)->
+  'translate'], ($, _, App, Mn, Overlay, TopMenuTemplate, LoggedUserModel, hammer, translate)->
   TopMenu = Mn.ItemView.extend
     tagName: 'nav'
     className: 'pure-menu'
-    model: new LoggedUserModel({id: $.cookie('id')})
+    model: new LoggedUserModel()
 
     ui:
       'open': '.open'
@@ -29,7 +28,6 @@ define [
     initialize: (options)->
       @options = options || {}
       @opened = no
-      @model.fetch()
 
       App.vent.on 'localUser:create:success localUser:update:success localUser:destroy:success', =>
         @render()
@@ -44,7 +42,6 @@ define [
     openMenu: ->
       @opened = yes
       App.overlay.show(new Overlay())
-      console.log @model
       @toggleOpen()
 
     closeMenu: ->
@@ -56,7 +53,11 @@ define [
       @$el.toggleClass 'opened', @opened
 
     onBeforeRender: ->
-      @model.fetch()
+      if $.cookie('id')?
+        @model.id = $.cookie('id')
+        @model.fetch()
+      else
+        @model = new LoggedUserModel()
 
     onRender: ->
       @hammer = @$el.find('.pan-tab').hammer()

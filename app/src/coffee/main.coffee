@@ -42,6 +42,9 @@ require [
   # Preparing app
   # ====================================
 
+  Mn.Behaviors.behaviorsLookup = ->
+    App.Behaviors
+
   App.on "before:start", ->
     $.ajaxSetup
       contentType: "application/json; charset=utf-8"
@@ -59,7 +62,6 @@ require [
     new Router()
     @navigation.show(new TopMenu())
     Backbone.history.start()
-    console.log @
 
   # ====================================
   # Specifying regions

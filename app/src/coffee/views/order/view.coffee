@@ -5,8 +5,9 @@ define [
   'app'
   'marionette'
   'text!templates/order/view.html'
-  # 'channel'
-  'moment'], ($, _, Backbone, App, Mn, orderViewTemplate, moment)->
+  'moment'
+  'behaviors/select'
+  ], ($, _, Backbone, App, Mn, orderViewTemplate, moment, Select)->
   OrderView = Mn.ItemView.extend
     className: 'order pure-menu-item'
 
@@ -20,16 +21,15 @@ define [
 
 
     events:
-      'click': 'selectToggle'
-      'click .delete': -> channel.trigger 'order:remove', @model.get('id'), @model.get('user_id'), @model.get('meal_id')
+      'click .delete': -> App.vent.trigger 'order:remove', @model.get('id'), @model.get('user_id'), @model.get('meal_id')
 
     template: _.template(orderViewTemplate)
     templateHelpers: ->
       moment: moment
 
-    selectToggle: ->
-      @selected = !@selected
-      @$el.toggleClass 'selected', @selected
+    behaviors:
+      Select:
+        behaviorClass: Select
 
     onRender: ->
       @$el.attr 'data-order-id', @model.get('id')
