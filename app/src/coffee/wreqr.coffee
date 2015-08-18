@@ -104,7 +104,7 @@ define [
     comment = new CommentModel()
     comment.save data,
       success: (model, response, options)=>
-        @updateLocalUser(comment, 'comment_add')
+        App.ventFunctions.updateLocalUser(comment, 'comment_add')
         @trigger 'comment:meal_'+data.meal_id+':create:success'
       error: (model, response, options)=>
         @trigger 'message', {type: response.responseJSON.type, text: response.responseJSON.text}

@@ -1,14 +1,13 @@
 define [
   'jquery'
   'underscore'
-  'backbone'
   'app'
   'marionette'
   'views/meal/view'
   'text!templates/home/view.html'
   'collections/nextWeekMeals'
   'translate'
-  ], ($, _, Backbone, App, Mn, MealView, HomeTemplate, NWMealsCollection, translate)->
+  ], ($, _, App, Mn, MealView, HomeTemplate, NWMealsCollection, translate)->
   HomeView = Mn.CompositeView.extend
 
     className: 'pure-menu menu-wrapper'

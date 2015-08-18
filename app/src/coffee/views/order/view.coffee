@@ -1,14 +1,13 @@
 define [
   'jquery'
   'underscore'
-  'backbone'
   'app'
   'marionette'
   'text!templates/order/view.html'
   'moment'
   'behaviors/select'
   'translate'
-  ], ($, _, Backbone, App, Mn, orderViewTemplate, moment, Select, translate)->
+  ], ($, _, App, Mn, orderViewTemplate, moment, Select, translate)->
   OrderView = Mn.ItemView.extend
     className: 'order pure-menu-item'
 

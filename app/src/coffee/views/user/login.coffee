@@ -1,12 +1,11 @@
 define [
   'jquery'
   'underscore'
-  'backbone'
   'app'
   'marionette'
   'text!templates/user/login.html'
   'models/loggedUser'
-  'translate'], ($, _, Backbone, App, Mn, LoginTemplate, LoggedUserModel, translate) ->
+  'translate'], ($, _, App, Mn, LoginTemplate, LoggedUserModel, translate) ->
 
   LoginView = Mn.ItemView.extend
 

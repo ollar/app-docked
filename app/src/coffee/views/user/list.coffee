@@ -1,7 +1,6 @@
 define [
   'jquery'
   'underscore'
-  'backbone'
   'app'
   'marionette'
   'collections/users'
@@ -10,7 +9,7 @@ define [
   'text!templates/user/list_view.html'
   'translate'
   'behaviors/sort'
-  ], ($, _, Backbone, App, Mn, UsersCollection, UserView, EmptyView, UsersListTemplate, translate, Sort)->
+  ], ($, _, App, Mn, UsersCollection, UserView, EmptyView, UsersListTemplate, translate, Sort)->
   UsersListView = Mn.CompositeView.extend
     className: 'pure-menu menu-wrapper'
 

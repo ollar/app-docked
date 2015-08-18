@@ -1,7 +1,6 @@
 define [
   'jquery'
   'underscore'
-  'backbone'
   'app'
   'marionette'
   'text!templates/meal/view.html'
@@ -14,7 +13,7 @@ define [
   'views/meal/form'
   'views/comment/form'
   'models/comment'
-  ], ($, _, Backbone, App, Mn, Template, marked, Select, translate, QtyElTemplate, RemoveButtonTemplate, MealFormView, CommentFormView, CommentModel)->
+  ], ($, _, App, Mn, Template, marked, Select, translate, QtyElTemplate, RemoveButtonTemplate, MealFormView, CommentFormView, CommentModel)->
   MealView = Mn.ItemView.extend
     className: 'meal pure-menu-item'
 

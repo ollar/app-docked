@@ -1,7 +1,6 @@
 define [
   'jquery'
   'underscore'
-  'backbone'
   'marionette'
   'app'
   'collections/meals'
@@ -11,7 +10,7 @@ define [
   'translate'
   'behaviors/sort'
   'behaviors/select_all'
-  ], ($, _, Backbone, Mn, App, MealsCollection, MealView, EmptyView, MealsListTemplate, translate, Sort, SelectAll)->
+  ], ($, _, Mn, App, MealsCollection, MealView, EmptyView, MealsListTemplate, translate, Sort, SelectAll)->
   MealsListView = Mn.CompositeView.extend
 
     className: 'pure-menu menu-wrapper'
@@ -30,7 +29,7 @@ define [
       Sort:
         behaviorClass: Sort
       SelectAll:
-        behaviorClass: SelectAll  
+        behaviorClass: SelectAll
 
 
     emptyView: EmptyView

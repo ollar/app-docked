@@ -1,23 +1,25 @@
 define [
+  'app'
   'jquery'
   'underscore'
-  'backbone'
+  'marionette'
 
   'text!templates/comment/form.html'
   'translate'
-], ($, _, Backbone, FormTemplate, translate) ->
+], (App, $, _, Mn, FormTemplate, translate) ->
 
-  class View extends Backbone.View
+  CommentForm = Mn.ItemView.extend
 
     className: 'commend-add'
 
     events:
       'submit #comment_form': 'commentSubmit'
 
-    template: _.template(FormTemplate)
+    template: _.template FormTemplate
+    templateHelpers:
+      t:translate
 
     initialize: (options)->
-      super
       @options = options || {}
       @meal_id = options.meal_id
       @user_id = options.user_id
@@ -25,11 +27,6 @@ define [
     commentSubmit: (e)->
       e.preventDefault()
       formData = $(e.target).serializeObject()
-      channel.trigger 'comment:create', _.extend formData,
+      App.vent.trigger 'comment:create', _.extend formData,
         meal_id: @meal_id
         user_id: @user_id
-
-
-    render: ->
-      @$el.html @template(_.extend(@model.toJSON(), {t:translate}))
-      @
