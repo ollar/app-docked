@@ -6,8 +6,8 @@ import datetime
 class Comment(Base):
     __tablename__ = 'comment'
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
-    meal_id = Column(Integer, ForeignKey('meal.id', ondelete='CASCADE'))
+    user_id = Column(Integer, ForeignKey('user.id'))
+    meal_id = Column(Integer, ForeignKey('meal.id'))
 
     content = Column(String)
 

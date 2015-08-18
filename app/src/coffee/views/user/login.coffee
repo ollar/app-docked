@@ -26,7 +26,7 @@ define [
       $.cookie 'access_token', data.token
 
       App.vent.trigger 'localUser:create', data
-      App.vent.trigger 'message',
+      App.execute 'message',
         text: 'Welcome, <b>'+data.username+'</b>'
 
       App.navigate ''

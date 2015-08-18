@@ -1,5 +1,8 @@
 define ['i18n!nls/locale'], (locale)->
   translate = (str)->
-    locale[str]
+    if _.has locale, str
+      locale[str]
+    else
+      '_'+str
 
   translate

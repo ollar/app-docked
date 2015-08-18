@@ -13,7 +13,7 @@ define [
   ], ($, _, Mn, App, MealsCollection, MealView, EmptyView, MealsListTemplate, translate, Sort, SelectAll)->
   MealsListView = Mn.CompositeView.extend
 
-    className: 'pure-menu menu-wrapper'
+    className: 'pure-menu menu-wrapper meals-list'
     collection: new MealsCollection()
     template: _.template(MealsListTemplate)
     templateHelpers: ->

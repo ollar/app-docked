@@ -27,6 +27,6 @@ define [
     commentSubmit: (e)->
       e.preventDefault()
       formData = $(e.target).serializeObject()
-      App.vent.trigger 'comment:create', _.extend formData,
+      App.execute 'comment:create', _.extend formData,
         meal_id: @meal_id
         user_id: @user_id

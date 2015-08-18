@@ -62,8 +62,10 @@ define [
         @trigger 'localUser:destroy:success'
 
   # ============================================================================
+  # =================================================================== ##Orders
+  # ============================================================================
 
-  App.vent.on 'order:create', (data)->
+  App.commands.setHandler 'order:create', (data)->
     orderModel = new OrderModel()
     orderModel.save
       user_id: data.id
@@ -82,7 +84,7 @@ define [
         @trigger "order:meal_"+data.meal_id+":create:failed"
         @trigger 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 
-  App.vent.on 'order:remove', (order_id, user_id=$.cookie('id'), meal_id=null)->
+  App.commands.setHandler 'order:remove', (order_id, user_id=$.cookie('id'), meal_id=null)->
     orderModel = new OrderModel({id: order_id})
     loggedUser = @getLoggedUser()
     if !meal_id?
@@ -97,33 +99,37 @@ define [
         @trigger 'order:meal_'+meal_id+':remove:success'
         App.ventFunctions.updateLocalUser(orderModel, 'order_remove')
 
-  App.vent.on 'comment:create', (data)->
+  # ============================================================================
+  # ================================================================= ##Comments
+  # ============================================================================
+
+  App.commands.setHandler 'comment:create', (data)->
     if data.content.length == 0
-      @trigger 'comment:meal_'+data.meal_id+':create:success'
+      App.vent.trigger 'comment:meal_'+data.meal_id+':create:success'
       return
     comment = new CommentModel()
     comment.save data,
       success: (model, response, options)=>
         App.ventFunctions.updateLocalUser(comment, 'comment_add')
-        @trigger 'comment:meal_'+data.meal_id+':create:success'
+        App.vent.trigger 'comment:meal_'+data.meal_id+':create:success'
       error: (model, response, options)=>
-        @trigger 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
+        App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 
-  App.vent.on 'comment:remove', (id, meal_id)->
+  App.commands.setHandler 'comment:remove', (id, meal_id)->
     comment = new CommentModel({id: id})
     comment.destroy
       success: =>
         App.ventFunctions.updateLocalUser(comment, 'comment_remove')
-        @trigger 'comment:meal_'+meal_id+':remove:success'
+        App.vent.trigger 'comment:meal_'+meal_id+':remove:success'
       error: (model, response, options)=>
-        @trigger 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
+        App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 
-  App.vent.on 'email:send', (data, success, fail)->
+  App.commands.setHandler 'email:send', (data, success, fail)->
     mandrill_client(data.html, data.toemail, data.toname, data.subject, data.text, success, fail)
 
   # ============================================================================
 
-  App.vent.on 'message', (data)->
+  App.commands.setHandler 'message', (data)->
     console.log _.now(), data.text
     App.ventFunctions.lazyMessage.call(@, data)
 

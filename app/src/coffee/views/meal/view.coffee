@@ -103,7 +103,6 @@ define [
         front_view: MealView
 
       @$el.before mealFormView.render().el
-      console.log mealFormView.render()
       @remove()
 
     toggleEnabled: ->
@@ -113,7 +112,7 @@ define [
           @selectToggle().render()
 
     removeMeal: ->
-      App.vent.trigger 'message', {text: 'Meal removed'}
+      App.execute 'message', {text: 'Meal removed'}
       @model.destroy()
 
     # ================================
@@ -138,7 +137,7 @@ define [
         return
 
       _qty = @$el.find('.qty input').val()
-      App.vent.trigger 'order:create',
+      App.execute 'order:create',
         id: $.cookie 'id'
         qty: _qty
         meal_id: @model.get 'id'
@@ -149,7 +148,7 @@ define [
       e.stopPropagation()
 
       order_id = $(e.target).attr('data-order-id')
-      App.vent.trigger 'order:remove', order_id
+      App.execute 'order:remove', order_id
 
     # ================================
 
@@ -170,7 +169,7 @@ define [
       e.stopPropagation()
 
       commentId = $(e.target).attr 'data-comment-id'
-      App.vent.trigger 'comment:remove', commentId, @model.get('id')
+      App.execute 'comment:remove', commentId, @model.get('id')
 
     # ==========================================================================
 

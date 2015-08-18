@@ -17,7 +17,7 @@ define [
         @remove()
 
     events:
-      'click .delete': -> App.vent.trigger 'order:remove', @model.get('id'), @model.get('user_id'), @model.get('meal_id')
+      'click .delete': -> App.execute 'order:remove', @model.get('id'), @model.get('user_id'), @model.get('meal_id')
 
     template: _.template(orderViewTemplate)
     templateHelpers: ->

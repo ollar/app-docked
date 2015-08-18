@@ -8,7 +8,9 @@ define [
   'text!templates/comment/view.html'
 
   'moment'
-  'translate'], (App, $, _, Backbone, Mn, CommentTemplate, moment, translate) ->
+  'translate'
+  'behaviors/select'
+  ], (App, $, _, Backbone, Mn, CommentTemplate, moment, translate, Select) ->
   CommentView = Mn.ItemView.extend
     className: 'comment pure-menu-item'
 
@@ -16,6 +18,10 @@ define [
     templateHelpers: ->
       t: translate
       moment: moment
+
+    behaviors:
+      Select:
+        behaviorClass: Select
 
     onRender: ->
       @$el.attr("id", "comment-id-" + @model.id)

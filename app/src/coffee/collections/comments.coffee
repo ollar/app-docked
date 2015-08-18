@@ -3,8 +3,7 @@ define [
   'backbone'
   'models/comment'
 ], (_, Backbone, CommentModel) ->
-
-  class Collection extends Backbone.Collection
+  CommentsCollection = Backbone.Collection.extend
 
     model: CommentModel
 
@@ -13,7 +12,9 @@ define [
     parse: (data)->
       return data.comments
 
-    initialize: (args...)->
-      super
+    initialize: (options)->
+      @options = options || {}
 
     comparator: 'timestamp_created'
+
+  CommentsCollection

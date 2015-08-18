@@ -2,9 +2,6 @@ define [
   'marionette'
 ], (Mn)->
   Sort = Mn.Behavior.extend
-    initialize: (options)->
-      @options = options || {}
-
     ui:
       select: '#sort'
 

@@ -6,8 +6,8 @@ define [
   'text!templates/user/form.html'
   'models/user'
   'views/user/login'
-  # 'channel'
-  'translate'], ($, _, App, Mn, userFormTemplate, UserModel, LoginView, translate)->
+  'translate'
+  ], ($, _, App, Mn, userFormTemplate, UserModel, LoginView, translate)->
   UserFormView = Mn.ItemView.extend
     className: 'user-manage pure-menu-item'
 
@@ -29,12 +29,12 @@ define [
       @model.save formData,
         success: (model, response, options)=>
           if model.get 'id' == $.cookie('id')
-            channel.trigger 'localUser:update', model
+            App.vent.trigger 'localUser:update', model
           if @options.front_view
             userView = new @options.front_view {model: model}
             @$el.before userView.render().el
             @remove()
-            channel.trigger 'message',
+            App.execute 'message',
               type: 'success'
               text: 'user "<i>'+model.get('id')+'</i>" updated'
           else
@@ -43,7 +43,7 @@ define [
               loginView = new LoginView
               loginView.loginUser(data)
 
-              channel.trigger 'message',
+              App.execute 'message',
                 type: 'success'
                 text: 'user created'
 

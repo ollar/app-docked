@@ -2,7 +2,6 @@ define [
   'app'
   'jquery'
   'underscore'
-  'backbone'
   'marionette'
 
   'collections/comments'
@@ -12,10 +11,12 @@ define [
   'text!templates/comment/list_view.html'
 
   'translate'
-], (App, $, _, Backbone, Mn, CommentsCollection, CommentView, CommentsListTemplate, translate) ->
+  'behaviors/sort'
+  'behaviors/select_all'
+], (App, $, _, Mn, CommentsCollection, CommentView, CommentsListTemplate, translate, Sort, SelectAll) ->
 
   CommentsListView = Mn.CompositeView.extend
-    className: "pure-menu comments-list"
+    className: "pure-menu comments-list menu-wrapper"
 
     collection: new CommentsCollection()
 
@@ -30,5 +31,11 @@ define [
     template: _.template CommentsListTemplate
     templateHelpers: ->
       t: translate
+
+    behaviors:
+      Sort:
+        behaviorClass: Sort
+      SelectAll:
+        behaviorClass: SelectAll
 
   CommentsListView
