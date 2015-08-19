@@ -27,8 +27,8 @@ define [
         behaviorClass: Select
       Delete:
         behaviorClass: Delete
-        model: @view
         # text: 'user "<i>'+@model.get('real_name')+'</i>" removed'
+        message: 'user removed'
 
     events:
       'click .edit': 'editUser'
