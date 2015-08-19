@@ -6,9 +6,11 @@ define [
   'text!templates/user/view.html'
   'translate'
   'behaviors/select'
-  'behaviors/delete'
+  'behaviors/remove'
+  'behaviors/edit'
+
   'views/user/form'
-  ], ($, _, App, Mn, Template, translate, Select, Delete, UserFormView)->
+  ], ($, _, App, Mn, Template, translate, Select, Remove, Edit, UserFormView)->
   UserView = Mn.ItemView.extend
     className: 'user pure-menu-item'
 
@@ -20,26 +22,19 @@ define [
       t: translate
 
     ui:
-      removeButton: '.remove'
+      remove: '.remove'
+      edit: '.edit'
 
     behaviors:
       Select:
         behaviorClass: Select
-      Delete:
-        behaviorClass: Delete
+      Remove:
+        behaviorClass: Remove
         # text: 'user "<i>'+@model.get('real_name')+'</i>" removed'
         message: 'user removed'
-
-    events:
-      'click .edit': 'editUser'
-
-    editUser: ->
-      userFormView = new UserFormView
-        model: @model
-        front_view: UserView
-
-      @$el.before userFormView.render().el
-      @remove()
+      Edit:
+        behaviorClass: Edit
+        formView: UserFormView
 
     onRender: ->
       @$el.attr('data-id', @model.get('id'))

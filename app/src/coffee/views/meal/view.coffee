@@ -6,6 +6,8 @@ define [
   'text!templates/meal/view.html'
   'marked'
   'behaviors/select'
+  'behaviors/remove'
+  'behaviors/edit'
   'translate'
 
   'text!templates/meal/qty_el.html'
@@ -13,9 +15,12 @@ define [
   'views/meal/form'
   'views/comment/form'
   'models/comment'
-  ], ($, _, App, Mn, Template, marked, Select, translate, QtyElTemplate, RemoveButtonTemplate, MealFormView, CommentFormView, CommentModel)->
+  'models/meal'
+  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, translate, QtyElTemplate, RemoveButtonTemplate, MealFormView, CommentFormView, CommentModel, MealModel)->
   MealView = Mn.ItemView.extend
     className: 'meal pure-menu-item'
+
+    model: new MealModel()
 
     initialize: (options)->
       @options = options || {}
@@ -52,22 +57,40 @@ define [
     qtyEl: _.template(QtyElTemplate)
     removeOrderButton: _.template(RemoveButtonTemplate)
 
+    ui:
+      edit: '.edit'
+      remove: '.remove'
+      toggleEnabled: '.toggle-enabled'
+      makeOrder: '.make-order'
+      qtyWrapper: '.qty-wrapper'
+      qtyInput: '.qty input'
+      decrease: '.decrease'
+      increase: '.increase'
+      removeOrder: '.remove-order'
+      addComment: '.add-comment'
+      removeComment: '.remove-comment'
+      comments: '.comments'
+
     events:
-      'click .edit': 'editMeal'
-      'click .toggle-enabled': 'toggleEnabled'
-      'click .remove': 'removeMeal'
-      'click .make-order': 'makeOrder'
-      'click .qty-wrapper': (e)-> e.stopPropagation()
-      'click .decrease': 'decreaseQty'
-      'click .increase': 'increaseQty'
-      'click .remove-order': 'removeOrder'
-      'click .add-comment': 'addComment'
-      'click .remove-comment': 'removeComment'
-      'click .comments': (e)-> e.stopPropagation()
+      'click @ui.toggleEnabled': 'toggleEnabled'
+      'click @ui.makeOrder': 'makeOrder'
+      'click @ui.qtyWrapper': (e)-> e.stopPropagation()
+      'click @ui.decrease': 'decreaseQty'
+      'click @ui.increase': 'increaseQty'
+      'click @ui.removeOrder': 'removeOrder'
+      'click @ui.addComment': 'addComment'
+      'click @ui.removeComment': 'removeComment'
+      'click @ui.comments': (e)-> e.stopPropagation()
 
     behaviors:
       Select:
         behaviorClass: Select
+      Remove:
+        behaviorClass: Remove
+        message: 'Meal removed'
+      Edit:
+        behaviorClass: Edit
+        formView: MealFormView
 
     # ==========================================================================
 
@@ -90,20 +113,12 @@ define [
       @failed = yes
       @selected = no
       @selectToggle()
-      _.delay ()=>
+      _.delay =>
         @failed = no
         @selectToggle()
       , 1000
 
     # ================================
-
-    editMeal: ->
-      mealFormView = new MealFormView
-        model: @model
-        front_view: MealView
-
-      @$el.before mealFormView.render().el
-      @remove()
 
     toggleEnabled: ->
       @model.save {'enabled': !@model.get('enabled')},
@@ -111,18 +126,14 @@ define [
           @selected = yes
           @selectToggle().render()
 
-    removeMeal: ->
-      App.execute 'message', {text: 'Meal removed'}
-      @model.destroy()
-
     # ================================
 
     decreaseQty: ->
-      @qtyInput = @$el.find('.qty input')
+      @qtyInput = @ui.qtyInput
       if @qtyInput.val() > 1 then @qtyInput.attr 'value', parseInt(@qtyInput.val()) - 1 else return
 
     increaseQty: ->
-      @qtyInput = @$el.find('.qty input')
+      @qtyInput = @ui.qtyInput
       @qtyInput.attr 'value', parseInt(@qtyInput.val()) + 1
 
     # ================================
@@ -136,7 +147,7 @@ define [
         , 1000)
         return
 
-      _qty = @$el.find('.qty input').val()
+      _qty = @ui.qtyInput.val()
       App.execute 'order:create',
         id: $.cookie 'id'
         qty: _qty

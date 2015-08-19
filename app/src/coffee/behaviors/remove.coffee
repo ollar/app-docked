@@ -7,7 +7,7 @@ define [
       message: 'Removed successfully'
 
     events:
-      'click @ui.removeButton': 'removeMe'
+      'click @ui.remove': 'removeMe'
 
     removeMe: ->
       @view.model.destroy

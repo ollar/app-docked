@@ -5,12 +5,14 @@ define [
   'app'
   'collections/meals'
   'views/meal/view'
+  'views/meal/form'
   'views/common/empty'
   'text!templates/meal/list_view.html'
   'translate'
   'behaviors/sort'
   'behaviors/select_all'
-  ], ($, _, Mn, App, MealsCollection, MealView, EmptyView, MealsListTemplate, translate, Sort, SelectAll)->
+  'behaviors/add_new'
+  ], ($, _, Mn, App, MealsCollection, MealView, MealFormView, EmptyView, MealsListTemplate, translate, Sort, SelectAll, AddNew)->
   MealsListView = Mn.CompositeView.extend
 
     className: 'pure-menu menu-wrapper meals-list'
@@ -22,6 +24,10 @@ define [
 
     childViewContainer: '.pure-menu-list'
 
+    ui:
+      sort: '#sort'
+      addNew: '.add-new'
+
     initialize: ->
       @collection.fetch()
 
@@ -30,7 +36,10 @@ define [
         behaviorClass: Sort
       SelectAll:
         behaviorClass: SelectAll
-
+      AddNew:
+        behaviorClass: AddNew
+        view: MealView
+        formView: MealFormView
 
     emptyView: EmptyView
 

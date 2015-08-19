@@ -31,15 +31,15 @@ define [
           if model.get 'id' == $.cookie('id')
             App.vent.trigger 'localUser:update', model
           if @options.front_view
-            userView = new @options.front_view {model: model}
-            @$el.before userView.render().el
+            @options.front_view.model = model
+            @options.front_view.render().$el.show()
             @remove()
             App.execute 'message',
               type: 'success'
               text: 'user "<i>'+model.get('id')+'</i>" updated'
           else
             loginCredentials = {username: model.get('username'),password: model.get('password')}
-            $.post('/user/login', JSON.stringify(loginCredentials), (data)->
+            $.post '/user/login', JSON.stringify(loginCredentials), (data)->
               loginView = new LoginView
               loginView.loginUser(data)
 
@@ -47,18 +47,15 @@ define [
                 type: 'success'
                 text: 'user created'
 
-              App.navigate '', true
-            )
+              App.navigate ''
 
     cancelEdit: (e)->
       e.preventDefault()
 
-      if @options.front_view
-        if @model.has 'id'
-          prevView = new @options.front_view {model: @model}
-          @$el.before(prevView.render().el)
+      if @options.front_view and @model.has 'id'
+        @options.front_view.$el.show()
       else
-        App.navigate '', true
+        App.navigate ''
       @remove()
 
   UserFormView

@@ -38,20 +38,19 @@ define [
       @model.save $(e.target).serializeObject(),
         success: (model, response, options)=>
           if @model.has 'id'
-            App.vent.trigger 'message',  {text: 'Meal updated'}
+            App.execute 'message', {text: 'Meal updated'}
           else
-            App.vent.trigger 'message',  {text: 'Meal created'}
+            App.execute 'message', {text: 'Meal created'}
           model.set {daysObj: _daysObj, categoriesObj: _categoriesObj}
-          mealView = new @options.front_view {model: model}
-          @$el.before mealView.render().el
+          @options.front_view.model = model
+          @options.front_view.render().$el.show()
           @remove()
 
     cancelEdit: (e)->
       e.preventDefault()
 
       if @model.has 'id'
-        prevView = new @options.front_view {model: @model}
-        @$el.before(prevView.render().el)
+        @options.front_view.$el.show()
       @remove()
 
   MealFormView
