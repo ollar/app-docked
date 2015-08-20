@@ -39,12 +39,12 @@
   <% }; %>
 <% }; %>
 
-<% if (routeName === 'meals') {%>
-.comments
-  .comments-wrapper
-    <% _.each(comments, function(comment){ %>
-    .text(data-id!="<%= comment.id %>", data-user-id!="<%= comment.user_id %>") <%= marked(comment.content) %>
-    <% }); %>
-<% }; %>
+//- <% if (routeName === 'meals') {%>
+//- .comments
+//-   .comments-wrapper
+//-     <% _.each(comments, function(comment){ %>
+//-     .text(data-id!="<%= comment.id %>", data-user-id!="<%= comment.user_id %>") <%= marked(comment.content) %>
+//-     <% }); %>
+//- <% }; %>
 
 <% }; %>

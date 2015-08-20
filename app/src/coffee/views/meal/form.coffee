@@ -28,29 +28,37 @@ define [
 
     updateMeal: (e)->
       e.preventDefault()
-      # @collection.add @model
 
       _daysObj = @model.get 'daysObj'
       _categoriesObj = @model.get 'categoriesObj'
       @model.unset 'daysObj'
       @model.unset 'categoriesObj'
 
-      @model.save $(e.target).serializeObject(),
+      data = $(e.target).serializeObject()
+
+      @model.save data,
         success: (model, response, options)=>
-          if @model.has 'id'
-            App.execute 'message', {text: 'Meal updated'}
-          else
-            App.execute 'message', {text: 'Meal created'}
           model.set {daysObj: _daysObj, categoriesObj: _categoriesObj}
           @options.front_view.model = model
           @options.front_view.render().$el.show()
           @remove()
+
+      if @model.has 'id'
+        App.execute 'message', {text: 'Meal updated'}
+      else
+        @collection.add @model
+        App.execute 'message', {text: 'Meal created'}
+
+
+
 
     cancelEdit: (e)->
       e.preventDefault()
 
       if @model.has 'id'
         @options.front_view.$el.show()
+      else
+        @options.front_view.$el.remove()
       @remove()
 
   MealFormView
