@@ -187,8 +187,8 @@ define [
     onRender: ->
       @$el.attr 'data-id', @model.get('id')
       @$el.toggleClass 'disabled', !@model.get('enabled')
-      @$el.addClass 'day-' + @model.get('day_linked')
-      @$el.addClass 'category-' + @model.get('category')
+      @$el.attr 'data-day', @model.get('day_linked')
+      @$el.attr 'dats-category', @model.get('category')
 
 
   MealView

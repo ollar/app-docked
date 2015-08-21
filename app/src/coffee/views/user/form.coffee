@@ -11,9 +11,19 @@ define [
   UserFormView = Mn.ItemView.extend
     className: 'user-manage pure-menu-item'
 
+    model: new UserModel()
+
     initialize: (options)->
       @options = options || {}
-      @model = @model || new UserModel()
+
+    onBeforeRender: ->
+      if @options.user_id
+        @model.set({'id':@options.user_id})
+        @model.fetch
+          success: =>
+            @render()
+          error: (collection, response, options)=>
+            App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 
     template: _.template(userFormTemplate)
     templateHelpers: ->
@@ -45,14 +55,14 @@ define [
 
               App.execute 'message',
                 type: 'success'
-                text: 'user created'
+                text: translate 'welcome aboard'
 
               App.navigate ''
 
     cancelEdit: (e)->
       e.preventDefault()
 
-      if !@options.front_view and !@model.has 'id'
+      if !@options.front_view
         return App.navigate ''
 
       if @options.front_view and @model.has 'id'

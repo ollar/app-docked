@@ -36,6 +36,8 @@ define [
 
       data = $(e.target).serializeObject()
 
+      @collection.add @model      
+
       @model.save data,
         success: (model, response, options)=>
           model.set {daysObj: _daysObj, categoriesObj: _categoriesObj}
@@ -46,7 +48,6 @@ define [
       if @model.has 'id'
         App.execute 'message', {text: 'Meal updated'}
       else
-        @collection.add @model
         App.execute 'message', {text: 'Meal created'}
 
 

@@ -12,7 +12,8 @@ define [
   'views/order/list'
 
   'views/comment/list'
-  ], (App, HomeView, MealsList, UsersList, LoginView, UserFormView, OrdersListView, CommentsListView)->
+  'translate'
+  ], (App, HomeView, MealsList, UsersList, LoginView, UserFormView, OrdersListView, CommentsListView, t)->
 
   Controller =
     setTitle: (_title)->
@@ -40,12 +41,12 @@ define [
       uid = $.cookie 'id'
       $.removeCookie 'id'
       $.removeCookie 'access_token'
+      App.vent.trigger 'localUser:destroy', uid
 
       if !quite
-        App.vent.trigger 'localUser:destroy', uid
-        App.vent.trigger 'message', {text: 'Good bye!'}
+        App.execute 'message', {text: t 'good bye'}
 
-        App.navigate '', yes
+        App.navigate ''
 
     register: ->
       @setTitle('Register')
@@ -53,15 +54,7 @@ define [
 
     userEdit: (id)->
       @setTitle('User Settings')
-      user = new UserModel({id: id})
-      user.fetch
-        success: (model, response, options)=>
-          App.view = new UserFormView({model: model})
-          @content.html App.view.render().el
-        error: (collection, response, options)=>
-          App.vent.trigger 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
-
-      App.main.show new UserFormView({model: model})
+      App.main.show new UserFormView({user_id: id})
 
     ordersList: ->
       @setTitle('Orders List')

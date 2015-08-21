@@ -14,6 +14,7 @@ define [
         success: =>
           App.execute 'message',
             text: @options.message
+          @view.destroy()
 
 
   Delete

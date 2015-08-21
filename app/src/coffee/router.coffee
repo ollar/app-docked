@@ -27,7 +27,7 @@ define [
       'meals': 'showMeals'
 
       'orders': 'ordersList'
-      # 'stats/week/all': 'weekMenuAll'
+      'stats/week/all': 'weekMenuAll'
       # 'stats/week(/u:user_id)': 'weekMenu'
       #
       # 'stats/month/all(/m:month)': 'monthStatsAll'

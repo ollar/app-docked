@@ -4,7 +4,7 @@
 .day-assigned <%= humanizeDay(day_linked) %>
 .category <%= humanizeCategory(category) %>
 
-<% if (loggedUser.has('id')){ %>
+<% if (loggedUser.id != 0){ %>
 .buttons-wrapper.table-wrapper
   <% if (routeName === '') {%>
   .left
@@ -20,6 +20,11 @@
     <% if (loggedUser.id === 1){ %>
     button.edit.pure-button <%= t('edit') %>
     button.toggle-enabled.pure-button <%= enabled ? t('disable') : t('enable') %>
+    
+    <% if (!enabled) {%>
+    button.remove.pure-button <%= t('delete') %>
+    <% }; %>
+    
     <% }; %>
     <% }; %>
 
@@ -39,12 +44,12 @@
   <% }; %>
 <% }; %>
 
-//- <% if (routeName === 'meals') {%>
-//- .comments
-//-   .comments-wrapper
-//-     <% _.each(comments, function(comment){ %>
-//-     .text(data-id!="<%= comment.id %>", data-user-id!="<%= comment.user_id %>") <%= marked(comment.content) %>
-//-     <% }); %>
-//- <% }; %>
+<% if (routeName === 'meals') {%>
+.comments
+  .comments-wrapper
+    <% _.each(comments, function(comment){ %>
+    .text(data-id!="<%= comment.id %>", data-user-id!="<%= comment.user_id %>") <%= marked(comment.content) %>
+    <% }); %>
+<% }; %>
 
 <% }; %>
