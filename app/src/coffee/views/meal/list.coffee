@@ -38,7 +38,7 @@ define [
         behaviorClass: SelectAll
       AddNew:
         behaviorClass: AddNew
-        view: MealView
+        itemView: MealView
         formView: MealFormView
 
     emptyView: EmptyView

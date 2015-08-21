@@ -6,7 +6,7 @@ define [
       'click @ui.addNew': 'addNew'
 
     addNew: ->
-      FrontView = new @options.view()
+      FrontView = new @options.itemView()
       FormView = new @options.formView
         front_view: FrontView
 
