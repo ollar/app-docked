@@ -23,7 +23,8 @@ else:
 app.config.from_object(flask_configs)
 
 from main.database import db_session
-from main.models import Meal, User, Token
+from main.BUser.models import User, Token
+from main.BMeal.models import Meal
 from main.functions import _parse_meal
 
 

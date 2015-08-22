@@ -5,7 +5,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import ProgrammingError
 from main.database import Base, db_session
 from main.Flask_configs import Config, DevConfig
-from main.models import User, Order, Meal
+from main.BUser.models import User
+from main.BOrder.models import Order
+from main.BMeal.models import Meal
 from main.BComment.models import Comment
 import random
 import requests

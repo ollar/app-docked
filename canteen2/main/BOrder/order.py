@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request, abort, make_response, g
 from flask.views import MethodView
 from sqlalchemy.exc import IntegrityError
 from main.database import db_session
-from main.models import Order
+from .models import Order
 from main.functions import register_api, _parse_order, auth_required, restrict_users
 import datetime
 

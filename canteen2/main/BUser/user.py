@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request, abort, make_response
 from flask.views import MethodView
 from sqlalchemy.exc import IntegrityError, StatementError
 from main.database import db_session
-from main.models import User, Token
+from .models import User, Token
 from werkzeug import generate_password_hash, check_password_hash
 from main.functions import register_api, _parse_user, auth_required, restrict_users
 import datetime

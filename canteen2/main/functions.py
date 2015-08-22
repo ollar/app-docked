@@ -13,6 +13,9 @@ def register_api(view, endpoint, url, pk='id', pk_type='int'):
 
 
 def _parse_user(user_obj, detailed=True):
+    if not user_obj:
+        return
+
     user = {
         'id': user_obj.id,
         'real_name': user_obj.real_name,
@@ -32,6 +35,9 @@ def _parse_user(user_obj, detailed=True):
 
 
 def _parse_meal(meal_obj, detailed=True, *args, **kwargs):
+    if not meal_obj:
+        return
+
     this_month = datetime.datetime.today().month
     meal = {
         'id': meal_obj.id,
@@ -57,6 +63,9 @@ def _parse_meal(meal_obj, detailed=True, *args, **kwargs):
 
 
 def _parse_order(order_obj, detailed=True):
+    if not order_obj:
+        return
+
     order = {
         'id': order_obj.id,
         'user_id': order_obj.user_id,
@@ -76,6 +85,9 @@ def _parse_order(order_obj, detailed=True):
 
 
 def _parse_comment(comment_obj, detailed=True):
+    if not comment_obj:
+        return
+        
     comment = {
         'id': comment_obj.id,
         'user_id': comment_obj.user_id,

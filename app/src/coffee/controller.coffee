@@ -12,8 +12,10 @@ define [
   'views/order/list'
 
   'views/comment/list'
+
+  'views/stats/weekCommon'
   'translate'
-  ], (App, HomeView, MealsList, UsersList, LoginView, UserFormView, OrdersListView, CommentsListView, t)->
+  ], (App, HomeView, MealsList, UsersList, LoginView, UserFormView, OrdersListView, CommentsListView, UserStatsWeekCommon, t)->
 
   Controller =
     setTitle: (_title)->
@@ -64,8 +66,9 @@ define [
       @setTitle('Comments List')
       App.main.show(new CommentsListView())
 
-
-
+    weekMenuAll: ->
+      @setTitle('Common Week Menu')
+      App.main.show(new UserStatsWeekCommon())
 
 
   Controller

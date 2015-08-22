@@ -4,26 +4,25 @@ from sqlalchemy.orm import relationship
 import datetime
 
 
-class Comment(Base):
-    __tablename__ = 'comment'
+class Order(Base):
+    __tablename__ = 'order'
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
+    order_date = Column(Date)
     meal_id = Column(Integer, ForeignKey('meal.id', ondelete='SET NULL'))
-
-    content = Column(String)
-
+    quantity = Column(Integer, default=1, nullable=False)
     timestamp_created = Column(
         DateTime, default=datetime.datetime.utcnow(), nullable=False)
     timestamp_modified = Column(DateTime)
 
-    meals = relationship('Meal', backref='comments')
-    user = relationship('User', backref='comments')
+    meal = relationship('Meal')
 
-    def __init__(self, user_id, meal_id, content):
+    def __init__(self, order_date, meal_id, user_id, quantity):
         self.user_id = user_id
+        self.order_date = order_date
         self.meal_id = meal_id
-        self.content = content
+        self.quantity = quantity
         self.timestamp_modified = datetime.datetime.utcnow()
 
     def __repr__(self):
-        return '<Comment {0}>'.format(self.id)
+        return '<Order: {0} by {1}>'.format(self.order_date, self.user_id)
