@@ -15,6 +15,7 @@ define [
 
     initialize: (options)->
       @options = options || {}
+      @uid = @model.get('id')
       if @options.user_id
         @model.set({'id':@options.user_id})
         @model.fetch
@@ -22,8 +23,6 @@ define [
             @render()
           error: (collection, response, options)=>
             App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
-
-      console.log @model
 
     template: _.template(userFormTemplate)
     templateHelpers: ->
@@ -42,7 +41,7 @@ define [
             App.vent.trigger 'localUser:update', model
 
           # Creating user from user list page
-          if !@model.has('id') and @options.front_view
+          if !@uid and @options.front_view
             @options.front_view.model = model
             @options.front_view.render().$el.show()
             @remove()
@@ -51,7 +50,7 @@ define [
               text: translate 'user created'
 
           # Updating user from user list page
-          if @model.has('id') and @options.front_view
+          if @uid and @options.front_view
             @options.front_view.model = model
             @options.front_view.render().$el.show()
             @remove()
@@ -60,15 +59,15 @@ define [
               text: 'user <b>'+model.get('username')+'</b> updated'
 
           # Updating profile
-          if @model.has('id') and !@options.front_view
+          if @uid and !@options.front_view
             App.execute 'message',
               type: 'success'
               text: translate 'your profile updated'
 
             App.navigate ''
 
-          # Creating new user
-          if !@model.has('id')
+          # Register new user
+          if !@uid.has('id')
             loginCredentials = {username: model.get('username'),password: model.get('password')}
             $.post '/user/login', JSON.stringify(loginCredentials), (data)->
               loginView = new LoginView

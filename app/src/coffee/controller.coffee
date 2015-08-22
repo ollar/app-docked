@@ -13,9 +13,13 @@ define [
 
   'views/comment/list'
 
+  'views/stats/week'
   'views/stats/weekCommon'
+  'views/stats/month'
+  'views/stats/monthCommon'
+
   'translate'
-  ], (App, HomeView, MealsList, UsersList, LoginView, UserFormView, OrdersListView, CommentsListView, UserStatsWeekCommon, t)->
+  ], (App, HomeView, MealsList, UsersList, LoginView, UserFormView, OrdersListView, CommentsListView, UserStatsView, UserStatsWeekCommon, MonthStatsView, MonthStatsViewCommon, t)->
 
   Controller =
     setTitle: (_title)->
@@ -66,9 +70,27 @@ define [
       @setTitle('Comments List')
       App.main.show(new CommentsListView())
 
+    weekMenu: (user_id)->
+      if user_id
+        @setTitle(user_id + 'Week Menu')
+      else
+        @setTitle('Your Week Menu')
+
+      App.main.show(new UserStatsView({user_id: user_id}))
+
     weekMenuAll: ->
       @setTitle('Common Week Menu')
       App.main.show(new UserStatsWeekCommon())
+
+    monthStats: (user_id, month)->
+      @setTitle('Month Stats')
+
+      App.main.show(new MonthStatsView({month: parseInt(month), user_id: user_id}))
+
+    monthStatsAll: (month)->
+      @setTitle('Common Month Stats')
+
+      App.main.show(new MonthStatsViewCommon({month: month}))
 
 
   Controller

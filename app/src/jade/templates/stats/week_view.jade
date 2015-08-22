@@ -6,6 +6,9 @@ dl.day
     ol.pure-list.stats-meals-list
       <% _.each(orders, function(order){ %>
       li.meal(id!="order-id-<%= order.get('id') %>", data-order-date!="<%= order.get('order_date') %>")
-        span(class="meal-details", id!="meal-id_<%= order.get('meal').id %>", title!="<%= order.get('meal').description %>") <%= order.get('meal').title %>
-        | &nbsp;&times;&nbsp;<%= order.get('quantity') %>
+        span(class="meal-details"
+             data-meal-id!="<%= order.get('meal') ? order.get('meal').id : null %>"
+             title!="<%= order.get('meal') ? order.get('meal').description : 'deleted' %>") 
+              | <%= order.get('meal') ? order.get('meal').title : 'deleted' %>
+              | &nbsp;&times;&nbsp;<%= order.get('quantity') %>
       <% }); %>

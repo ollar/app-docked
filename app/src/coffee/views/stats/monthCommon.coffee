@@ -6,19 +6,28 @@ define [
   'text!templates/stats/total.html'
   'text!templates/stats/month_common_item.html'
   'moment'
-  'translate'], ($, _, Backbone, MonthStatTemplate, TotalTemplate, MonthCommonItemTemplate, moment, translate) ->
+  'translate'
+  'collections/orders'
+  ], ($, _, Backbone, MonthStatTemplate, TotalTemplate, MonthCommonItemTemplate, moment, translate, OrdersCollection) ->
 
   MonthStatCommonView = Backbone.View.extend
     className: 'common-month-stat'
     initialize: (options)->
       @options = options || {}
-      @userStat = _.groupBy @collection.models, (model) -> model.get('user').real_name
       @thisMonth = moment(_.now()).format('MMMM YYYY')
 
       @$el.html @template({thisMonth: @thisMonth})
       @$list = @$el.find('.stats-menu')
 
-      @render()
+      @collection = new OrdersCollection({url: '/stats/month'})
+
+      @collection.fetch
+        success: (collection, response, options)=>
+          @userStat = _.groupBy collection.models, (model) -> model.get('user').real_name
+          @render()
+        error: (collection, response, options)=>
+          App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
+
 
     template: _.template(MonthStatTemplate)
     itemTemplate: _.template(MonthCommonItemTemplate)
@@ -29,10 +38,11 @@ define [
       _.each @userStat, (_orders, _key)=>
         total = 0
         _.each _orders, (_order)->
-          total += _order.get('meal').price * _order.get('quantity')
+          if _order.get('meal')
+            total += _order.get('meal').price * _order.get('quantity')
         res_total += total
         @$list.append @itemTemplate({name: _key, user_id: _orders.pop().get('user_id'), total: total})
 
-      @options.content.html @$el
+      @
 
   MonthStatCommonView

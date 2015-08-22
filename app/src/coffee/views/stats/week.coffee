@@ -7,16 +7,27 @@ define [
   'text!templates/stats/total.html'
   'text!templates/common/empty.html'
   'text!templates/common/send_email_button.html'
+  'collections/orders'
   'moment'
   'translate'
-  'channel'], ($, _, Backbone, App, statsWeekViewTemplate, TotalTemplate, EmptyTemplate, SendEmailButton, moment, translate, channel)->
+  ], ($, _, Backbone, App, statsWeekViewTemplate, TotalTemplate, EmptyTemplate, SendEmailButton, OrdersCollection, moment, translate)->
   StatsView = Backbone.View.extend
     className: 'stats-info week-menu'
 
     initialize: (options)->
       @options = options || {}
 
-      @render()
+      @collection = new OrdersCollection()
+      if @options.user_id
+        @collection.url = '/stats/week?user_id=' + @options.user_id
+      else
+        @collection.url = '/stats/week?user_id=' + $.cookie 'id'
+
+      @collection.fetch
+        success: (collection, response, options)=>
+          @render()
+        error: (collection, response, options)=>
+          App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 
     itemTemplate: _.template(statsWeekViewTemplate)
     resTemplate: _.template(TotalTemplate)
@@ -28,15 +39,15 @@ define [
     sendEmail: ->
       user = _.first(@collection.models).get('user')
 
-      channel.trigger 'email:send', {
+      App.execute 'email:send', {
         html: @$el.html()
         toemail: user.email
         toname: user.real_name
         subject: user.real_name+' Week Order Status!'
       }, ->
-        channel.trigger 'message', {type: 'message', text: 'Orders status sent to user <b>'+user.real_name+'</b>'}
+        App.execute 'message', {type: 'message', text: 'Orders status sent to user <b>'+user.real_name+'</b>'}
       , ->
-        channel.trigger 'message', {type: 'message', text: 'Oops smthing went wrong'}
+        App.execute 'message', {type: 'message', text: 'Oops smthing went wrong'}
 
 
     render: ->
@@ -48,15 +59,16 @@ define [
         @$el.append @itemTemplate( {date: moment(key).format('dddd, MMMM Do'), orders: _orders} )
 
         _.each _orders, (_order)->
-          res_price += _order.get('meal').price * _order.get('quantity')
+          if _order.get('meal')
+            res_price += _order.get('meal').price * _order.get('quantity')
 
       if res_price
         @$el.append _.template(@resTemplate({price: res_price, t: translate}))
-        if channel.getLoggedUser().id == 1
+        if App.ventFunctions.getLoggedUser().id == 1
           @$el.append _.template(@sendEmailTemplate({t: translate}))
       else
         @$el.html _.template(EmptyTemplate)({t: translate})
 
-      @options.content.html @$el
+      @
 
   StatsView

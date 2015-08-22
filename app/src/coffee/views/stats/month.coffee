@@ -10,20 +10,36 @@ define [
   'text!templates/common/send_email_button.html'
   'moment'
   'translate'
-  'channel'], ($, _, Backbone, App, UserStatsMonthTemplate, TotalTemplate, PagerTemplate, EmptyTemplate, SendEmailButton, moment, translate, channel)->
+  'collections/orders'
+  ], ($, _, Backbone, App, UserStatsMonthTemplate, TotalTemplate, PagerTemplate, EmptyTemplate, SendEmailButton, moment, translate, OrdersCollection)->
     MonthStatsView = Backbone.View.extend
       className: 'stats-info month-stats'
       initialize: (options)->
         @options = options || {}
+        @user_id = @options.user_id
+
+        @collection = new OrdersCollection()
+        if @user_id
+          @collection.url = '/stats/month?user_id=' + @user_id
+        else
+          @collection.url = '/stats/month?user_id=' + $.cookie 'id'
+
+        if @options.month
+          @collection.url += '&month_number=' + @options.month
+
         @thisMonth = moment(_.now()).month()
         @prevMonth = @options.month-1 || @thisMonth
         @nextMonth = @options.month+1 || @thisMonth+2
-        @user_id = @options.user_id
 
         if @nextMonth-2 >= @thisMonth
           @nextMonth = null
 
-        @render()
+        @collection.fetch
+          success: =>
+            @render()
+          error: (collection, response, options)=>
+            App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
+
 
       template: _.template(UserStatsMonthTemplate)
       resTemplate: _.template(TotalTemplate)
@@ -39,15 +55,15 @@ define [
       sendEmail: ->
         user = _.first(@collection.models).get('user')
 
-        channel.trigger 'email:send', {
+        App.execute 'email:send', {
           html: @$el.html()
           toemail: user.email
           toname: user.real_name
           subject: user.real_name+' Month Order Status!'
         }, ->
-          channel.trigger 'message', {type: 'message', text: 'Orders status sent to user <b>'+user.real_name+'</b>'}
+          App.execute 'message', {type: 'message', text: 'Orders status sent to user <b>'+user.real_name+'</b>'}
         , ->
-          channel.trigger 'message', {type: 'message', text: 'Oops smthing went wrong'}
+          App.execute 'message', {type: 'message', text: 'Oops smthing went wrong'}
 
       render: ->
         orders = _.groupBy @collection.models, (model)-> model.get 'order_date'
@@ -57,19 +73,18 @@ define [
         _.each orders, (_orders, _date)=>
           @$el.append @template({date: moment(_date).format('dddd, MMMM Do'), orders: _orders} )
           _.each _orders, (_order)=>
-            res_price += _order.get('meal').price * _order.get('quantity')
+            if _order.get('meal')
+              res_price += _order.get('meal').price * _order.get('quantity')
 
         if res_price
           @$el.append _.template(@resTemplate({price: res_price, t: translate}))
-          if channel.getLoggedUser().id == 1
+          if App.ventFunctions.getLoggedUser().id == 1
             @$el.append _.template(@sendEmailTemplate({t: translate}))
         else
           @$el.html _.template(EmptyTemplate)({t: translate})
 
         @$el.prepend @pagerTemplate({prev: @generatePagerUrl(@user_id, @prevMonth), next: @generatePagerUrl(@user_id, @nextMonth), t: translate})
         @$el.append @pagerTemplate({prev: @generatePagerUrl(@user_id, @prevMonth), next: @generatePagerUrl(@user_id, @nextMonth), t: translate})
-
-        @options.content.html @$el
 
         @
 
