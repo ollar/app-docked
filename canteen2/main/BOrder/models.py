@@ -7,7 +7,7 @@ import datetime
 class Order(Base):
     __tablename__ = 'order'
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
+    user_id = Column(Integer, ForeignKey('user.id', ondelete='SET NULL'))
     order_date = Column(Date)
     meal_id = Column(Integer, ForeignKey('meal.id', ondelete='SET NULL'))
     quantity = Column(Integer, default=1, nullable=False)
