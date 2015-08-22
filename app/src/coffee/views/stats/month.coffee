@@ -36,7 +36,7 @@ define [
 
         @collection.fetch
           success: =>
-            @render()
+            @renderData()
           error: (collection, response, options)=>
             App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 
@@ -65,7 +65,7 @@ define [
         , ->
           App.execute 'message', {type: 'message', text: 'Oops smthing went wrong'}
 
-      render: ->
+      renderData: ->
         orders = _.groupBy @collection.models, (model)-> model.get 'order_date'
 
         res_price = 0

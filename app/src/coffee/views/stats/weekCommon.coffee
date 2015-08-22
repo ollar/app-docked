@@ -20,11 +20,14 @@ define [
       @mealsCollection = new MealsCollection()
       @mealsCollection.fetch
         success: =>
-          @render()
+          @renderData()
+        error: (collection, response, options)=>
+          App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
+
 
     itemTemplate: _.template(statsWeekViewCommonTemplate)
 
-    render: ->
+    renderData: ->
       meals = _.groupBy @mealsCollection.models, (model)-> model.get 'order_date'
       orders = _.groupBy @collection.models, (model)-> model.get 'order_date'
 

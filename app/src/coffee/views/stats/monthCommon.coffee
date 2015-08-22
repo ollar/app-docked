@@ -24,7 +24,7 @@ define [
       @collection.fetch
         success: (collection, response, options)=>
           @userStat = _.groupBy collection.models, (model) -> model.get('user').real_name
-          @render()
+          @renderData()
         error: (collection, response, options)=>
           App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 
@@ -33,7 +33,7 @@ define [
     itemTemplate: _.template(MonthCommonItemTemplate)
     totalTemplate: _.template(TotalTemplate)
 
-    render: ->
+    renderData: ->
       res_total = 0
       _.each @userStat, (_orders, _key)=>
         total = 0
