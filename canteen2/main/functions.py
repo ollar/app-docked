@@ -1,3 +1,4 @@
+from main.database import db_session
 from main.main import app
 from flask import make_response, jsonify, g
 from functools import wraps
@@ -87,7 +88,7 @@ def _parse_order(order_obj, detailed=True):
 def _parse_comment(comment_obj, detailed=True):
     if not comment_obj:
         return
-        
+
     comment = {
         'id': comment_obj.id,
         'user_id': comment_obj.user_id,
@@ -130,3 +131,23 @@ def restrict_users(f):
         else:
             return make_response(jsonify({'type': 'error', 'text': 'Access denied'}), 403)
     return wrapper
+
+
+def pagination(model, page):
+    if not page:
+        page = 1
+    page = int(page)
+    items_per_page = 10
+    overall = db_session.query(model).count()
+
+    def items():
+        start = (page - 1) * items_per_page
+        end = page * items_per_page
+        if start > overall:
+            start = overall
+        if end > overall:
+            end = overall
+
+        return db_session.query(model).slice(start,end).all()
+
+    return items()

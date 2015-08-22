@@ -3,7 +3,7 @@ from flask.views import MethodView
 from sqlalchemy.exc import IntegrityError
 from main.database import db_session
 from .models import Meal
-from main.functions import register_api, _parse_meal, auth_required, restrict_users
+from main.functions import register_api, _parse_meal, auth_required, restrict_users, pagination
 import datetime
 
 bp_meal = Blueprint('bp_meal', __name__, url_prefix='/meal')
@@ -22,7 +22,7 @@ class MealAPI(MethodView):
             else:
                 return make_response(jsonify({'type': 'error', 'text': 'not found'}), 404)
 
-        meals = db_session.query(Meal).all()
+        meals = pagination(Meal, request.args.get('page'))
         meals[:] = [_parse_meal(meal) for meal in meals]
         return jsonify({'meals': meals})
 

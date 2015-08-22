@@ -15,6 +15,7 @@ define [
           App.execute 'message',
             text: @options.message
           @view.destroy()
+          App.ventFunctions.updateLocalUser()
 
 
   Delete

@@ -3,7 +3,7 @@ from flask.views import MethodView
 from sqlalchemy.exc import IntegrityError, StatementError
 from main.database import db_session
 from .models import Comment
-from main.functions import register_api, _parse_comment, auth_required, restrict_users
+from main.functions import register_api, _parse_comment, auth_required, restrict_users, pagination
 import datetime
 
 bp_comment = Blueprint('bp_comment', __name__, url_prefix='/comment')
@@ -22,7 +22,7 @@ class CommentApi(MethodView):
             else:
                 return make_response(jsonify({'type': 'error', 'text': 'not found'}), 404)
 
-        comments = db_session.query(Comment).all()
+        comments = pagination(Comment, request.args.get('page'))
         comments[:] = [_parse_comment(comment) for comment in comments]
 
         return jsonify({'comments': comments})

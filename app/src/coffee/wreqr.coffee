@@ -2,12 +2,13 @@ define [
   'app'
   'underscore'
   'marionette'
+  'models/user'
   'models/loggedUser'
   'models/order'
   'models/comment'
   'views/message'
   'views/loader'
-  'mandrill_client'], (App, _, Mn, LoggedUserModel, OrderModel, CommentModel, MessageView, Loader, mandrill_client)->
+  'mandrill_client'], (App, _, Mn, UserModel, LoggedUserModel, OrderModel, CommentModel, MessageView, Loader, mandrill_client)->
 
   App.ventFunctions =
     getLoggedUser: ->
@@ -15,20 +16,13 @@ define [
       loggedUser.fetch()
       loggedUser
 
-    updateLocalUser: (newModel, mode='order_add')->
+    updateLocalUser: ()->
       loggedUser = @getLoggedUser()
-      if mode == 'order_add'
-        loggedUser.get('orders').push newModel
-      else if mode == 'order_remove'
-        localUserOrders = loggedUser.get('orders')
-        loggedUser.set {'orders': _.reject(localUserOrders, (order)->order.id == parseInt(newModel.get('id')))}
-      else if mode == 'comment_add'
-        loggedUser.get('comments').push newModel
-      else if mode == 'comment_remove'
-        localUserComments = loggedUser.get('comments')
-        loggedUser.set {'comments': _.reject(localUserComments, (comment)->comment.id == parseInt(newModel.get('id')))}
+      userModel = new UserModel({id: $.cookie 'id'})
+      userModel.fetch
+        success: (model, request, options)=>
+          App.vent.trigger 'localUser:update', (userModel)
 
-      loggedUser.save()
 
     lazyMessage: _.debounce (_data)->
       message = new MessageView({data: _data})
@@ -74,9 +68,7 @@ define [
       order_date: data.order_date
     ,
       success: (model, response, options)=>
-        model.unset 'timestamp_created'
-        model.unset 'timestamp_modified'
-        App.ventFunctions.updateLocalUser model
+        App.ventFunctions.updateLocalUser()
         @trigger 'message', {type: 'success', text: "Meal added to your menu"}
         @trigger "order:meal_"+data.meal_id+":create:success", model
 
@@ -86,18 +78,18 @@ define [
 
   App.commands.setHandler 'order:remove', (order_id, user_id=$.cookie('id'), meal_id=null)->
     orderModel = new OrderModel({id: order_id})
-    loggedUser = @getLoggedUser()
+    loggedUser = App.ventFunctions.getLoggedUser()
     if !meal_id?
       meal_id = _.where(loggedUser.get('orders'), {id: parseInt(order_id)}).pop().meal_id
     orderModel.destroy
       success: =>
         if parseInt(user_id) == parseInt($.cookie('id'))
-          @trigger 'message', {type: 'success', text: "Meal removed from your menu"}
+          App.execute 'message', {type: 'success', text: "Meal removed from your menu"}
         else
-          @trigger 'message', {type: 'success', text: "Order removed"}
+          App.execute 'message', {type: 'success', text: "Order removed"}
 
-        @trigger 'order:meal_'+meal_id+':remove:success'
-        App.ventFunctions.updateLocalUser(orderModel, 'order_remove')
+        App.execute 'order:meal_'+meal_id+':remove:success'
+        App.ventFunctions.updateLocalUser()
 
   # ============================================================================
   # ================================================================= ##Comments
@@ -110,7 +102,7 @@ define [
     comment = new CommentModel()
     comment.save data,
       success: (model, response, options)=>
-        App.ventFunctions.updateLocalUser(comment, 'comment_add')
+        App.ventFunctions.updateLocalUser()
         App.vent.trigger 'comment:meal_'+data.meal_id+':create:success'
       error: (model, response, options)=>
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
@@ -119,7 +111,7 @@ define [
     comment = new CommentModel({id: id})
     comment.destroy
       success: =>
-        App.ventFunctions.updateLocalUser(comment, 'comment_remove')
+        App.ventFunctions.updateLocalUser()
         App.vent.trigger 'comment:meal_'+meal_id+':remove:success'
       error: (model, response, options)=>
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}

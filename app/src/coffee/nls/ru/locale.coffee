@@ -62,3 +62,5 @@ define
   'text': 'текст'
 
   'send email': 'отправить письмо'
+
+  'orders': 'заказы'

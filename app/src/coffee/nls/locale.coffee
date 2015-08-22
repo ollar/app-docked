@@ -63,4 +63,6 @@ define
     'text': 'text'
 
     'send email': 'send email'
+
+    'orders': 'orders'
   'ru': true

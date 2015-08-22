@@ -87,7 +87,7 @@ define [
         behaviorClass: Select
       Remove:
         behaviorClass: Remove
-        message: 'Meal removed'
+        message: translate 'meal removed'
       Edit:
         behaviorClass: Edit
         formView: MealFormView
