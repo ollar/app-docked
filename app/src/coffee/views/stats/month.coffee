@@ -22,7 +22,7 @@ define [
         if @user_id
           @collection.url = '/stats/month?user_id=' + @user_id
         else
-          @collection.url = '/stats/month?user_id=' + $.cookie 'id'
+          @collection.url = '/stats/month?user_id=' + $.cookie('id')
 
         if @options.month
           @collection.url += '&month_number=' + @options.month

@@ -19,7 +19,8 @@ define [
       @$el.html @template({thisMonth: @thisMonth})
       @$list = @$el.find('.stats-menu')
 
-      @collection = new OrdersCollection({url: '/stats/month'})
+      @collection = new OrdersCollection()
+      @collection.url = '/stats/month?full'
 
       @collection.fetch
         success: (collection, response, options)=>

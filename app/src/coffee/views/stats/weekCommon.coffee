@@ -14,7 +14,8 @@ define [
     initialize: (options)->
       @options = options || {}
 
-      @collection = new OrdersCollection('/stats/week')
+      @collection = new OrdersCollection()
+      @collection.url = '/stats/week'
       @collection.fetch()
 
       @mealsCollection = new MealsCollection()
@@ -28,6 +29,7 @@ define [
     itemTemplate: _.template(statsWeekViewCommonTemplate)
 
     renderData: ->
+      console.log @collection
       meals = _.groupBy @mealsCollection.models, (model)-> model.get 'order_date'
       orders = _.groupBy @collection.models, (model)-> model.get 'order_date'
 
