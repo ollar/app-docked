@@ -7,9 +7,6 @@ web:
   working_dir: /app/code/public
   ports:
     - "8800:80"
-    - "5000:5000"
-  links:
-    - flask
 
 flask:
   build: .
@@ -29,9 +26,13 @@ node:
   build: .
   dockerfile: nodeDockerfile
   volumes:
+    - ./app/package.json:/app/package.json
+    - ./app/bower.json:/app/bower.json
     - ./app:/app/code
   working_dir: /app/code
   command: gulp
+  links:
+    - flask
 
 db:
   image: postgres

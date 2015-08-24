@@ -6,7 +6,9 @@ require [
   'marked'
   'app'
   'views/topMenu'
-  'wreqr'], ($, jcookie, Mn, Router, marked, App, TopMenu, wreqr)->
+  'wreqr'
+  'env'
+  ], ($, jcookie, Mn, Router, marked, App, TopMenu, wreqr, ENV)->
 
   # ====================================
   # Setting help functions and options
@@ -51,8 +53,7 @@ require [
       dataType: "json"
 
     $.ajaxPrefilter ( options, originalOptions, jqXHR ) ->
-      options.url = '//localhost:5000' + options.url
-      # options.url = '//10.42.0.1:5000' + options.url
+      options.url = '//'+ ENV.server_url + ':' + ENV.server_port + options.url
 
       options.beforeSend = (xhr)->
         if $.cookie 'access_token'

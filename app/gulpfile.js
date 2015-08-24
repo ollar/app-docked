@@ -11,8 +11,20 @@ var gulp = require('gulp'),
     watch = require('gulp-watch'),
     plumber = require('gulp-plumber'),
     jade = require('gulp-jade'),
-    autoprefixer = require('gulp-autoprefixer');
+    autoprefixer = require('gulp-autoprefixer'),
+    template = require('gulp-template'),
+    rename = require('gulp-rename');
 
+
+var flask_addr = process.env['FLASK_PORT_5000_TCP_ADDR'],
+    flask_port = process.env['FLASK_PORT_5000_TCP_PORT'];
+
+gulp.task('prepare_env', function(){
+  return gulp.src('src/coffee/_env.coffee')
+  .pipe(template({env_path: flask_addr, env_port: flask_port}))
+  .pipe(rename('env.coffee'))
+  .pipe(gulp.dest('src/coffee'));
+});
 
 gulp.task('clean', function(){
   return del.sync(['public']);
@@ -104,7 +116,7 @@ gulp.task('jade', function(){
 // =============================================================================
 // =============================================================================
 
-gulp.task('default', ['clean'], function(){
+gulp.task('default', ['clean', 'prepare_env'], function(){
   runSequence(['vendor', 'coffee', 'sass', 'jade']);
 
   watch('src/coffee/**', {name: 'Coffee'}, function(){
@@ -122,6 +134,6 @@ gulp.task('default', ['clean'], function(){
 });
 
 
-gulp.task('dev', ['clean'], function(){
+gulp.task('dev', ['clean', 'prepare_env'], function(){
   runSequence(['vendor', 'coffee', 'sass', 'jade']);
 });
