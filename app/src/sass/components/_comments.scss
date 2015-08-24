@@ -1,0 +1,27 @@
+.comment{
+  .head{
+    font-size: 0.75em;
+    color: lighten($text_color, 20%);
+  }
+
+  .meal-title{
+    font-size: 1.25em;
+    color: $text_color;
+  }
+
+  .content{
+    font-style: italic;
+    font-family: georgia;
+    padding: 10px 0;
+
+    span{
+      &:before{
+        content: "\00AB";
+      }
+
+      &:after{
+        content: "\00BB";
+      }
+    }
+  }
+}

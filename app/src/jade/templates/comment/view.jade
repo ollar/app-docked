@@ -2,7 +2,8 @@
   a(href!="#stats/month/u<%= user.id %>") <%= user.username %>
   span &nbsp;<%= t('commented') %>&nbsp; 
   <% if (meal){%>
-  span <%= meal.title %>
+  span.meal-title <%= meal.title %>
   <% }; %>
-.content <%= content %>
+.content 
+  span <%= content %>
 .date <%= moment(timestamp_modified).startOf('hour').fromNow() %>
