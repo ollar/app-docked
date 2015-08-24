@@ -11,6 +11,10 @@
     background: $body_bg;
     z-index: 11;
 
+    &.dragged{
+      transition: none;
+    }
+
     &.opened{
       transform: translateX(200px);
 

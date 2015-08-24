@@ -16,18 +16,29 @@ define [
     ui:
       'open': '.open'
       'close': '.close'
+      'menu': '.pure-menu'
       'panTab': '.pan-tab'
 
     events:
       "click @ui.open": "openMenu"
       "click @ui.close": "closeMenu"
 
-      "panright @ui.panTab": "openMenu"
-      "panleft @ui.panTab": "closeMenu"
+      "mousedown": "touchStart"
+      "touchstart": "touchStart"
+      "mouseup": "touchEnd"
+      "touchend": "touchEnd"
+
+      "swiperight @ui.panTab": "openMenu"
+      "swipeleft @ui.panTab": "closeMenu"
+      'pan': "panMenu"
 
     initialize: (options)->
       @options = options || {}
       @opened = no
+
+      @moveX = 0
+      @deltaX = 0
+      @maxX = 200
 
       App.vent.on 'localUser:create:success localUser:update:success localUser:destroy:success', =>
         @render()
@@ -35,22 +46,45 @@ define [
       App.vent.on 'menu:hide', =>
         @closeMenu()
 
+    touchStart: ->
+      @$el.addClass 'dragged'
+
+    touchEnd: ->
+      @$el.removeClass 'dragged'
+      if (@moveX+@deltaX) > @moveX
+        @openMenu()
+      else
+        @closeMenu()
+
+    panMenu: (e)->
+      @deltaX = e.gesture.deltaX
+      if 0 > @moveX+@deltaX or @moveX+@deltaX > @maxX
+        return
+
+      @$el.css({'transform': 'translateX('+(@moveX+@deltaX)+'px)'})
+
+
     template: _.template(TopMenuTemplate)
     templateHelpers: ->
       t: translate
 
     openMenu: ->
+      @moveX = @maxX
       @opened = yes
       App.overlay.show(new Overlay())
       @toggleOpen()
 
     closeMenu: ->
+      @moveX = 0
       @opened = no
       App.overlay.empty()
       @toggleOpen()
 
     toggleOpen: ->
       @$el.toggleClass 'opened', @opened
+      _.delay =>
+        @$el.removeAttr 'style'
+      , 30
 
     onBeforeRender: ->
       if $.cookie('id')?
