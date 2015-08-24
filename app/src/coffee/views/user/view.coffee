@@ -25,13 +25,16 @@ define [
       remove: '.remove'
       edit: '.edit'
 
+    events:
+      'click .stats-menu a': (e)-> e.stopPropagation()
+
     behaviors:
       Select:
         behaviorClass: Select
       Remove:
         behaviorClass: Remove
         # text: 'user "<i>'+@model.get('real_name')+'</i>" removed'
-        message: 'user removed'
+        message: translate 'user removed'
       Edit:
         behaviorClass: Edit
         formView: UserFormView
