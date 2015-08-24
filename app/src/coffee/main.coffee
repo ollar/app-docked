@@ -51,8 +51,8 @@ require [
       dataType: "json"
 
     $.ajaxPrefilter ( options, originalOptions, jqXHR ) ->
-      # options.url = '//localhost:5000' + options.url
-      options.url = '//10.42.0.1:5000' + options.url
+      options.url = '//localhost:5000' + options.url
+      # options.url = '//10.42.0.1:5000' + options.url
 
       options.beforeSend = (xhr)->
         if $.cookie 'access_token'

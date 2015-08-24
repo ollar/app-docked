@@ -11,7 +11,8 @@ define [
   'translate'
   'behaviors/sort'
   'behaviors/add_new'
-  ], ($, _, App, Mn, UsersCollection, UserView, UserFormView, EmptyView, UsersListTemplate, translate, Sort, AddNew)->
+  'behaviors/paginate'
+  ], ($, _, App, Mn, UsersCollection, UserView, UserFormView, EmptyView, UsersListTemplate, translate, Sort, AddNew, Paginate)->
   UsersListView = Mn.CompositeView.extend
     className: 'pure-menu menu-wrapper'
 
@@ -26,10 +27,6 @@ define [
     childView: UserView
     childViewContainer: '.pure-menu-list'
 
-    ui:
-      sort: '#sort'
-      addNew: '.add-new'
-
     behaviors:
       Sort:
         behaviorClass: Sort
@@ -37,6 +34,8 @@ define [
         behaviorClass: AddNew
         itemView: UserView
         formView: UserFormView
+      Paginate:
+        behaviorClass: Paginate
 
     emptyView: EmptyView
 

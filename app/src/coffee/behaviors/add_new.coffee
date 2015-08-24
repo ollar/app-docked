@@ -5,6 +5,9 @@ define [
     events:
       'click @ui.addNew': 'addNew'
 
+    ui:
+      addNew: '.add-new'
+
     addNew: ->
       FrontView = new @options.itemView()
       FormView = new @options.formView

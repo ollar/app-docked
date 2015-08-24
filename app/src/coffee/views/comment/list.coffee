@@ -7,13 +7,15 @@ define [
   'collections/comments'
 
   'views/comment/view'
+  'views/common/empty'
 
   'text!templates/comment/list_view.html'
 
   'translate'
   'behaviors/sort'
   'behaviors/select_all'
-], (App, $, _, Mn, CommentsCollection, CommentView, CommentsListTemplate, translate, Sort, SelectAll) ->
+  'behaviors/paginate'
+], (App, $, _, Mn, CommentsCollection, CommentView, EmptyView, CommentsListTemplate, translate, Sort, SelectAll, Paginate) ->
 
   CommentsListView = Mn.CompositeView.extend
     className: "pure-menu comments-list menu-wrapper"
@@ -22,6 +24,8 @@ define [
 
     childView: CommentView
     childViewContainer: '.pure-menu-list'
+
+    emptyView: EmptyView
 
     events: {}
 
@@ -37,5 +41,7 @@ define [
         behaviorClass: Sort
       SelectAll:
         behaviorClass: SelectAll
+      Paginate:
+        behaviorClass: Paginate
 
   CommentsListView

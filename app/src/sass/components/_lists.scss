@@ -106,3 +106,18 @@
     content: "\1F63B";
   }
 }
+
+.pagination{
+  display: flex;
+
+  .prev,
+  .next{
+    padding: 10px;
+    text-align: center;
+    flex-grow: 2;
+  }
+
+  .current{
+    padding: 10px;
+  }
+}

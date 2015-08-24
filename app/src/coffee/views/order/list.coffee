@@ -9,7 +9,8 @@ define [
   'text!templates/order/list_view.html'
   'translate'
   'behaviors/sort'
-  ], ($, _, App, Mn, OrdersCollection, OrderView, EmptyView, OrdersListTemplate, translate, Sort)->
+  'behaviors/paginate'
+  ], ($, _, App, Mn, OrdersCollection, OrderView, EmptyView, OrdersListTemplate, translate, Sort, Paginate)->
   OrdersListView = Mn.CompositeView.extend
     className: 'pure-menu menu-wrapper'
     template: _.template OrdersListTemplate
@@ -26,6 +27,8 @@ define [
     behaviors:
       Sort:
         behaviorClass: Sort
+      Paginate:
+        behaviorClass: Paginate
 
     initialize: ->
       @collection.fetch()
