@@ -28,9 +28,7 @@ define [
       'click .go': 'makeOrder'
 
     initialize: ->
-      @collection.fetch
-        success: (collection)->
-          console.log collection
+      @collection.fetch()
 
     # renderData: ->
     #   loggedUser = channel.getLoggedUser()
@@ -51,26 +49,6 @@ define [
     #   , @
     #
     #
-    #   $('.day-0').wrapAll('<div class="weekday monday" />')
-    #   $('.day-1').wrapAll('<div class="weekday tuesday" />')
-    #   $('.day-2').wrapAll('<div class="weekday wednesday" />')
-    #   $('.day-3').wrapAll('<div class="weekday thursday" />')
-    #   $('.day-4').wrapAll('<div class="weekday friday" />')
-    #
-    #   @
-
-    onRender: ->
-      # _.delay =>
-      #   @children.each (child)->
-      #     child.$el.attr 'data-order-date', child.model.get('order_date')
-      # , 1000
-
-      # TODO refactor this shit too
-      $('.day-0').wrapAll('<div class="weekday monday" />')
-      $('.day-1').wrapAll('<div class="weekday tuesday" />')
-      $('.day-2').wrapAll('<div class="weekday wednesday" />')
-      $('.day-3').wrapAll('<div class="weekday thursday" />')
-      $('.day-4').wrapAll('<div class="weekday friday" />')
 
     makeOrder: ->
       selected = _.where @subviews, {selected: yes}

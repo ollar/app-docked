@@ -5,20 +5,27 @@ define [
   'marionette'
 
   'views/meal/view'
+  'collections/meals'
 
-], ($, _, Backbone, Mn, MealView) ->
+  'text!templates/home/title.html'
+
+  'moment'
+], ($, _, Backbone, Mn, MealView, MealsCollection, TitleTemplate, moment) ->
 
   DayView = Mn.CollectionView.extend
 
-    className: "test"
+    className: "weekday"
 
     childView: MealView
 
+    title: _.template(TitleTemplate)
+
     initialize: (options)->
       @options = options || {}
-      @collection = options.collection || new Backbone.Collection()
+      @collection = new MealsCollection(_.values(options.model.toJSON()))
 
-      # console.log @
-
+    onRender: ->
+      order_date = @collection.first().get('order_date')
+      @$el.prepend(@title({date: moment(order_date).format('DD MMMM YYYY')}))
 
   DayView

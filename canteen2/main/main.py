@@ -113,13 +113,13 @@ class NextWeekMenu(View):
 
     # @auth_required
     def dispatch_request(self):
-        grouped_meals = {}
+        grouped_meals = []
 
         meals = [_parse_meal(meal, order_date=str(date))
                     for day_meals, date in self.run_week() for meal in day_meals]
 
         for key, group in itertools.groupby(meals, lambda x: x['order_date']):
-            grouped_meals[key] = list(group)
+            grouped_meals.append(list(group))
 
         return jsonify({'days': grouped_meals})
 
