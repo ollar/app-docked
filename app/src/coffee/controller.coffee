@@ -1,7 +1,7 @@
 define [
   'app'
 
-  'views/home'
+  'views/home/list'
 
   'views/meal/list'
 

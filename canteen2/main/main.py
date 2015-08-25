@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, session, g, jsonify, make_response
 from flask.views import MethodView, View
 from flask.ext.cors import CORS
 import datetime
+import itertools
 import sys
 
 DEBUG = False
@@ -112,9 +113,15 @@ class NextWeekMenu(View):
 
     # @auth_required
     def dispatch_request(self):
+        grouped_meals = {}
+
         meals = [_parse_meal(meal, order_date=str(date))
                     for day_meals, date in self.run_week() for meal in day_meals]
-        return jsonify({'meals': meals})
+
+        for key, group in itertools.groupby(meals, lambda x: x['order_date']):
+            grouped_meals[key] = list(group)
+
+        return jsonify({'days': grouped_meals})
 
 home_page = NextWeekMenu.as_view('home')
 app.add_url_rule('/', view_func=home_page)

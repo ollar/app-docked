@@ -13,6 +13,20 @@ define [
     className: 'pure-menu'
     model: new LoggedUserModel()
 
+    initialize: (options)->
+      @options = options || {}
+      @opened = no
+
+      @moveX = 0
+      @deltaX = 0
+      @maxX = 200
+
+      App.vent.on 'localUser:create:success localUser:update:success localUser:destroy:success', =>
+        @render()
+
+      App.vent.on 'menu:hide overlay:clicked', =>
+        @closeMenu()
+
     ui:
       'open': '.open'
       'close': '.close'
@@ -30,21 +44,7 @@ define [
 
       "swiperight @ui.panTab": "openMenu"
       "swipeleft @ui.panTab": "closeMenu"
-      'pan': "panMenu"
-
-    initialize: (options)->
-      @options = options || {}
-      @opened = no
-
-      @moveX = 0
-      @deltaX = 0
-      @maxX = 200
-
-      App.vent.on 'localUser:create:success localUser:update:success localUser:destroy:success', =>
-        @render()
-
-      App.vent.on 'menu:hide', =>
-        @closeMenu()
+      'pan @ui.panTab': "panMenu"
 
     touchStart: ->
       @$el.addClass 'dragged'
@@ -71,13 +71,13 @@ define [
     openMenu: ->
       @moveX = @maxX
       @opened = yes
-      App.overlay.show(new Overlay())
+      App.vent.trigger "overlay:show"
       @toggleOpen()
 
     closeMenu: ->
       @moveX = 0
       @opened = no
-      App.overlay.empty()
+      App.vent.trigger "overlay:hide"
       @toggleOpen()
 
     toggleOpen: ->

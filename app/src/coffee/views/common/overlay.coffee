@@ -6,18 +6,17 @@ define [
     el: $('<div />')
     template: no
 
+    initialize: ->
+      @listenTo App.vent, 'overlay:show', @show
+      @listenTo App.vent, 'overlay:hide', @hide
+
     events:
-      'click': 'close'
+      'click': -> App.vent.trigger 'overlay:clicked'
 
-    onRender: ->
-      _.delay =>
-        @$el.addClass 'opened'
-      , 100
+    show: ->
+      @$el.addClass 'opened'
 
-    # onDestroy: ->
-    #   @destroy()
-
-    close: ->
-      App.vent.trigger 'menu:hide'
+    hide: ->
+      @$el.removeClass 'opened'
 
   Overlay

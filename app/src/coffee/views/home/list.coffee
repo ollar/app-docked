@@ -4,16 +4,17 @@ define [
   'app'
   'marionette'
   'views/meal/view'
+  'views/home/day'
   'text!templates/home/view.html'
   'collections/nextWeekMeals'
   'translate'
-  ], ($, _, App, Mn, MealView, HomeTemplate, NWMealsCollection, translate)->
+  ], ($, _, App, Mn, MealView, DayView, HomeTemplate, NWMealsCollection, translate)->
   HomeView = Mn.CompositeView.extend
 
     className: 'pure-menu menu-wrapper'
 
     collection: new NWMealsCollection()
-    childView: MealView
+    childView: DayView
     childViewContainer: '.pure-menu-list'
 
     template: _.template HomeTemplate
@@ -27,7 +28,9 @@ define [
       'click .go': 'makeOrder'
 
     initialize: ->
-      @collection.fetch()
+      @collection.fetch
+        success: (collection)->
+          console.log collection
 
     # renderData: ->
     #   loggedUser = channel.getLoggedUser()

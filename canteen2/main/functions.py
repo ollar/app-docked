@@ -54,8 +54,7 @@ def _parse_meal(meal_obj, detailed=True, *args, **kwargs):
             'description': meal_obj.description,
             'enabled': meal_obj.enabled,
             'timestamp_created': meal_obj.timestamp_created,
-            'timestamp_modified': meal_obj.timestamp_modified,
-            'comments': [_parse_comment(comment, detailed=False) for comment in meal_obj.comments if comment.timestamp_modified.month == this_month]
+            'timestamp_modified': meal_obj.timestamp_modified
         })
 
     meal.update(kwargs)

@@ -19,6 +19,8 @@ flask:
     - SECRET_KEY=whotVaijIrEcveybsOgNelfac
   expose:
     - "5000"
+  ports:
+    - "5000:5000"
   links:
    - db
 

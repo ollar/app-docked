@@ -6,9 +6,10 @@ require [
   'marked'
   'app'
   'views/topMenu'
+  'views/common/overlay'
   'wreqr'
   'env'
-  ], ($, jcookie, Mn, Router, marked, App, TopMenu, wreqr, ENV)->
+  ], ($, jcookie, Mn, Router, marked, App, TopMenu, Overlay, wreqr, ENV)->
 
   # ====================================
   # Setting help functions and options
@@ -63,6 +64,7 @@ require [
   App.on 'start', ->
     new Router()
     @navigation.show(new TopMenu())
+    @overlay.show(new Overlay())
     Backbone.history.start()
 
   # ====================================

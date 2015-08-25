@@ -8,7 +8,9 @@ define [
   'models/comment'
   'views/message'
   'views/loader'
-  'mandrill_client'], (App, _, Mn, UserModel, LoggedUserModel, OrderModel, CommentModel, MessageView, Loader, mandrill_client)->
+  'mandrill_client'
+  'translate'
+  ], (App, _, Mn, UserModel, LoggedUserModel, OrderModel, CommentModel, MessageView, Loader, mandrill_client, translate)->
 
   App.ventFunctions =
     getLoggedUser: ->
@@ -69,7 +71,7 @@ define [
     ,
       success: (model, response, options)=>
         App.ventFunctions.updateLocalUser()
-        @trigger 'message', {type: 'success', text: "Meal added to your menu"}
+        @trigger 'message', {type: 'success', text: translate "meal added to your menu"}
         @trigger "order:meal_"+data.meal_id+":create:success", model
 
       error: (model, response, options)=>
@@ -84,9 +86,9 @@ define [
     orderModel.destroy
       success: =>
         if parseInt(user_id) == parseInt($.cookie('id'))
-          App.execute 'message', {type: 'success', text: "Meal removed from your menu"}
+          App.execute 'message', {type: 'success', text: translate "meal removed from your menu"}
         else
-          App.execute 'message', {type: 'success', text: "Order removed"}
+          App.execute 'message', {type: 'success', text: translate "order removed"}
 
         App.execute 'order:meal_'+meal_id+':remove:success'
         App.ventFunctions.updateLocalUser()
@@ -135,10 +137,6 @@ define [
     console.log 'done', _.now()
     @loader.$el.fadeOut()
     _.delay((=>@loader.remove()), 500)
-
-  # ============================================================================
-
-  App.vent.on 'loading:done', ->
     @trigger 'menu:hide'
 
   # ============================================================================

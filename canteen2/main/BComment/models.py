@@ -16,7 +16,6 @@ class Comment(Base):
         DateTime, default=datetime.datetime.utcnow(), nullable=False)
     timestamp_modified = Column(DateTime)
 
-    meals = relationship('Meal', backref='comments')
     user = relationship('User', backref='comments')
 
     def __init__(self, user_id, meal_id, content):
