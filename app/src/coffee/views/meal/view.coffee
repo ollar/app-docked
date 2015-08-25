@@ -95,6 +95,7 @@ define [
     # ==========================================================================
 
     selectToggle: ->
+      @$el.toggleClass 'selected', @selected
       @$el.toggleClass 'success', @success
       @$el.toggleClass 'failed', @failed
       @
@@ -159,7 +160,7 @@ define [
       e.stopPropagation()
 
       order_id = $(e.target).attr('data-order-id')
-      App.execute 'order:remove', order_id
+      App.execute 'order:remove', order_id, null, @model.id
 
     # ================================
 

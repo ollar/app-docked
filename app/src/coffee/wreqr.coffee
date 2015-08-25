@@ -71,12 +71,12 @@ define [
     ,
       success: (model, response, options)=>
         App.ventFunctions.updateLocalUser()
-        @trigger 'message', {type: 'success', text: translate "meal added to your menu"}
-        @trigger "order:meal_"+data.meal_id+":create:success", model
+        App.execute 'message', {type: 'success', text: translate "meal added to your menu"}
+        App.vent.trigger "order:meal_"+data.meal_id+":create:success", model
 
       error: (model, response, options)=>
-        @trigger "order:meal_"+data.meal_id+":create:failed"
-        @trigger 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
+        App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
+        App.vent.trigger "order:meal_"+data.meal_id+":create:failed"
 
   App.commands.setHandler 'order:remove', (order_id, user_id=$.cookie('id'), meal_id=null)->
     orderModel = new OrderModel({id: order_id})
@@ -90,7 +90,7 @@ define [
         else
           App.execute 'message', {type: 'success', text: translate "order removed"}
 
-        App.execute 'order:meal_'+meal_id+':remove:success'
+        App.vent.trigger 'order:meal_'+meal_id+':remove:success'
         App.ventFunctions.updateLocalUser()
 
   # ============================================================================
