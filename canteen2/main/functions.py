@@ -148,9 +148,9 @@ def pagination(model, page):
         if end > overall:
             end = overall
 
-        _orders = list(reversed(sorted(db_session.query(model).all(), key=lambda x: x.timestamp_created)))
+        _items = list(reversed(sorted(db_session.query(model).all(), key=lambda x: x.timestamp_created)))
         # TODO make sql query
 
-        return _orders[start:end]
+        return _items[start:end]
 
     return items()

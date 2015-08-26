@@ -10,6 +10,10 @@ define [
 
     selectAll: ->
       @view.children.each (child)->
+        if child.children
+          child.children.each (subchild)->
+            subchild.trigger 'this:clicked'
+
         child.trigger 'this:clicked'
 
   SelectAll
