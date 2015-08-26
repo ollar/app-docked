@@ -56,7 +56,7 @@ define [
             @remove()
             App.execute 'message',
               type: 'success'
-              text: 'user <b>'+model.get('username')+'</b> updated'
+              text: translate 'user updated', model.get('username')
 
           # Updating profile
           if @uid and !@options.front_view
@@ -67,7 +67,7 @@ define [
             App.navigate ''
 
           # Register new user
-          if !@uid.has('id')
+          if !@uid
             loginCredentials = {username: model.get('username'),password: model.get('password')}
             $.post '/user/login', JSON.stringify(loginCredentials), (data)->
               loginView = new LoginView

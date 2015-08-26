@@ -1,7 +1,10 @@
-define ['i18n!nls/locale'], (locale)->
-  translate = (str)->
+define [
+  'underscore'
+  'i18n!nls/locale'
+  ], (_, locale)->
+  translate = (str, arg)->
     if _.has locale, str
-      locale[str]
+      _.template(locale[str])({arg: arg})
     else
       '_'+str
 

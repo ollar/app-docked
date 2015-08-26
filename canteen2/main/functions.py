@@ -25,10 +25,11 @@ def _parse_user(user_obj, detailed=True):
         # 'password': user_obj.password,
     }
     if detailed:
+        _orders = reversed(sorted(user_obj.orders, key=lambda x: x.timestamp_created))
         user.update({
             'timestamp_created': str(user_obj.timestamp_created),
             'timestamp_modified': str(user_obj.timestamp_modified),
-            'orders': [_parse_order(order, detailed=False) for (key, order) in enumerate(user_obj.orders) if key < 50],
+            'orders': [_parse_order(order, detailed=False) for (key, order) in enumerate(_orders) if key < 50],
             'comments': [_parse_comment(comment, detailed=False) for (key, comment) in enumerate(user_obj.comments) if key < 50]
         })
 
@@ -147,6 +148,9 @@ def pagination(model, page):
         if end > overall:
             end = overall
 
-        return db_session.query(model).slice(start,end).all()
+        _orders = list(reversed(sorted(db_session.query(model).all(), key=lambda x: x.timestamp_created)))
+        # TODO make sql query
+
+        return _orders[start:end]
 
     return items()

@@ -65,4 +65,11 @@ define
     'send email': 'send email'
 
     'orders': 'orders'
+
+    # messages
+    'user removed': 'user removed'
+    'user updated': 'user <b><%= arg %></b> updated'
+    'meal added to your menu': 'meal added to your menu'
+    'meal removed from your menu': 'meal removed from your menu'
+    'order removed': 'order removed'
   'ru': true

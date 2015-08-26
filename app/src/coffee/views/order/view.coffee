@@ -17,9 +17,6 @@ define [
       @listenTo App.vent, 'order:meal_'+@model.get('meal_id')+':remove:success', ->
         @remove()
 
-    # events:
-    #   'click .delete': -> App.execute 'order:remove', @model.get('id'), @model.get('user_id'), @model.get('meal_id')
-
     ui:
       remove: '.delete'
 
@@ -33,6 +30,7 @@ define [
         behaviorClass: Select
       Remove:
         behaviorClass: Remove
+        command: 'order:remove'
         message: translate 'order removed'
 
     onRender: ->

@@ -34,7 +34,6 @@ define [
 
       @collection.each (model)=>
         @children.findByModel(model).$el.attr 'data-order-date', model.get('order_date')
-
         if _.contains(_.pluck(local_orders[order_date], 'meal_id'), model.get('id'))
           match = _.find local_orders[order_date], (order)-> order.meal_id == model.get('id')
 

@@ -82,7 +82,11 @@ define [
     orderModel = new OrderModel({id: order_id})
     loggedUser = App.ventFunctions.getLoggedUser()
     if !meal_id?
-      meal_id = _.where(loggedUser.get('orders'), {id: parseInt(order_id)}).pop().meal_id
+      try
+        meal_id = _.where(loggedUser.get('orders'), {id: parseInt(order_id)}).pop().meal_id
+      catch error
+        false
+
     orderModel.destroy
       success: =>
         if parseInt(user_id) == parseInt($.cookie('id'))
@@ -92,6 +96,10 @@ define [
 
         App.vent.trigger 'order:meal_'+meal_id+':remove:success'
         App.ventFunctions.updateLocalUser()
+      error: (model, response, options)=>
+        App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
+        App.vent.trigger "order:meal_"+meal_id+":remove:failed"
+
 
   # ============================================================================
   # ================================================================= ##Comments
