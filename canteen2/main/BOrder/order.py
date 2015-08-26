@@ -49,12 +49,12 @@ class Order_API(MethodView):
     @auth_required
     def post(self):
         if not self._check_order():
-            return make_response(jsonify({'type': 'error', 'text': 'This meal is already in your order'}), 403)
+            return make_response(jsonify({'type': 'error', 'text': 'meal already in order'}), 403)
 
         _order_date = datetime.datetime.strptime(self.json.get('order_date'), "%Y-%m-%d").date()
 
         if not self._check_actual_date(_order_date.timetuple().tm_yday):
-            return make_response(jsonify({'type': 'error', 'text': 'You are trying to create an outdated order. That is not allowed'}), 403)
+            return make_response(jsonify({'type': 'error', 'text': 'not allowed create old order'}), 403)
 
         new_order = Order(order_date=_order_date,
                           meal_id=self.json.get('meal_id'),
@@ -73,7 +73,7 @@ class Order_API(MethodView):
         if order:
             _order_date = order.order_date
             if not self._check_actual_date(_order_date.timetuple().tm_yday):
-                return make_response(jsonify({'type': 'error', 'text': 'You are trying to remove old order. That is not allowed'}), 403)
+                return make_response(jsonify({'type': 'error', 'text': 'not allowed remove old order'}), 403)
             db_session.delete(order)
             db_session.commit()
             return jsonify(_parse_order(order, detailed=False))

@@ -4,8 +4,8 @@ define [
   'app'
   'marionette'
   'text!templates/user/login.html'
-  'models/loggedUser'
-  'translate'], ($, _, App, Mn, LoginTemplate, LoggedUserModel, translate) ->
+  'translate'
+  ], ($, _, App, Mn, LoginTemplate, translate) ->
 
   LoginView = Mn.ItemView.extend
 
@@ -25,9 +25,9 @@ define [
       $.cookie 'id', data.id
       $.cookie 'access_token', data.token
 
-      App.vent.trigger 'localUser:create', data
+      App.ventFunctions.updateLocalUser()
       App.execute 'message',
-        text: 'Welcome, <b>'+data.username+'</b>'
+        text: translate 'welcome username', data.username
 
       App.navigate ''
 

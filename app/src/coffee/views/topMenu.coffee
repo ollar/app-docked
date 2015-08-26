@@ -21,7 +21,7 @@ define [
       @deltaX = 0
       @maxX = 200
 
-      App.vent.on 'localUser:create:success localUser:update:success localUser:destroy:success', =>
+      App.vent.on 'localUser:update:success localUser:destroy:success', =>
         @render()
 
       App.vent.on 'menu:hide overlay:clicked', =>

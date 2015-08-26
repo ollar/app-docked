@@ -149,8 +149,7 @@ def pagination(model, page):
             end = overall
 
         _items = list(reversed(sorted(db_session.query(model).all(), key=lambda x: x.timestamp_created)))
-        # TODO make sql query
-
+        
         return _items[start:end]
 
     return items()

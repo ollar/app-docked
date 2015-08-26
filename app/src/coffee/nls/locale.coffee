@@ -69,7 +69,16 @@ define
     # messages
     'user removed': 'user removed'
     'user updated': 'user <b><%= arg %></b> updated'
+    'your profile updated': 'Your profile updated'
     'meal added to your menu': 'meal added to your menu'
     'meal removed from your menu': 'meal removed from your menu'
     'order removed': 'order removed'
+
+    'not allowed remove old order': 'You are trying to remove old order. That is not allowed'
+    'not allowed create old order': 'You are trying to create an outdated order. That is not allowed'
+    'meal already in order': 'This meal is already in your order'
+
+    'welcome username': 'Welcome back, <b><%= arg %></b>!'
+    'welcome aboard': 'Welcome aboard'
+    'good bye': 'Good bye'
   'ru': true

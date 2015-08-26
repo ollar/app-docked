@@ -38,7 +38,7 @@ define [
       @model.save formData,
         success: (model, response, options)=>
           if model.get 'id' == $.cookie('id')
-            App.vent.trigger 'localUser:update', model
+            App.ventFunctions.updateLocalUser()
 
           # Creating user from user list page
           if !@uid and @options.front_view

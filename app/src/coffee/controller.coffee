@@ -44,10 +44,9 @@ define [
       App.main.show(new LoginView())
 
     logout: (quite=false)->
-      uid = $.cookie 'id'
+      App.ventFunctions.destroyLocalUser()
       $.removeCookie 'id'
       $.removeCookie 'access_token'
-      App.vent.trigger 'localUser:destroy', uid
 
       if !quite
         App.execute 'message', {text: t 'good bye'}

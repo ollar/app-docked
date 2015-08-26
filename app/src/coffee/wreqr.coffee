@@ -23,39 +23,24 @@ define [
       userModel = new UserModel({id: $.cookie 'id'})
       userModel.fetch
         success: (model, request, options)=>
-          App.vent.trigger 'localUser:update', (userModel)
+          model.unset 'password'
+          model.unset 'timestamp_created'
+          model.unset 'timestamp_modified'
+          loggedUser.save model.toJSON(),
+            success: =>
+              App.vent.trigger 'localUser:update:success'
+
+    destroyLocalUser: ->
+      loggedUser = @getLoggedUser()
+      console.log loggedUser
+      loggedUser.destroy
+        success: =>
+          App.vent.trigger 'localUser:destroy:success'
 
 
     lazyMessage: _.debounce (_data)->
       message = new MessageView({data: _data})
     , 300
-
-  # ============================================================================
-
-  App.vent.on 'localUser:create', (data)->
-    user = new LoggedUserModel(data)
-
-    user.unset 'token'
-    user.unset 'timestamp_created'
-    user.unset 'timestamp_modified'
-    user.save {},
-      success: =>
-        @trigger 'localUser:create:success'
-
-  App.vent.on 'localUser:update', (userModel) ->
-    loggedUser = App.ventFunctions.getLoggedUser()
-    userModel.unset 'password'
-    userModel.unset 'timestamp_created'
-    userModel.unset 'timestamp_modified'
-    loggedUser.save userModel.toJSON(),
-      success: =>
-        @trigger 'localUser:update:success'
-
-  App.vent.on 'localUser:destroy', (uid)->
-    user = new LoggedUserModel({id: uid})
-    user.destroy
-      success: =>
-        @trigger 'localUser:destroy:success'
 
   # ============================================================================
   # =================================================================== ##Orders
@@ -78,22 +63,11 @@ define [
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
         App.vent.trigger "order:meal_"+data.meal_id+":create:failed"
 
-  App.commands.setHandler 'order:remove', (order_id, user_id=$.cookie('id'), meal_id=null)->
+  App.commands.setHandler 'order:remove', (order_id, meal_id)->
     orderModel = new OrderModel({id: order_id})
-    loggedUser = App.ventFunctions.getLoggedUser()
-    if !meal_id?
-      try
-        meal_id = _.where(loggedUser.get('orders'), {id: parseInt(order_id)}).pop().meal_id
-      catch error
-        false
-
     orderModel.destroy
       success: =>
-        if parseInt(user_id) == parseInt($.cookie('id'))
-          App.execute 'message', {type: 'success', text: translate "meal removed from your menu"}
-        else
-          App.execute 'message', {type: 'success', text: translate "order removed"}
-
+        App.execute 'message', {type: 'success', text: translate "meal removed from your menu"}
         App.vent.trigger 'order:meal_'+meal_id+':remove:success'
         App.ventFunctions.updateLocalUser()
       error: (model, response, options)=>

@@ -124,7 +124,7 @@ define [
     toggleEnabled: ->
       @model.save {'enabled': !@model.get('enabled')},
         success: =>
-          @selected = yes
+          @select = yes
           @selectToggle().render()
 
     # ================================
@@ -160,7 +160,7 @@ define [
       e.stopPropagation()
 
       order_id = $(e.target).attr('data-order-id')
-      App.execute 'order:remove', order_id, null, @model.id
+      App.execute 'order:remove', order_id, @model.id
 
     # ================================
 

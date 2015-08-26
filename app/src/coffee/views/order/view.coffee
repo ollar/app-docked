@@ -30,7 +30,6 @@ define [
         behaviorClass: Select
       Remove:
         behaviorClass: Remove
-        command: 'order:remove'
         message: translate 'order removed'
 
     onRender: ->
