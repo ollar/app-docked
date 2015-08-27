@@ -36,19 +36,23 @@ define [
         behaviorClass: SelectAll
 
     makeOrder: ->
-      selected = _.where @children, {select: yes}
+      selected = []
 
-      @children.each((view)-> console.log(_.where view.children, {select: yes}))
+      @children.each (view)->
+        view.children.each (subview)->
+          selected.push _.where subview, {select: yes}
 
-      _.each selected, (mealView)->
-        _qty = mealView.$el.find('.qty input').val()
-        mealModel = mealView.model
+      console.log selected
 
-        App.vent.trigger 'order:create',
-          id: $.cookie 'id'
-          qty: _qty
-          meal_id: mealModel.get 'id'
-          order_date: mealModel.get 'order_date'
-        , @
+      # _.each selected, (mealView)->
+      #   _qty = mealView.$el.find('.qty input').val()
+      #   mealModel = mealView.model
+      #
+      #   App.vent.trigger 'order:create',
+      #     id: $.cookie 'id'
+      #     qty: _qty
+      #     meal_id: mealModel.get 'id'
+      #     order_date: mealModel.get 'order_date'
+      #   , @
 
   HomeView

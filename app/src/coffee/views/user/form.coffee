@@ -15,7 +15,6 @@ define [
 
     initialize: (options)->
       @options = options || {}
-      @uid = @model.get('id')
       if @options.user_id
         @model.set({'id':@options.user_id})
         @model.fetch
@@ -23,6 +22,7 @@ define [
             @render()
           error: (collection, response, options)=>
             App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
+      @uid = @model.get('id')
 
     template: _.template(userFormTemplate)
     templateHelpers: ->
@@ -39,6 +39,7 @@ define [
         success: (model, response, options)=>
           if model.get 'id' == $.cookie('id')
             App.ventFunctions.updateLocalUser()
+
 
           # Creating user from user list page
           if !@uid and @options.front_view
