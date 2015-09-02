@@ -27,14 +27,13 @@ define [
           model.unset 'timestamp_created'
           model.unset 'timestamp_modified'
           loggedUser.save model.toJSON(),
-            success: =>
+            success: ->
               App.vent.trigger 'localUser:update:success'
 
     destroyLocalUser: ->
       loggedUser = @getLoggedUser()
-      console.log loggedUser
       loggedUser.destroy
-        success: =>
+        success: ->
           App.vent.trigger 'localUser:destroy:success'
 
 

@@ -16,7 +16,7 @@
     }
 
     &.opened{
-      transform: translateX(200px);
+      left: 0;
 
       .open{
         visibility: hidden;

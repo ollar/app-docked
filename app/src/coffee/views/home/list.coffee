@@ -31,6 +31,8 @@ define [
     initialize: ->
       @collection.fetch()
 
+      console.log @collection
+
     behaviors:
       SelectAll:
         behaviorClass: SelectAll
@@ -40,13 +42,14 @@ define [
 
       @children.each (view)->
         view.children.each (subview)->
-          selected.push _.where subview, {select: yes}
+          console.log subview
+          selected.push _.first(_.where(subview, {select: yes}))
 
-      console.log selected
+      selected = _.compact(selected)
 
-      # _.each selected, (mealView)->
-      #   _qty = mealView.$el.find('.qty input').val()
-      #   mealModel = mealView.model
+      # _.each selected, (view)->
+        # _qty = mealView.$el.find('.qty input').val()
+        # mealModel = mealView.model
       #
       #   App.vent.trigger 'order:create',
       #     id: $.cookie 'id'

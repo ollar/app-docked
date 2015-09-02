@@ -37,9 +37,8 @@ define [
       formData = $(e.target).serializeObject()
       @model.save formData,
         success: (model, response, options)=>
-          if model.get 'id' == $.cookie('id')
+          if parseInt(model.get('id')) == parseInt($.cookie('id'))
             App.ventFunctions.updateLocalUser()
-
 
           # Creating user from user list page
           if !@uid and @options.front_view
