@@ -6,7 +6,8 @@
     width: 200px;
     height: 100%;
     transform: translateX(0px);
-    transition: transform 0.5s;
+    transition: left 0.5s;
+    transition-delay: -0.3s;
     border-right: 1px solid $border_color;
     background: $body_bg;
     z-index: 11;
@@ -18,18 +19,13 @@
     &.opened{
       left: 0;
 
-      .open{
-        visibility: hidden;
-      }
-
-      .close{
-        visibility: visible;
+      .toggle:after{
+        content: "\00D7";
       }
     }
   }
 
-  .open,
-  .close{
+  .toggle{
     position: absolute;
     top: 0;
     right: 0;
@@ -38,15 +34,15 @@
     text-align: center;
     background: darken($body_bg, 10%);
     margin-right: -40px;
-  }
 
-  .close{
-    visibility: hidden;
+    &:after{
+      content: "\2630";
+    }
   }
 
   .pan-tab{
     position: absolute;
-    top: 0;
+    top: 40px;
     right: 0;
     bottom: 0;
     width: 40px;

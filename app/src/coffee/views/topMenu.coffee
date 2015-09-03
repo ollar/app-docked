@@ -19,42 +19,33 @@ define [
       @options = options || {}
       @opened = no
 
-      # _.extend @behaviors.Draggable, {callback: @toggleOpen}
-      # @behaviors.Draggable.initialize()
-      console.log @
-
       App.vent.on 'localUser:update:success localUser:destroy:success', =>
         @render()
 
       App.vent.on 'menu:hide overlay:clicked', =>
+        @opened = yes
         @toggleOpen()
 
     behaviors: ->
       Draggable:
         behaviorClass: Draggable
         direction: 'H'
-        callback: @toggleOpen
+        callback: _.bind(@toggleOpen, @)
 
     ui:
-      'open': '.open'
-      'close': '.close'
-      'menu': '.pure-menu'
+      'toggle': '.toggle'
       'panEl': '.pan-tab'
 
     events:
-      "click @ui.open": "toggleOpen"
-      "click @ui.close": "toggleOpen"
-
-      "swiperight @ui.panEl": "openMenu"
-      "swipeleft @ui.panEl": "closeMenu"
+      "click @ui.toggle": "toggleOpen"
 
     template: _.template(TopMenuTemplate)
     templateHelpers: ->
       t: translate
 
-    toggleOpen: ->
+    toggleOpen: (e)->
       @opened = !@opened
-      # @$el.toggleClass 'opened', @opened
+      @$el.toggleClass 'opened', @opened
 
       if @opened
         App.vent.trigger "overlay:show"

@@ -12,12 +12,12 @@ define [
       no
 
     events:
-      "mousedown": "touchStart"
-      "touchstart": "touchStart"
-      "mouseup": "touchEnd"
-      "touchend": "touchEnd"
+      "mousedown @ui.panEl": "touchStart"
+      "touchstart @ui.panEl": "touchStart"
+      "mouseup @ui.panEl": "touchEnd"
+      "touchend @ui.panEl": "touchEnd"
 
-      "pan": "pan"
+      "pan @ui.panEl": "pan"
 
     touchStart: ->
       @$el.addClass 'dragged'
@@ -26,8 +26,7 @@ define [
       @$el.removeClass 'dragged'
       _.delay =>
         @$el.removeAttr 'style'
-      , 30
-      console.log @options.callback
+      , 15
       if @options.callback?
         @options.callback()
 
