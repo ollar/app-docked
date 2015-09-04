@@ -31,8 +31,6 @@ define [
     initialize: ->
       @collection.fetch()
 
-      console.log @collection
-
     behaviors:
       SelectAll:
         behaviorClass: SelectAll

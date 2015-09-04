@@ -31,6 +31,7 @@ define [
         behaviorClass: Draggable
         direction: 'H'
         callback: _.bind(@toggleOpen, @)
+        disable: ()-> no
 
     ui:
       'toggle': '.toggle'
@@ -46,6 +47,10 @@ define [
     toggleOpen: (e)->
       @opened = !@opened
       @$el.toggleClass 'opened', @opened
+
+      # _.delay =>
+      #   @$el.removeAttr 'style'
+      # , 15
 
       if @opened
         App.vent.trigger "overlay:show"

@@ -17,7 +17,7 @@
     }
 
     &.opened{
-      left: 0;
+      transform: translateX(200px);
 
       .toggle:after{
         content: "\00D7";
@@ -76,8 +76,7 @@
       left: 0;
     }
 
-    .open,
-    .close{
+    .toggle{
       display: none;
     }
   }

@@ -1,7 +1,17 @@
 define [
+  'backbone'
   'marionette'
   'jquery.hammer'
-], (Mn, hammer)->
+], (Backbone, Mn, hammer)->
+  MoveModel = Backbone.Model.extend
+    defaults:
+      oldX: 0
+      oldY: 0
+      X: 0
+      Y: 0
+
+  DeltaModel = null
+
   Draggable = Mn.Behavior.extend
     defaults:
       direction: 'A'
@@ -9,7 +19,11 @@ define [
       callback: no
 
     initialize: ->
-      no
+      @move = new MoveModel()
+
+      @listenTo @move, 'change:X change:Y', (model)->
+        console.log model
+        @$el.css({'transform': 'translate3d('+model.get('X')+'px, '+model.get('Y')+'px, 0)'})
 
     events:
       "mousedown @ui.panEl": "touchStart"
@@ -24,21 +38,24 @@ define [
 
     touchEnd: (e)->
       @$el.removeClass 'dragged'
-      _.delay =>
-        @$el.removeAttr 'style'
-      , 15
+
+      console.log @move.toJSON()
+
+      @move.set({'oldX': @move.get('X'), 'oldY': @move.get('Y')})
+
+      console.log @move.toJSON()
+
       if @options.callback?
         @options.callback()
 
     pan: (e)->
-      @move =
-        X: if @options.direction in ['H', 'A'] then e.gesture.deltaX else 0
-        Y: if @options.direction in ['V', 'A'] then e.gesture.deltaY else 0
+      if @options.direction in ['H', 'A']
+        @move.set('X', @move.get('oldX') + e.gesture.deltaX)
 
-      return if Math.abs(@move.X) > @options.maxMove || Math.abs(@move.Y) > @options.maxMove
+      if @options.direction in ['V', 'A']
+        @move.set('Y', @move.get('oldX') + e.gesture.deltaY)
 
-      @$el.css({'transform': 'translate('+@move.X+'px, '+@move.Y+'px)'})
-
+      # return if Math.abs(@delta.X) > @options.maxMove || Math.abs(@delta.Y) > @options.maxMove
 
     onRender: ->
       @hammer = @ui.panEl.hammer()
