@@ -8,6 +8,7 @@ define [
   'behaviors/select'
   'behaviors/remove'
   'behaviors/edit'
+  'behaviors/draggable'
   'translate'
 
   'text!templates/meal/qty_el.html'
@@ -16,7 +17,7 @@ define [
   'views/comment/form'
   'models/comment'
   'models/meal'
-  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, translate, QtyElTemplate, RemoveButtonTemplate, MealFormView, CommentFormView, CommentModel, MealModel)->
+  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, Draggable, translate, QtyElTemplate, RemoveButtonTemplate, MealFormView, CommentFormView, CommentModel, MealModel)->
   MealView = Mn.ItemView.extend
     className: 'meal pure-menu-item'
 
@@ -70,6 +71,7 @@ define [
       addComment: '.add-comment'
       removeComment: '.remove-comment'
       comments: '.comments'
+      panEl: '.name'
 
     events:
       'click @ui.toggleEnabled': 'toggleEnabled'
@@ -91,6 +93,10 @@ define [
       Edit:
         behaviorClass: Edit
         formView: MealFormView
+      Draggable:
+        behaviorClass: Draggable
+        direction: 'H'
+
 
     # ==========================================================================
 

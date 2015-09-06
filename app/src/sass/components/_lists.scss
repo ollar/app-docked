@@ -23,6 +23,10 @@
     border-radius: 3px;
     background: $body_bg;
 
+    &.dragged{
+      transition: 0s;
+    }
+
     &:hover{
       background: darken($body_bg, 5%);
     }
@@ -75,36 +79,6 @@
 
 .weekday:before{
   font-size: 2em;
-}
-
-.monday{
-  &:before{
-    content: "\1F63E";
-  }
-}
-
-.tuesday{
-  &:before{
-    content: "\1F63D";
-  }
-}
-
-.wednesday{
-  &:before{
-    content: "\1F63C";
-  }
-}
-
-.thursday{
-  &:before{
-    content: "\1F63A";
-  }
-}
-
-.friday{
-  &:before{
-    content: "\1F63B";
-  }
 }
 
 .pagination{

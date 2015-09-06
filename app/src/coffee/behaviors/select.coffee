@@ -3,17 +3,14 @@ define [
 ], (Mn) ->
   Select = Mn.Behavior.extend
     initialize: ->
-      @view.on 'this:clicked', @toggleState
+      @view.select = no
 
-    defaults:
-      select: no
-
-    triggers:
-      'click': 'this:clicked'
+    events:
+      'click': 'toggleState'
 
     toggleState: ->
-      @options.select = !@options.select
-      @$el.toggleClass 'selected', @options.select
+      @select = !@select
+      @$el.toggleClass 'selected', @select
       @
 
   Select

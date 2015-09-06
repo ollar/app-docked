@@ -16,39 +16,32 @@ define [
     defaults:
       direction: 'A'
       maxMove: 200
-      callback: no
+      callback: null
 
     initialize: ->
       @move = new MoveModel()
 
       @listenTo @move, 'change:X change:Y', (model)->
-        console.log model
         @$el.css({'transform': 'translate3d('+model.get('X')+'px, '+model.get('Y')+'px, 0)'})
 
     events:
-      "mousedown @ui.panEl": "touchStart"
-      "touchstart @ui.panEl": "touchStart"
-      "mouseup @ui.panEl": "touchEnd"
-      "touchend @ui.panEl": "touchEnd"
+      "panstart @ui.panEl": "start"
+      "panend @ui.panEl": "end"
 
-      "pan @ui.panEl": "pan"
+      "panmove @ui.panEl": "panmove"
 
-    touchStart: ->
+    start: (e)->
       @$el.addClass 'dragged'
 
-    touchEnd: (e)->
+    end: (e)->
       @$el.removeClass 'dragged'
 
-      console.log @move.toJSON()
-
       @move.set({'oldX': @move.get('X'), 'oldY': @move.get('Y')})
-
-      console.log @move.toJSON()
 
       if @options.callback?
         @options.callback()
 
-    pan: (e)->
+    panmove: (e)->
       if @options.direction in ['H', 'A']
         @move.set('X', @move.get('oldX') + e.gesture.deltaX)
 

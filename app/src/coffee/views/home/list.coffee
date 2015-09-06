@@ -39,9 +39,7 @@ define [
       selected = []
 
       @children.each (view)->
-        view.children.each (subview)->
-          console.log subview
-          selected.push _.first(_.where(subview, {select: yes}))
+        console.log view.children
 
       selected = _.compact(selected)
 
