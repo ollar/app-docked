@@ -46,7 +46,7 @@ define [
         @move.set('X', @move.get('oldX') + e.gesture.deltaX)
 
       if @options.direction in ['V', 'A']
-        @move.set('Y', @move.get('oldX') + e.gesture.deltaY)
+        @move.set('Y', @move.get('oldY') + e.gesture.deltaY)
 
       # return if Math.abs(@delta.X) > @options.maxMove || Math.abs(@delta.Y) > @options.maxMove
 

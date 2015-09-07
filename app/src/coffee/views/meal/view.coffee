@@ -95,7 +95,7 @@ define [
         formView: MealFormView
       Draggable:
         behaviorClass: Draggable
-        direction: 'H'
+        # direction: 'H'
 
 
     # ==========================================================================
