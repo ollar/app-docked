@@ -41,10 +41,9 @@ require [
     smartypants: false
 
   # ====================================
+
   _.mixin
     t: translate
-
-  console.log _.t
 
   # ====================================
 

@@ -31,6 +31,7 @@ define [
 
       loggedUser = App.ventFunctions.getLoggedUser()
       local_orders = _.groupBy loggedUser.get('orders'), (order)->order.order_date
+      local_comments = loggedUser.get('comments')
 
       @collection.each (model)=>
         @children.findByModel(model).$el.attr 'data-order-date', model.get('order_date')
@@ -38,5 +39,7 @@ define [
           match = _.find local_orders[order_date], (order)-> order.meal_id == model.get('id')
 
           @children.findByModel(model).orderSuccess(match.quantity, match.id)
+
+        console.log local_comments
 
   DayView
