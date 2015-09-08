@@ -8,11 +8,11 @@ define [
     events:
       'click @ui.button': 'selectAll'
 
-    clickChildren = (parent)->
+    clickChildren: (parent)->
       return if !parent.children?
-      parent.children.each (child)->
+      parent.children.each (child)=>
         child.trigger 'me:clicked'
-        findViewChildren(child)
+        @clickChildren(child)
 
     selectAll: ->
       @clickChildren(@view)
