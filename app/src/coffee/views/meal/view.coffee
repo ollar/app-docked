@@ -17,10 +17,13 @@ define [
   'models/comment'
   'models/meal'
   ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, Draggable, QtyElTemplate, RemoveButtonTemplate, MealFormView, CommentFormView, CommentModel, MealModel)->
-  MealView = Mn.ItemView.extend
+  MealView = Mn.LayoutView.extend
     className: 'meal pure-menu-item'
 
     model: new MealModel()
+
+    regions:
+      comments: '.comments'
 
     initialize: (options)->
       @options = options || {}

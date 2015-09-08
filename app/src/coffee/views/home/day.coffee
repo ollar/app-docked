@@ -43,6 +43,8 @@ define [
         meal_comment = _.find local_comments, (comment)->
           comment.meal_id == model.get('id')
 
+        @children.findByModel(model).comments.show(new Mn.ItemView({template: _.template '<div></div>'}))
+
         console.log meal_comment
 
   DayView
