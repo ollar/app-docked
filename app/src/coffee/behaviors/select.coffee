@@ -5,12 +5,17 @@ define [
     initialize: ->
       @view.select = no
 
-    events:
-      'click': 'toggleState'
+      @view.on 'me:clicked', _.bind ()->
+        @view.select = !@view.select
+        @toggleSelect()
+      , @
 
-    toggleState: ->
-      @select = !@select
-      @$el.toggleClass 'selected', @select
+    triggers:
+      'click': 'me:clicked'
+
+    toggleSelect: ->
+      @$el.toggleClass 'selected', @view.select
+
       @
 
   Select

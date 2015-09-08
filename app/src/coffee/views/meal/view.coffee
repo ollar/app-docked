@@ -95,7 +95,9 @@ define [
         formView: MealFormView
       Draggable:
         behaviorClass: Draggable
-        # direction: 'H'
+        direction: 'H'
+        disable: ()->
+          @view.select != true || Math.abs(@move.get('X')) >= 50
 
 
     # ==========================================================================

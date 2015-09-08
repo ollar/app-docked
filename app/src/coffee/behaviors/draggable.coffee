@@ -9,14 +9,13 @@ define [
       oldY: 0
       X: 0
       Y: 0
-
-  DeltaModel = null
+      gesture: {}
 
   Draggable = Mn.Behavior.extend
-    defaults:
+    defaults: ->
       direction: 'A'
-      maxMove: 200
-      callback: null
+      callback: _.bind(@resetMove, @)
+      disable: null
 
     initialize: ->
       @move = new MoveModel()
@@ -38,17 +37,23 @@ define [
 
       @move.set({'oldX': @move.get('X'), 'oldY': @move.get('Y')})
 
-      if @options.callback?
+      if typeof(@options.callback) == 'function'
         @options.callback()
 
     panmove: (e)->
+      if typeof(@options.disable) == 'function'
+        return if _.bind(@options.disable, @)()
+
+      @move.set('gesture', e.gesture)
+
       if @options.direction in ['H', 'A']
         @move.set('X', @move.get('oldX') + e.gesture.deltaX)
 
       if @options.direction in ['V', 'A']
         @move.set('Y', @move.get('oldY') + e.gesture.deltaY)
 
-      # return if Math.abs(@delta.X) > @options.maxMove || Math.abs(@delta.Y) > @options.maxMove
+    resetMove: ()->
+      @move.set({'X': 0, 'Y': 0, 'oldX': 0, 'OldY': 0, 'gesture': {}})
 
     onRender: ->
       @hammer = @ui.panEl.hammer()
