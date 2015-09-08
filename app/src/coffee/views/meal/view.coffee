@@ -9,7 +9,6 @@ define [
   'behaviors/remove'
   'behaviors/edit'
   'behaviors/draggable'
-  'translate'
 
   'text!templates/meal/qty_el.html'
   'text!templates/meal/remove_button.html'
@@ -17,7 +16,7 @@ define [
   'views/comment/form'
   'models/comment'
   'models/meal'
-  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, Draggable, translate, QtyElTemplate, RemoveButtonTemplate, MealFormView, CommentFormView, CommentModel, MealModel)->
+  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, Draggable, QtyElTemplate, RemoveButtonTemplate, MealFormView, CommentFormView, CommentModel, MealModel)->
   MealView = Mn.ItemView.extend
     className: 'meal pure-menu-item'
 
@@ -53,7 +52,6 @@ define [
       humanizeCategory: @model.humanizeCategory
       loggedUser: @loggedUser
       routeName: @routeName
-      t: translate
 
     qtyEl: _.template(QtyElTemplate)
     removeOrderButton: _.template(RemoveButtonTemplate)
@@ -89,7 +87,7 @@ define [
         behaviorClass: Select
       Remove:
         behaviorClass: Remove
-        message: translate 'meal removed'
+        message: _('meal removed')
       Edit:
         behaviorClass: Edit
         formView: MealFormView
@@ -114,7 +112,7 @@ define [
       @$el.find('.left').hide()
 
       @$el.find('.name').prepend(@qtyEl({qty: qty})) if qty
-      @$el.find('.right').html(@removeOrderButton({order_id: order_id, t: translate})) if order_id
+      @$el.find('.right').html(@removeOrderButton({order_id: order_id})) if order_id
 
       @selectToggle()
 

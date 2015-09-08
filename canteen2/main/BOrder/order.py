@@ -31,8 +31,8 @@ class Order_API(MethodView):
         """ Makes orders editable from today to two weeks further."""
         return check_date in range(datetime.date.today().timetuple().tm_yday, datetime.date.today().timetuple().tm_yday + 12)
 
-    # @auth_required
-    # @restrict_users
+    @auth_required
+    @restrict_users
     def get(self, order_id):
         if order_id:
             order = db_session.query(Order).get(order_id)

@@ -1,6 +1,7 @@
 require [
   'jquery'
   'jquery.cookie'
+  'underscore'
   'marionette'
   'router'
   'marked'
@@ -9,7 +10,8 @@ require [
   'views/common/overlay'
   'wreqr'
   'env'
-  ], ($, jcookie, Mn, Router, marked, App, TopMenu, Overlay, wreqr, ENV)->
+  'translate'
+  ], ($, jcookie, _, Mn, Router, marked, App, TopMenu, Overlay, wreqr, ENV, translate)->
 
   # ====================================
   # Setting help functions and options
@@ -37,6 +39,14 @@ require [
     sanitize: true
     smartLists: true
     smartypants: false
+
+  # ====================================
+  _.mixin
+    t: translate
+
+  console.log _.t
+
+  # ====================================
 
   App.navigate = (route)->
     Backbone.history.navigate route, yes

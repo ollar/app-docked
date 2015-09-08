@@ -1,18 +1,18 @@
 .sort-wrapper.pure-form
   select#sort(name="sort")
-    option(value="title") <%= t('title') %>
-    option(value="category") <%= t('category') %>
-    option(value="day_linked", selected) <%= t('day assigned') %>
-    option(value="timestamp_created") <%= t('date') %>
-    option(value="enabled") <%= t('enabled') %>
-  button.pure-button.add-new <%= t('add new') %>
+    option(value="title") <%= _('title').t() %>
+    option(value="category") <%= _('category').t() %>
+    option(value="day_linked", selected) <%= _('day assigned').t() %>
+    option(value="timestamp_created") <%= _('date').t() %>
+    option(value="enabled") <%= _('enabled').t() %>
+  button.pure-button.add-new <%= _('add new').t() %>
 .items-list.pure-menu-list
 .pagination
   span.prev.pure-button
-    <%= t('previous') %>
+    <%= _('previous').t() %>
   span.current 1
   span.next.pure-button
-    <%= t('next') %>
+    <%= _('next').t() %>
 .buttons-wrapper.table-wrapper
   .left
-    button.pure-button.select-all <%= t('select all') %>
+    button.pure-button.select-all <%= _('select all').t() %>

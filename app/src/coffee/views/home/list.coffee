@@ -38,20 +38,19 @@ define [
     makeOrder: ->
       selected = []
 
-      @children.each (view)->
-        console.log view.children
+      @children.each (child)->
+        child.children.each (_child)->
+          selected.push _child if _child.select == true
 
-      selected = _.compact(selected)
+      _.each selected, (view)->
+        _qty = view.ui.qtyInput.val()
+        mealModel = view.model
 
-      # _.each selected, (view)->
-        # _qty = mealView.$el.find('.qty input').val()
-        # mealModel = mealView.model
-      #
-      #   App.vent.trigger 'order:create',
-      #     id: $.cookie 'id'
-      #     qty: _qty
-      #     meal_id: mealModel.get 'id'
-      #     order_date: mealModel.get 'order_date'
-      #   , @
+        App.execute 'order:create',
+          id: $.cookie 'id'
+          qty: _qty
+          meal_id: mealModel.get 'id'
+          order_date: mealModel.get 'order_date'
+        , @
 
   HomeView

@@ -36,7 +36,7 @@ define [
 
       data = $(e.target).serializeObject()
 
-      @collection.add @model      
+      @collection.add @model
 
       @model.save data,
         success: (model, response, options)=>
@@ -45,13 +45,14 @@ define [
           @options.front_view.render().$el.show()
           @remove()
 
-      if @model.has 'id'
-        App.execute 'message', {text: 'Meal updated'}
-      else
-        App.execute 'message', {text: 'Meal created'}
+          if @model.has 'id'
+            App.execute 'message', {text: 'Meal updated'}
+          else
+            App.execute 'message', {text: 'Meal created'}
 
-
-
+        error: (model, response)=>
+          App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
+          return
 
     cancelEdit: (e)->
       e.preventDefault()

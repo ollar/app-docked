@@ -18,29 +18,29 @@
   .right
     <% if (routeName === 'meals') {%>
     <% if (loggedUser.id === 1){ %>
-    button.edit.pure-button <%= t('edit') %>
-    button.toggle-enabled.pure-button <%= enabled ? t('disable') : t('enable') %>
+    button.edit.pure-button <%= _('edit').t() %>
+    button.toggle-enabled.pure-button <%= enabled ? _('disable').t() : _('enable').t() %>
     
     <% if (!enabled) {%>
-    button.remove.pure-button <%= t('delete') %>
+    button.remove.pure-button <%= _('delete').t() %>
     <% }; %>
     
     <% }; %>
     <% }; %>
 
     <% if (routeName === '') {%>
-    button.make-order.pure-button.pure-button-primary <%= t('make order') %>
+    button.make-order.pure-button.pure-button-primary <%= _('make order').t() %>
     <% }; %>
 
 //- <% if (routeName === '') {%>
 //- .comments
 //-   <% if (!_.find(comments, function(comment){return comment.user_id == loggedUser.id})) {%>
-//-   button.add-comment.pure-button <%= t('add comment') %>
+//-   button.add-comment.pure-button <%= _('add comment').t() %>
 //-   <% } else { %>
 //-   .comments-wrapper
 //-     <% _comment = _.find(comments, function(comment){return comment.user_id == loggedUser.id}); %>
 //-     .text(data-id!="<%= _comment.id %>") <%= marked(_comment.content) %>
-//-     button.remove-comment.pure-button(data-comment-id!="<%= _comment.id %>") <%= t('remove comment') %>
+//-     button.remove-comment.pure-button(data-comment-id!="<%= _comment.id %>") <%= _('remove comment').t() %>
 //-   <% }; %>
 //- <% }; %>
 //- 
