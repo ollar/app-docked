@@ -21,6 +21,7 @@ define [
     template: _.template HomeTemplate
     templateHelpers: ->
       t: translate
+      local_user: @local_user
 
     ui:
       footer: '.buttons-wrapper'
@@ -30,6 +31,7 @@ define [
 
     initialize: ->
       @collection.fetch()
+      @local_user = App.ventFunctions.getLoggedUser()
 
     behaviors:
       SelectAll:

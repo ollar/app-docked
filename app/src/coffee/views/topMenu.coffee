@@ -30,8 +30,9 @@ define [
       Draggable:
         behaviorClass: Draggable
         direction: 'H'
-        callback: _.bind(@toggleOpen, @)
-        disable: ()-> no
+        callback: @panCallback
+        disable: ->
+          @move.get('X') > 200
 
     ui:
       'toggle': '.toggle'
@@ -44,18 +45,33 @@ define [
     templateHelpers: ->
       t: translate
 
-    toggleOpen: (e)->
-      @opened = !@opened
-      @$el.toggleClass 'opened', @opened
+    panCallback: ->
+      if @move.get('gesture').direction == 4
+        @view.opened = yes
+        @move.set({X:200, oldX: 200})
+      else if @move.get('gesture').direction == 2
+        @view.opened = no
+        @move.set({X:0, oldX: 0})
+      else
+        @view.opened = !@view.opened
 
-      # _.delay =>
-      #   @$el.removeAttr 'style'
-      # , 15
+      @view.updateState()
+
+    toggleOpen: ->
+      @opened = !@opened
+      @$el.one 'transitionend', =>
+        @$el.removeAttr 'style'
+
+      @updateState()
+
+    updateState: ->
+      @$el.toggleClass 'opened', @opened
 
       if @opened
         App.vent.trigger "overlay:show"
       else
         App.vent.trigger "overlay:hide"
+
 
     onBeforeRender: ->
       if $.cookie('id')?

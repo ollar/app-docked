@@ -21,12 +21,15 @@ define [
     template: _.template(MealsListTemplate)
     templateHelpers: ->
       t: translate
+      local_user: @local_user
+      
     childView: MealView
 
     childViewContainer: '.pure-menu-list'
 
     initialize: ->
       @collection.fetch()
+      @local_user = App.ventFunctions.getLoggedUser()
 
     behaviors:
       Sort:

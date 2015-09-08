@@ -5,7 +5,9 @@
     option(value="day_linked", selected) <%= _('day assigned').t() %>
     option(value="timestamp_created") <%= _('date').t() %>
     option(value="enabled") <%= _('enabled').t() %>
+  <% if (local_user.id) {%>
   button.pure-button.add-new <%= _('add new').t() %>
+  <% }; %>
 .items-list.pure-menu-list
 .pagination
   span.prev.pure-button

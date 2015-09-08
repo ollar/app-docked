@@ -1,3 +1,7 @@
+body{
+  user-select: none;
+}
+
 a{
   color: $links;
 }
@@ -28,10 +32,6 @@ a{
       margin-right: 0;
     }
   }
-}
-
-.draggable{
-  user-select: none;
 }
 
 // =============================================================================

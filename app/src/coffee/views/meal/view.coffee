@@ -95,7 +95,7 @@ define [
         behaviorClass: Draggable
         direction: 'H'
         disable: ()->
-          @view.select != true || Math.abs(@move.get('X')) >= 50
+          Math.abs(@move.get('X')) >= 50
 
 
     # ==========================================================================

@@ -40,6 +40,9 @@ define [
 
           @children.findByModel(model).orderSuccess(match.quantity, match.id)
 
-        console.log local_comments
+        meal_comment = _.find local_comments, (comment)->
+          comment.meal_id == model.get('id')
+
+        console.log meal_comment
 
   DayView

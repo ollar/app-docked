@@ -38,7 +38,7 @@ define [
       @move.set({'oldX': @move.get('X'), 'oldY': @move.get('Y')})
 
       if typeof(@options.callback) == 'function'
-        @options.callback()
+        @options.callback.call(@)
 
     panmove: (e)->
       if typeof(@options.disable) == 'function'
