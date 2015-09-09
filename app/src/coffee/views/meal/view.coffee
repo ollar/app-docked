@@ -168,8 +168,9 @@ define [
       @$el.attr 'data-day', @model.get('day_linked')
       @$el.attr 'dats-category', @model.get('category')
 
-      if @routeName == ''
-        @qty.show(new QtyView())
-      @comments.show(@comment)
+      if @loggedUser.id != 0
+        if @routeName == ''
+          @qty.show(new QtyView())
+        @comments.show(@comment)
 
   MealView
