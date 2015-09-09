@@ -13,7 +13,9 @@ define [
     className: 'commend-add'
 
     events:
+      'click': (e)-> e.stopPropagation()
       'submit #comment_form': 'commentSubmit'
+      'click .cancel': 'cancel'
 
     template: _.template FormTemplate
     templateHelpers:
@@ -30,3 +32,7 @@ define [
       App.execute 'comment:create', _.extend formData,
         meal_id: @meal_id
         user_id: @user_id
+
+    cancel: ->
+      @options.frontEl.show()
+      @destroy()

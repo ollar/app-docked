@@ -13,24 +13,25 @@ define [
   'text!templates/meal/qty_el.html'
   'text!templates/meal/remove_button.html'
   'views/meal/form'
-  'views/comment/form'
-  'models/comment'
+  'views/meal/comment'
+  'views/meal/qty'
+
   'models/meal'
-  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, Draggable, QtyElTemplate, RemoveButtonTemplate, MealFormView, CommentFormView, CommentModel, MealModel)->
+  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, Draggable, QtyElTemplate, RemoveButtonTemplate, MealFormView, CommentView, QtyView, MealModel)->
   MealView = Mn.LayoutView.extend
     className: 'meal pure-menu-item'
 
     model: new MealModel()
 
-    regions:
+    regions: ->
       comments: '.comments'
+      qty: '.qty-wrapper'
 
     initialize: (options)->
       @options = options || {}
       @success = no
       @failed = no
       @routeName = Backbone.history.getFragment()
-      @loggedUser = App.ventFunctions.getLoggedUser()
 
       @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:success', (model)->
         @orderSuccess(model.get('quantity'), model.get('id'))
@@ -44,9 +45,7 @@ define [
         @selectToggle().render()
 
       @listenTo App.vent, 'comment:meal_'+@model.get('id')+':create:success comment:meal_'+@model.get('id')+':remove:success', =>
-        @model.fetch
-          success: (model, response, options)=>
-            @render()
+        @render()
 
     template: _.template Template
     templateHelpers: ->
@@ -59,31 +58,18 @@ define [
     qtyEl: _.template(QtyElTemplate)
     removeOrderButton: _.template(RemoveButtonTemplate)
 
-    ui:
+    ui: ->
       edit: '.edit'
       remove: '.remove'
       toggleEnabled: '.toggle-enabled'
       makeOrder: '.make-order'
-      qtyWrapper: '.qty-wrapper'
-      qtyInput: '.qty input'
-      decrease: '.decrease'
-      increase: '.increase'
       removeOrder: '.remove-order'
-      addComment: '.add-comment'
-      removeComment: '.remove-comment'
-      comments: '.comments'
       panEl: '.name'
 
     events:
       'click @ui.toggleEnabled': 'toggleEnabled'
       'click @ui.makeOrder': 'makeOrder'
-      'click @ui.qtyWrapper': (e)-> e.stopPropagation()
-      'click @ui.decrease': 'decreaseQty'
-      'click @ui.increase': 'increaseQty'
       'click @ui.removeOrder': 'removeOrder'
-      'click @ui.addComment': 'addComment'
-      'click @ui.removeComment': 'removeComment'
-      'click @ui.comments': (e)-> e.stopPropagation()
 
     behaviors:
       Select:
@@ -138,16 +124,6 @@ define [
 
     # ================================
 
-    decreaseQty: ->
-      @qtyInput = @ui.qtyInput
-      if @qtyInput.val() > 1 then @qtyInput.attr 'value', parseInt(@qtyInput.val()) - 1 else return
-
-    increaseQty: ->
-      @qtyInput = @ui.qtyInput
-      @qtyInput.attr 'value', parseInt(@qtyInput.val()) + 1
-
-    # ================================
-
     makeOrder: ->
       if @success
         @orderFailed()
@@ -157,7 +133,8 @@ define [
         , 1000)
         return
 
-      _qty = @ui.qtyInput.val()
+      _qty = @$('.qty input').val()
+
       App.execute 'order:create',
         id: $.cookie 'id'
         qty: _qty
@@ -171,28 +148,19 @@ define [
       order_id = $(e.target).attr('data-order-id')
       App.execute 'order:remove', order_id, @model.id
 
-    # ================================
-
-    addComment: (e)->
-      e.preventDefault()
-      e.stopPropagation()
-
-      $comments = @$el.find('.comments')
-
-      formView = new CommentFormView
-        model: new CommentModel()
-        meal_id: @model.get('id')
-        user_id: App.ventFunctions.getLoggedUser().id
-      $comments.html formView.render().el
-
-    removeComment: (e)->
-      e.preventDefault()
-      e.stopPropagation()
-
-      commentId = $(e.target).attr 'data-comment-id'
-      App.execute 'comment:remove', commentId, @model.get('id')
-
     # ==========================================================================
+
+    onBeforeRender: ->
+      @loggedUser = App.ventFunctions.getLoggedUser()
+      local_comments = @loggedUser.get('comments')
+
+      meal_comment = _.find local_comments, (comment)=>
+        comment.meal_id == @model.get('id')
+
+      @comment = new CommentView(
+        model: new Backbone.Model(meal_comment)
+        meal_id: @model.get('id')
+      )
 
     onRender: ->
       @$el.attr 'data-id', @model.get('id')
@@ -200,5 +168,8 @@ define [
       @$el.attr 'data-day', @model.get('day_linked')
       @$el.attr 'dats-category', @model.get('category')
 
+      if @routeName == ''
+        @qty.show(new QtyView())
+      @comments.show(@comment)
 
   MealView

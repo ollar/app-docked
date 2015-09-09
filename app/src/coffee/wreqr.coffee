@@ -86,7 +86,8 @@ define [
     comment.save data,
       success: (model, response, options)=>
         App.ventFunctions.updateLocalUser()
-        App.vent.trigger 'comment:meal_'+data.meal_id+':create:success'
+        App.vent.on 'localUser:update:success', ->
+          App.vent.trigger 'comment:meal_'+data.meal_id+':create:success'
       error: (model, response, options)=>
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 
@@ -95,7 +96,8 @@ define [
     comment.destroy
       success: =>
         App.ventFunctions.updateLocalUser()
-        App.vent.trigger 'comment:meal_'+meal_id+':remove:success'
+        App.vent.on 'localUser:update:success', ->
+          App.vent.trigger 'comment:meal_'+meal_id+':remove:success'
       error: (model, response, options)=>
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 
