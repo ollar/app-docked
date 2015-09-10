@@ -5,6 +5,10 @@ define [
     initialize: ->
       @page = 1
       @collectionUrl = @view.collection.url
+      @view.collection.url = @generateUrl(@page)
+
+    events:
+      'scroll': -> console.log 'scroll'
 
     generateUrl: (page)->
       @page = page

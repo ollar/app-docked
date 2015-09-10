@@ -22,7 +22,7 @@ class MealAPI(MethodView):
             else:
                 return make_response(jsonify({'type': 'error', 'text': 'not found'}), 404)
 
-        meals = pagination(Meal, request.args.get('page'))
+        meals = pagination(Meal, **request.args)
         meals[:] = [_parse_meal(meal) for meal in meals]
         return jsonify({'meals': meals})
 

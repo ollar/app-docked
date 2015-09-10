@@ -59,8 +59,7 @@ define [
 
     toggleOpen: ->
       @opened = !@opened
-      @$el.one 'transitionend', =>
-        @$el.removeAttr 'style'
+      @$el.removeAttr 'style'
 
       @updateState()
 

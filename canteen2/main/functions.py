@@ -133,12 +133,24 @@ def restrict_users(f):
     return wrapper
 
 
-def pagination(model, page):
-    if not page:
-        page = 1
-    page = int(page)
-    items_per_page = 10
+def pagination(model, *args, **kwargs):
+    def _form_items():
+        return list(reversed(sorted(db_session.query(model).all(), key=lambda x: x.timestamp_created)))[:limit]
+
+    page = kwargs.get('page')
+    limit = kwargs.get('limit')
+
+    if not limit:
+        limit = 10
+    else:
+        limit = int(limit.pop())
+    items_per_page = int(limit)
     overall = db_session.query(model).count()
+    if not page:
+        return _form_items()
+
+    page = int(page.pop())
+
 
     def items():
         start = (page - 1) * items_per_page
@@ -148,8 +160,8 @@ def pagination(model, page):
         if end > overall:
             end = overall
 
-        _items = list(reversed(sorted(db_session.query(model).all(), key=lambda x: x.timestamp_created)))
-        
+        _items = _form_items()
+
         return _items[start:end]
 
     return items()

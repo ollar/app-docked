@@ -41,7 +41,7 @@ class Order_API(MethodView):
             else:
                 return make_response(jsonify({'type': 'error', 'text': 'not found'}), 404)
 
-        orders = pagination(Order, request.args.get('page'))
+        orders = pagination(Order, request.args.get('page'), request.args.get('limit'))
         if orders:
             orders[:] = [_parse_order(order) for order in orders]
         return jsonify({'orders': orders})

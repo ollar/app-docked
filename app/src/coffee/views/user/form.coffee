@@ -11,10 +11,9 @@ define [
   UserFormView = Mn.ItemView.extend
     className: 'user-manage pure-menu-item'
 
-    model: new UserModel()
-
     initialize: (options)->
       @options = options || {}
+      @model = @options.model || new UserModel()
       if @options.user_id
         @model.set({'id':@options.user_id})
         @model.fetch
@@ -37,6 +36,8 @@ define [
       formData = $(e.target).serializeObject()
       @model.save formData,
         success: (model, response, options)=>
+          e.target.reset()
+
           if parseInt(model.get('id')) == parseInt($.cookie('id'))
             App.ventFunctions.updateLocalUser()
 
@@ -48,6 +49,7 @@ define [
             App.execute 'message',
               type: 'success'
               text: translate 'user created'
+            return
 
           # Updating user from user list page
           if @uid and @options.front_view
@@ -57,6 +59,7 @@ define [
             App.execute 'message',
               type: 'success'
               text: translate 'user updated', model.get('username')
+            return
 
           # Updating profile
           if @uid and !@options.front_view
@@ -65,6 +68,7 @@ define [
               text: translate 'your profile updated'
 
             App.navigate ''
+            return
 
           # Register new user
           if !@uid
@@ -78,6 +82,7 @@ define [
                 text: translate 'welcome aboard'
 
               App.navigate ''
+              return
 
     cancelEdit: (e)->
       e.preventDefault()
@@ -85,7 +90,7 @@ define [
       if !@options.front_view
         return App.navigate ''
 
-      if @options.front_view and @model.has 'id'
+      if @options.front_view and @uid
         @options.front_view.$el.show()
       else
         @options.front_view.$el.remove()

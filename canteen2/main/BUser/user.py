@@ -25,7 +25,7 @@ class UserAPI(MethodView):
             else:
                 return make_response(jsonify({'type': 'error', 'text': 'not found'}), 404)
 
-        users = pagination(User, request.args.get('page'))
+        users = Pagination(User, request.args.get('page'))
         users[:] = [_parse_user(user) for user in users]
         return jsonify({'users': users})
 

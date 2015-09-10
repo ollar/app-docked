@@ -12,7 +12,9 @@ define [
   'behaviors/sort'
   'behaviors/add_new'
   'behaviors/paginate'
-  ], ($, _, App, Mn, UsersCollection, UserView, UserFormView, EmptyView, UsersListTemplate, translate, Sort, AddNew, Paginate)->
+  'behaviors/infinite_load'
+  ], ($, _, App, Mn, UsersCollection, UserView, UserFormView, EmptyView, UsersListTemplate, translate, Sort, AddNew, Paginate,
+  Inf)->
   UsersListView = Mn.CompositeView.extend
     className: 'pure-menu menu-wrapper'
 
@@ -34,8 +36,8 @@ define [
         behaviorClass: AddNew
         itemView: UserView
         formView: UserFormView
-      Paginate:
-        behaviorClass: Paginate
+      Inf:
+        behaviorClass: Inf
 
     emptyView: EmptyView
 
