@@ -3,7 +3,7 @@ from flask.views import MethodView
 from sqlalchemy.exc import IntegrityError
 from main.database import db_session
 from .models import Order
-from main.functions import register_api, _parse_order, auth_required, restrict_users, pagination
+from main.functions import register_api, _parse_order, auth_required, restrict_users, Pagination
 import datetime
 
 bp_order = Blueprint('bp_order', __name__, url_prefix='/order')
@@ -41,9 +41,8 @@ class Order_API(MethodView):
             else:
                 return make_response(jsonify({'type': 'error', 'text': 'not found'}), 404)
 
-        orders = pagination(Order, request.args.get('page'), request.args.get('limit'))
-        if orders:
-            orders[:] = [_parse_order(order) for order in orders]
+        orders = Pagination(Order, **request.args).items()
+        orders[:] = [_parse_order(order) for order in orders]
         return jsonify({'orders': orders})
 
     @auth_required

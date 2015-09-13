@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError, StatementError
 from main.database import db_session
 from .models import User, Token
 from werkzeug import generate_password_hash, check_password_hash
-from main.functions import register_api, _parse_user, auth_required, restrict_users, pagination
+from main.functions import register_api, _parse_user, auth_required, restrict_users, Pagination
 import datetime
 
 bp_user = Blueprint('bp_user', __name__, url_prefix='/user')
@@ -14,7 +14,7 @@ class UserAPI(MethodView):
 
     def __init__(self):
         self.json = request.json
-
+    
     @auth_required
     @restrict_users
     def get(self, user_id):
@@ -25,7 +25,7 @@ class UserAPI(MethodView):
             else:
                 return make_response(jsonify({'type': 'error', 'text': 'not found'}), 404)
 
-        users = Pagination(User, request.args.get('page'))
+        users = Pagination(User, **request.args).items()
         users[:] = [_parse_user(user) for user in users]
         return jsonify({'users': users})
 

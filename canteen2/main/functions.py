@@ -132,36 +132,26 @@ def restrict_users(f):
             return make_response(jsonify({'type': 'error', 'text': 'Access denied'}), 403)
     return wrapper
 
+class Pagination():
+    def __init__(self, *args, **kwargs):
+        self.model = args[0]
+        kwargs = {key: value.pop() for key, value in kwargs.items()}
+        self.page = int(kwargs.get('page', 0))
+        self.limit = int(kwargs.get('limit', 1000))
 
-def pagination(model, *args, **kwargs):
-    def _form_items():
-        return list(reversed(sorted(db_session.query(model).all(), key=lambda x: x.timestamp_created)))[:limit]
+        self.overall = db_session.query(self.model).count()
 
-    page = kwargs.get('page')
-    limit = kwargs.get('limit')
+    def _form_items(self):
+        return list(reversed(sorted(db_session.query(self.model).all(), key=lambda x: x.timestamp_created)))
 
-    if not limit:
-        limit = 10
-    else:
-        limit = int(limit.pop())
-    items_per_page = int(limit)
-    overall = db_session.query(model).count()
-    if not page:
-        return _form_items()
+    def items(self):
+        if self.page == 0:
+            return self._form_items()
+        start = (self.page - 1) * self.limit
+        end = start + self.limit
+        if start > self.overall:
+            start = self.overall
+        if end > self.overall:
+            end = self.overall
 
-    page = int(page.pop())
-
-
-    def items():
-        start = (page - 1) * items_per_page
-        end = page * items_per_page
-        if start > overall:
-            start = overall
-        if end > overall:
-            end = overall
-
-        _items = _form_items()
-
-        return _items[start:end]
-
-    return items()
+        return self._form_items()[start:end]
