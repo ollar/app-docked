@@ -169,6 +169,7 @@ define [
       if @loggedUser.id != 0
         if @routeName == ''
           @qty.show(new QtyView())
+          # @qty.currentView.model.set('count', 10)
         @comments.show(@comment)
 
   MealView

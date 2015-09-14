@@ -11,10 +11,10 @@ define [
     className: 'table-wrapper pure-form'
 
     initialize: ->
-      @numberModel = new Backbone.Model
+      @model = new Backbone.Model
         count: 1
 
-      @numberModel.on 'change', (model)=>
+      @model.on 'change', (model)=>
         @ui.qtyInput.attr 'value', model.get('count')
 
     ui:
@@ -30,10 +30,10 @@ define [
     # ================================
 
     decreaseQty: ->
-      return if @numberModel.get('count') <= 1
-      @numberModel.set('count', @numberModel.get('count')-1)
+      return if @model.get('count') <= 1
+      @model.set('count', @model.get('count')-1)
 
     increaseQty: ->
-      @numberModel.set('count',  @numberModel.get('count')+1)
+      @model.set('count',  @model.get('count')+1)
 
   Qty
