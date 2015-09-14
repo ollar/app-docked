@@ -10,6 +10,13 @@ define [
     template: _.template Template
     className: 'table-wrapper pure-form'
 
+    initialize: ->
+      @numberModel = new Backbone.Model
+        count: 1
+
+      @numberModel.on 'change', (model)=>
+        @ui.qtyInput.attr 'value', model.get('count')
+
     ui:
       qtyInput: '.qty input'
       decrease: '.decrease'
@@ -23,11 +30,10 @@ define [
     # ================================
 
     decreaseQty: ->
-      @qtyInput = @ui.qtyInput
-      if @qtyInput.val() > 1 then @qtyInput.attr 'value', +@qtyInput.val() - 1 else return
+      return if @numberModel.get('count') <= 1
+      @numberModel.set('count', @numberModel.get('count')-1)
 
     increaseQty: ->
-      @qtyInput = @ui.qtyInput
-      @qtyInput.attr 'value', +@qtyInput.val() + 1
+      @numberModel.set('count',  @numberModel.get('count')+1)
 
   Qty

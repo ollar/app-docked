@@ -45,7 +45,7 @@ define [
           selected.push _child if _child.select == true
 
       _.each selected, (view)->
-        _qty = view.ui.qtyInput.val()
+        _qty = view.$('.qty input').val()
         mealModel = view.model
 
         App.execute 'order:create',
