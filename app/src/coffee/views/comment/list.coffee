@@ -14,8 +14,8 @@ define [
   'translate'
   'behaviors/sort'
   'behaviors/select_all'
-  'behaviors/paginate'
-], (App, $, _, Mn, CommentsCollection, CommentView, EmptyView, CommentsListTemplate, translate, Sort, SelectAll, Paginate) ->
+  'behaviors/infinite_load'
+], (App, $, _, Mn, CommentsCollection, CommentView, EmptyView, CommentsListTemplate, translate, Sort, SelectAll, Infinite) ->
 
   CommentsListView = Mn.CompositeView.extend
     className: "pure-menu comments-list menu-wrapper"
@@ -41,7 +41,7 @@ define [
         behaviorClass: Sort
       SelectAll:
         behaviorClass: SelectAll
-      Paginate:
-        behaviorClass: Paginate
+      Infinite:
+        behaviorClass: Infinite
 
   CommentsListView

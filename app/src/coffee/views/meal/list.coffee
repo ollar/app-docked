@@ -12,8 +12,8 @@ define [
   'behaviors/sort'
   'behaviors/select_all'
   'behaviors/add_new'
-  'behaviors/paginate'
-  ], ($, _, Mn, App, MealsCollection, MealView, MealFormView, EmptyView, MealsListTemplate, translate, Sort, SelectAll, AddNew, Paginate)->
+  'behaviors/infinite_load'
+  ], ($, _, Mn, App, MealsCollection, MealView, MealFormView, EmptyView, MealsListTemplate, translate, Sort, SelectAll, AddNew, Infinite)->
   MealsListView = Mn.CompositeView.extend
 
     className: 'pure-menu menu-wrapper meals-list'
@@ -22,7 +22,7 @@ define [
     templateHelpers: ->
       t: translate
       local_user: @local_user
-      
+
     childView: MealView
 
     childViewContainer: '.pure-menu-list'
@@ -40,8 +40,8 @@ define [
         behaviorClass: AddNew
         itemView: MealView
         formView: MealFormView
-      Paginate:
-        behaviorClass: Paginate
+      Infinite:
+        behaviorClass: Infinite
 
     emptyView: EmptyView
 

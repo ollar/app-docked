@@ -50,8 +50,6 @@ define [
     template: _.template Template
     templateHelpers: ->
       marked: marked
-      humanizeDay: @model.humanizeDay
-      humanizeCategory: @model.humanizeCategory
       loggedUser: @loggedUser
       routeName: @routeName
 

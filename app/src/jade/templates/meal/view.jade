@@ -1,12 +1,10 @@
 .name <%= title %>
 .description <%= marked(description) %>
 
-.day-assigned <%= humanizeDay(day_linked) %>
-.category <%= humanizeCategory(category) %>
-
 <% if (loggedUser.id != 0){ %>
 .buttons-wrapper.table-wrapper
   .left
+    // qty wrapper
     .qty-wrapper
   
   .right
@@ -28,6 +26,5 @@
     
 // comments
 .comments
-// /comments
 
 <% }; %>

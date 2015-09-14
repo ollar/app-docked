@@ -5,11 +5,6 @@ define [
   MealModel = Backbone.Model.extend
     urlRoot: '/meal/'
 
-    initialize: ->
-      @attributes.daysObj = {0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 3: 'Thursday', 4: 'Friday'}
-      @attributes.categoriesObj = {0: 'first', 1: 'second', 2: 'third', 3: 'forth'}
-
-
     defaults: ->
       title: ''
       description: ''
@@ -21,11 +16,5 @@ define [
 
     validate: (attributes, options) ->
       return 'required field' if attributes.title.length == 0 || attributes.description.length == 0
-
-    humanizeDay: (dayNum)->
-      @daysObj[dayNum]
-
-    humanizeCategory: (categoryNum)->
-      @categoriesObj[categoryNum]
 
   MealModel
