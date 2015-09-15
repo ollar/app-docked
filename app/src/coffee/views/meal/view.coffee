@@ -8,7 +8,6 @@ define [
   'behaviors/select'
   'behaviors/remove'
   'behaviors/edit'
-  'behaviors/draggable'
 
   'text!templates/meal/remove_button.html'
   'views/meal/form'
@@ -17,7 +16,8 @@ define [
   'views/meal/qtyNumber'
 
   'models/meal'
-  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, Draggable, RemoveButtonTemplate, MealFormView, CommentView, QtyView, QtyNum, MealModel)->
+  'models/mealQty'
+  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, RemoveButtonTemplate, MealFormView, CommentView, QtyCharger, QtyNum, MealModel, QtyModel)->
   MealView = Mn.LayoutView.extend
     className: 'meal pure-menu-item'
 
@@ -26,10 +26,11 @@ define [
     regions: ->
       qtyNum: '.name .qty-num'
       comments: '.comments'
-      qty: '.qty-wrapper'
+      qtyChanger: '.qty-wrapper'
 
     initialize: (options)->
       @options = options || {}
+      @qtyModel = new QtyModel()
       @orderedMeal = {}
       @success = no
       @failed = no
@@ -52,7 +53,8 @@ define [
     template: _.template Template
     templateHelpers: ->
       marked: marked
-      loggedUser: @loggedUser
+      # loggedUser: @loggedUser
+      loggedUser: {}
       routeName: @routeName
       success: @success
 
@@ -80,12 +82,6 @@ define [
       Edit:
         behaviorClass: Edit
         formView: MealFormView
-      Draggable:
-        behaviorClass: Draggable
-        direction: 'H'
-        disable: ()->
-          Math.abs(@move.get('X')) >= 50
-
 
     # ==========================================================================
 
@@ -99,7 +95,7 @@ define [
       @selected = no
       @success = yes
 
-      @qtyNum.show(new QtyNum({model: @qty.currentView.model}))
+      @qtyNum.show(new QtyNum({model: @qtyModel}))
 
       @selectToggle()
 
@@ -131,11 +127,11 @@ define [
         , 1000)
         return
 
-      _qty = @$('.qty input').val()
+      @qtyModel.set('ordered', yes)
 
       App.execute 'order:create',
         id: $.cookie 'id'
-        qty: _qty
+        qty: @qtyModel.get('count')
         meal_id: @model.get 'id'
         order_date: @model.get 'order_date'
 
@@ -161,26 +157,28 @@ define [
         meal_id: @model.get('id')
       )
 
-      @$el.attr 'data-order-date', @model.get('order_date')
       @orderedMeal = _.find local_orders, (order)=>
         order.meal_id == @model.get('id') and order.order_date == @model.get('order_date')
 
-      console.log @success
+      if @loggedUser.id != 0
+        if @routeName == '' and !@success
+          if @orderedMeal
+            @qtyModel.set({'count': @orderedMeal.quantity, ordered: yes})
+            # @orderSuccess()
 
     onRender: ->
       @$el.attr 'data-id', @model.get('id')
       @$el.toggleClass 'disabled', !@model.get('enabled')
       @$el.attr 'data-day', @model.get('day_linked')
       @$el.attr 'dats-category', @model.get('category')
+      @$el.attr 'data-order-date', @model.get('order_date')
+
+      @qtyChanger.show(new QtyCharger({model: @qtyModel}))
+      @comments.show(@comment)
 
 
-      if @loggedUser.id != 0
-        if @routeName == '' and !@success
-          @qty.show(new QtyView())
-          if @orderedMeal
-            @qty.currentView.model.set('count', @orderedMeal.quantity)
-            @orderSuccess()
 
-        @comments.show(@comment)
+
+      @
 
   MealView

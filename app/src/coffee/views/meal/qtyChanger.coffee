@@ -4,16 +4,16 @@ define [
   'marionette'
 
   'text!templates/meal/qty.html'
-], ($, _, Mn, Template) ->
+
+  'models/mealQty'
+], ($, _, Mn, Template, QtyModel) ->
 
   Qty = Mn.ItemView.extend
     template: _.template Template
     className: 'table-wrapper pure-form'
 
     initialize: ->
-      @model = new Backbone.Model
-        count: 1
-
+      console.log 'iniii'
       @model.on 'change', (model)=>
         @ui.qtyInput.attr 'value', model.get('count')
 

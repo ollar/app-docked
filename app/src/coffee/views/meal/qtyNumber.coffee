@@ -11,8 +11,4 @@ define [
     className: 'ordered-qty'
     template: _.template Template
 
-    initialize: (options)->
-      yes
-
-
   QtyNum
