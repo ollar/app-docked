@@ -10,31 +10,33 @@ define [
   'behaviors/edit'
   'behaviors/draggable'
 
-  'text!templates/meal/qty_el.html'
   'text!templates/meal/remove_button.html'
   'views/meal/form'
   'views/meal/comment'
-  'views/meal/qty'
+  'views/meal/qtyChanger'
+  'views/meal/qtyNumber'
 
   'models/meal'
-  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, Draggable, QtyElTemplate, RemoveButtonTemplate, MealFormView, CommentView, QtyView, MealModel)->
+  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, Draggable, RemoveButtonTemplate, MealFormView, CommentView, QtyView, QtyNum, MealModel)->
   MealView = Mn.LayoutView.extend
     className: 'meal pure-menu-item'
 
     model: new MealModel()
 
     regions: ->
+      qtyNum: '.name .qty-num'
       comments: '.comments'
       qty: '.qty-wrapper'
 
     initialize: (options)->
       @options = options || {}
+      @orderedMeal = {}
       @success = no
       @failed = no
       @routeName = Backbone.history.getFragment()
 
       @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:success', (model)->
-        @orderSuccess(model.get('quantity'), model.get('id'))
+        @orderSuccess()
 
       @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:failed', ->
         @orderFailed()
@@ -52,8 +54,8 @@ define [
       marked: marked
       loggedUser: @loggedUser
       routeName: @routeName
+      success: @success
 
-    qtyEl: _.template(QtyElTemplate)
     removeOrderButton: _.template(RemoveButtonTemplate)
 
     ui: ->
@@ -96,10 +98,8 @@ define [
     orderSuccess: (qty=null, order_id=null)->
       @selected = no
       @success = yes
-      @$el.find('.left').hide()
 
-      @$el.find('.name').prepend(@qtyEl({qty: qty})) if qty
-      @$el.find('.right').html(@removeOrderButton({order_id: order_id})) if order_id
+      @qtyNum.show(new QtyNum({model: @qty.currentView.model}))
 
       @selectToggle()
 
@@ -151,6 +151,7 @@ define [
     onBeforeRender: ->
       @loggedUser = App.ventFunctions.getLoggedUser()
       local_comments = @loggedUser.get('comments')
+      local_orders = @loggedUser.get('orders')
 
       meal_comment = _.find local_comments, (comment)=>
         comment.meal_id == @model.get('id')
@@ -160,16 +161,26 @@ define [
         meal_id: @model.get('id')
       )
 
+      @$el.attr 'data-order-date', @model.get('order_date')
+      @orderedMeal = _.find local_orders, (order)=>
+        order.meal_id == @model.get('id') and order.order_date == @model.get('order_date')
+
+      console.log @success
+
     onRender: ->
       @$el.attr 'data-id', @model.get('id')
       @$el.toggleClass 'disabled', !@model.get('enabled')
       @$el.attr 'data-day', @model.get('day_linked')
       @$el.attr 'dats-category', @model.get('category')
 
+
       if @loggedUser.id != 0
-        if @routeName == ''
+        if @routeName == '' and !@success
           @qty.show(new QtyView())
-          # @qty.currentView.model.set('count', 10)
+          if @orderedMeal
+            @qty.currentView.model.set('count', @orderedMeal.quantity)
+            @orderSuccess()
+
         @comments.show(@comment)
 
   MealView

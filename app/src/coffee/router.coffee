@@ -8,9 +8,9 @@ define [
 
     execute: (callback, args, name)->
       callback = _.wrap callback, (_callback)=>
-          App.vent.trigger 'loading:start'
+          # App.vent.trigger 'loading:start'
           _callback.apply(@, args)
-          App.vent.trigger 'loading:done'
+          # App.vent.trigger 'loading:done'
           @
 
       (callback.apply(@, args)) if (callback)
@@ -29,7 +29,7 @@ define [
       'orders': 'ordersList'
       'stats/week/all': 'weekMenuAll'
       'stats/week(/u:user_id)': 'weekMenu'
-      
+
       'stats/month/all(/m:month)': 'monthStatsAll'
       'stats/month(/u:user_id)(/m:month)': 'monthStats'
 

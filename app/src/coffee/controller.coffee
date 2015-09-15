@@ -83,12 +83,10 @@ define [
 
     monthStats: (user_id, month)->
       @setTitle('Month Stats')
-
       App.main.show(new MonthStatsView({month: parseInt(month), user_id: user_id}))
 
     monthStatsAll: (month)->
       @setTitle('Common Month Stats')
-
       App.main.show(new MonthStatsViewCommon({month: month}))
 
 

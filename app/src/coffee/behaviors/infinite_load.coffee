@@ -7,6 +7,7 @@ define [
       @page = 1
       @collectionUrl = @view.collection.url.split('?')[0]
       @view.collection.url = @generateUrl(@page)
+      @view.reorderOnSort = no
 
       @winHeight = $(window).height()
 

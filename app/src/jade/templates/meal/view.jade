@@ -1,11 +1,16 @@
-.name <%= title %>
+.name 
+  .qty-num
+  | <%= title %>
 .description <%= marked(description) %>
 
 <% if (loggedUser.id != 0){ %>
 .buttons-wrapper.table-wrapper
+  <%= success %>
+  <% if (!success) { %>
   .left
     // qty wrapper
     .qty-wrapper
+  <% }; %>
   
   .right
     <% if (routeName === 'meals') {%>
@@ -20,9 +25,13 @@
     <% }; %>
     <% }; %>
 
-    <% if (routeName === '') {%>
+    <% if (routeName === '' && !success) {%>
     button.make-order.pure-button.pure-button-primary <%= _('make order').t() %>
     <% }; %>
+    <% if (routeName === '' && success) {%>
+    button.remove-order.pure-button <%= _('remove order').t() %>
+    <% }; %>
+      
     
 // comments
 .comments

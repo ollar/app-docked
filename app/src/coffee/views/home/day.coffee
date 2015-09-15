@@ -30,14 +30,4 @@ define [
       order_date = @collection.first().get('order_date')
       @$el.prepend(@title({date: moment(order_date).format('DD MMMM YYYY')}))
 
-      loggedUser = App.ventFunctions.getLoggedUser()
-      local_orders = _.groupBy loggedUser.get('orders'), (order)->order.order_date
-
-      @collection.each (model)=>
-        @children.findByModel(model).$el.attr 'data-order-date', model.get('order_date')
-        if _.contains(_.pluck(local_orders[order_date], 'meal_id'), model.get('id'))
-          match = _.find local_orders[order_date], (order)-> order.meal_id == model.get('id')
-
-          @children.findByModel(model).orderSuccess(match.quantity, match.id)
-
   DayView
