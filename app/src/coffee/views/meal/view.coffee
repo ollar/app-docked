@@ -91,13 +91,12 @@ define [
       @$el.toggleClass 'failed', @failed
       @
 
-    orderSuccess: (qty=null, order_id=null)->
+    orderSuccess: ->
       @selected = no
       @success = yes
 
-      @qtyNum.show(new QtyNum({model: @qtyModel}))
-
       @selectToggle()
+      @render()
 
     orderFailed: ->
       @failed = yes
@@ -164,7 +163,7 @@ define [
         if @routeName == '' and !@success
           if @orderedMeal
             @qtyModel.set({'count': @orderedMeal.quantity, ordered: yes})
-            # @orderSuccess()
+            @orderSuccess()
 
     onRender: ->
       @$el.attr 'data-id', @model.get('id')
@@ -173,11 +172,10 @@ define [
       @$el.attr 'dats-category', @model.get('category')
       @$el.attr 'data-order-date', @model.get('order_date')
 
-      @qtyChanger.show(new QtyCharger({model: @qtyModel}))
+      @qtyNum.show(new QtyNum({model: @qtyModel}))
+      if !@success
+        @qtyChanger.show(new QtyCharger({model: @qtyModel}))
       @comments.show(@comment)
-
-
-
 
       @
 

@@ -4,16 +4,13 @@ define [
   'marionette'
 
   'text!templates/meal/qty.html'
-
-  'models/mealQty'
-], ($, _, Mn, Template, QtyModel) ->
+], ($, _, Mn, Template) ->
 
   Qty = Mn.ItemView.extend
     template: _.template Template
     className: 'table-wrapper pure-form'
 
     initialize: ->
-      console.log 'iniii'
       @model.on 'change', (model)=>
         @ui.qtyInput.attr 'value', model.get('count')
 
