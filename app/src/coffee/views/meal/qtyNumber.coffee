@@ -11,9 +11,4 @@ define [
     className: 'ordered-qty'
     template: _.template Template
 
-    initialize: ->
-      # console.log @model
-      # @model.on 'change:ordered', =>
-      #   @render()
-
   QtyNum

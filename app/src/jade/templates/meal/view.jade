@@ -5,8 +5,10 @@
 
 <% if (loggedUser.id != 0){ %>
 .buttons-wrapper.table-wrapper
+  <% if (!success) { %>
   .left
     .qty-wrapper
+  <% }; %>
   
   .right
     <% if (routeName === 'meals' && loggedUser.id === 1) { %>

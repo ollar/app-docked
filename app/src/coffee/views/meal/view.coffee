@@ -36,8 +36,9 @@ define [
       @routeName = Backbone.history.getFragment()
 
       @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:success', (model)->
+        @orderedMeal = model
         @orderSuccess()
-        @updateMealData()
+        @qtyModel.set('ordered', yes)
         @render()
 
       @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:failed', ->
@@ -47,6 +48,7 @@ define [
         @success = no
         @select = no
         @qtyModel = new QtyModel()
+        @orderedMeal = {}
 
         _.delay (=>
           @selectToggle()
@@ -64,8 +66,6 @@ define [
       success: @success
 
     ui: ->
-      edit: '.edit'
-      remove: '.remove'
       toggleEnabled: '.toggle-enabled'
       makeOrder: '.make-order'
       removeOrder: '.remove-order'
@@ -97,7 +97,6 @@ define [
     orderSuccess: ->
       @select = no
       @success = yes
-
       @selectToggle()
 
     orderFailed: ->
@@ -128,31 +127,16 @@ define [
         , 1000)
         return
 
-      @qtyModel.set('ordered', yes)
-
       App.execute 'order:create',
         id: $.cookie 'id'
         qty: @qtyModel.get('count')
         meal_id: @model.get 'id'
         order_date: @model.get 'order_date'
 
-    removeOrder: (e)->
-      e.preventDefault()
-      e.stopPropagation()
-
+    removeOrder: ->
       App.execute 'order:remove', @orderedMeal.id, @model.id
 
     # ==========================================================================
-
-    updateMealData: ->
-      App.ventFunctions.getLoggedUser (localUser)=>
-        local_comments = localUser.get('comments')
-        local_orders = localUser.get('orders')
-
-        @orderedMeal = _.find local_orders, (order)=>
-          order.meal_id == @model.get('id') and order.order_date == @model.get('order_date')
-
-        console.log @orderedMeal
 
     onBeforeRender: ->
       @loggedUser = App.ventFunctions.getLoggedUser (localUser)=>
@@ -168,14 +152,14 @@ define [
           meal_id: @model.get('id')
         )
 
-        @orderedMeal = _.find local_orders, (order)=>
-          order.meal_id == @model.get('id') and order.order_date == @model.get('order_date')
+        if !@orderedMeal.id
+          @orderedMeal = _.find local_orders, (order)=>
+            order.meal_id == @model.get('id') and order.order_date == @model.get('order_date')
 
-        if localUser.id != 0
-          if @routeName == '' and !@success
-            if @orderedMeal
-              @qtyModel.set({'count': @orderedMeal.quantity, ordered: yes})
-              @orderSuccess()
+        if @orderedMeal
+          @qtyModel.set({'count': @orderedMeal.quantity, ordered: yes})
+          @orderSuccess()
+
       @
 
     onRender: ->
@@ -185,10 +169,11 @@ define [
       @$el.attr 'dats-category', @model.get('category')
       @$el.attr 'data-order-date', @model.get('order_date')
 
-      @qtyNum.show(new QtyNum({model: @qtyModel}))
-      if !@success
-        @qtyChanger.show(new QtyCharger({model: @qtyModel}))
-      @comments.show(@comment)
+      if @loggedUser.id != 0
+        @qtyNum.show(new QtyNum({model: @qtyModel}))
+        if !@success
+          @qtyChanger.show(new QtyCharger({model: @qtyModel}))
+        @comments.show(@comment)
 
       @
 

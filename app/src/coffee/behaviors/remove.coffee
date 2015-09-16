@@ -7,6 +7,9 @@ define [
     defaults:
       message: translate 'removed successfully'
 
+    ui:
+      remove: '.remove'
+
     events:
       'click @ui.remove': 'removeMe'
 

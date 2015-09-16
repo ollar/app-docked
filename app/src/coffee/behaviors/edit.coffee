@@ -2,6 +2,9 @@ define [
   'marionette'
 ], (Mn)->
   Edit = Mn.Behavior.extend
+    ui:
+      edit: '.edit'
+
     events:
       'click @ui.edit': 'editMe'
 

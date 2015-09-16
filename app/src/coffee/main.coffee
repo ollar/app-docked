@@ -42,9 +42,6 @@ require [
 
   # ====================================
 
-  _.mixin
-    t: translate
-
   # ====================================
 
   App.navigate = (route)->
@@ -58,6 +55,9 @@ require [
     App.Behaviors
 
   App.on "before:start", ->
+    _.mixin
+      t: translate
+      
     $.ajaxSetup
       contentType: "application/json; charset=utf-8"
       dataType: "json"

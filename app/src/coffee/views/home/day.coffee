@@ -26,7 +26,7 @@ define [
       @options = options || {}
       @collection = new MealsCollection(_.values(options.model.toJSON()))
 
-    onRender: ->
+    onBeforeShow: ->
       order_date = @collection.first().get('order_date')
       @$el.prepend(@title({date: moment(order_date).format('DD MMMM YYYY')}))
 
