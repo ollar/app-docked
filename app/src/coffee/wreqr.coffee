@@ -13,12 +13,15 @@ define [
   ], (App, _, Mn, UserModel, LoggedUserModel, OrderModel, CommentModel, MessageView, Loader, mandrill_client, translate)->
 
   App.ventFunctions =
-    getLoggedUser: ->
+    getLoggedUser: (callback)->
       loggedUser = new LoggedUserModel {id: $.cookie 'id'}
-      loggedUser.fetch()
+      loggedUser.fetch
+        success: (model, response, options)->
+          if typeof callback == 'function'
+            callback.call(@, model)
       loggedUser
 
-    updateLocalUser: ()->
+    updateLocalUser: (callback)->
       loggedUser = @getLoggedUser()
       userModel = new UserModel({id: $.cookie 'id'})
       userModel.fetch
@@ -27,7 +30,9 @@ define [
           model.unset 'timestamp_created'
           model.unset 'timestamp_modified'
           loggedUser.save model.toJSON(),
-            success: ->
+            success: (model, response, options)->
+              if typeof callback == 'function'
+                callback.call(@, arguments)
               App.vent.trigger 'localUser:update:success'
 
     destroyLocalUser: ->

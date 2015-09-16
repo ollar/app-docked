@@ -5,15 +5,11 @@
 
 <% if (loggedUser.id != 0){ %>
 .buttons-wrapper.table-wrapper
-  //- <% if (!success) { %>
   .left
-    // qty wrapper
     .qty-wrapper
-  //- <% }; %>
   
   .right
-    <% if (routeName === 'meals') {%>
-    <% if (loggedUser.id === 1){ %>
+    <% if (routeName === 'meals' && loggedUser.id === 1) { %>
     button.edit.pure-button <%= _('edit').t() %>
     button.toggle-enabled.pure-button <%= enabled ? _('disable').t() : _('enable').t() %>
     
@@ -21,7 +17,6 @@
     button.remove.pure-button <%= _('delete').t() %>
     <% }; %>
     
-    <% }; %>
     <% }; %>
 
     <% if (routeName === '' && !success) {%>

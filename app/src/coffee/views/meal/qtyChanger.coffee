@@ -11,7 +11,7 @@ define [
     className: 'table-wrapper pure-form'
 
     initialize: ->
-      @model.on 'change', (model)=>
+      @model.on 'change:count', (model)=>
         @ui.qtyInput.attr 'value', model.get('count')
 
     ui:

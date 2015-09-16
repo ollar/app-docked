@@ -9,7 +9,6 @@ define [
   'behaviors/remove'
   'behaviors/edit'
 
-  'text!templates/meal/remove_button.html'
   'views/meal/form'
   'views/meal/comment'
   'views/meal/qtyChanger'
@@ -17,7 +16,7 @@ define [
 
   'models/meal'
   'models/mealQty'
-  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, RemoveButtonTemplate, MealFormView, CommentView, QtyCharger, QtyNum, MealModel, QtyModel)->
+  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, MealFormView, CommentView, QtyCharger, QtyNum, MealModel, QtyModel)->
   MealView = Mn.LayoutView.extend
     className: 'meal pure-menu-item'
 
@@ -38,14 +37,21 @@ define [
 
       @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:success', (model)->
         @orderSuccess()
+        @updateMealData()
+        @render()
 
       @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:failed', ->
         @orderFailed()
 
       @listenTo App.vent, 'order:meal_'+@model.get('id')+':remove:success', ->
         @success = no
-        @selected = no
-        @selectToggle().render()
+        @select = no
+        @qtyModel = new QtyModel()
+
+        _.delay (=>
+          @selectToggle()
+          @render())
+        , 100
 
       @listenTo App.vent, 'comment:meal_'+@model.get('id')+':create:success comment:meal_'+@model.get('id')+':remove:success', =>
         @render()
@@ -53,12 +59,9 @@ define [
     template: _.template Template
     templateHelpers: ->
       marked: marked
-      # loggedUser: @loggedUser
-      loggedUser: {}
+      loggedUser: @loggedUser
       routeName: @routeName
       success: @success
-
-    removeOrderButton: _.template(RemoveButtonTemplate)
 
     ui: ->
       edit: '.edit'
@@ -86,21 +89,20 @@ define [
     # ==========================================================================
 
     selectToggle: ->
-      @$el.toggleClass 'selected', @selected
+      @$el.toggleClass 'select', @select
       @$el.toggleClass 'success', @success
       @$el.toggleClass 'failed', @failed
       @
 
     orderSuccess: ->
-      @selected = no
+      @select = no
       @success = yes
 
       @selectToggle()
-      @render()
 
     orderFailed: ->
       @failed = yes
-      @selected = no
+      @select = no
       @selectToggle()
       _.delay =>
         @failed = no
@@ -138,32 +140,43 @@ define [
       e.preventDefault()
       e.stopPropagation()
 
-      order_id = $(e.target).attr('data-order-id')
-      App.execute 'order:remove', order_id, @model.id
+      App.execute 'order:remove', @orderedMeal.id, @model.id
 
     # ==========================================================================
 
+    updateMealData: ->
+      App.ventFunctions.getLoggedUser (localUser)=>
+        local_comments = localUser.get('comments')
+        local_orders = localUser.get('orders')
+
+        @orderedMeal = _.find local_orders, (order)=>
+          order.meal_id == @model.get('id') and order.order_date == @model.get('order_date')
+
+        console.log @orderedMeal
+
     onBeforeRender: ->
-      @loggedUser = App.ventFunctions.getLoggedUser()
-      local_comments = @loggedUser.get('comments')
-      local_orders = @loggedUser.get('orders')
+      @loggedUser = App.ventFunctions.getLoggedUser (localUser)=>
 
-      meal_comment = _.find local_comments, (comment)=>
-        comment.meal_id == @model.get('id')
+        local_comments = localUser.get('comments')
+        local_orders = localUser.get('orders')
 
-      @comment = new CommentView(
-        model: new Backbone.Model(meal_comment)
-        meal_id: @model.get('id')
-      )
+        meal_comment = _.find local_comments, (comment)=>
+          comment.meal_id == @model.get('id')
 
-      @orderedMeal = _.find local_orders, (order)=>
-        order.meal_id == @model.get('id') and order.order_date == @model.get('order_date')
+        @comment = new CommentView(
+          model: new Backbone.Model(meal_comment)
+          meal_id: @model.get('id')
+        )
 
-      if @loggedUser.id != 0
-        if @routeName == '' and !@success
-          if @orderedMeal
-            @qtyModel.set({'count': @orderedMeal.quantity, ordered: yes})
-            @orderSuccess()
+        @orderedMeal = _.find local_orders, (order)=>
+          order.meal_id == @model.get('id') and order.order_date == @model.get('order_date')
+
+        if localUser.id != 0
+          if @routeName == '' and !@success
+            if @orderedMeal
+              @qtyModel.set({'count': @orderedMeal.quantity, ordered: yes})
+              @orderSuccess()
+      @
 
     onRender: ->
       @$el.attr 'data-id', @model.get('id')
