@@ -169,7 +169,7 @@ define [
       @$el.attr 'dats-category', @model.get('category')
       @$el.attr 'data-order-date', @model.get('order_date')
 
-      if @loggedUser.id != 0
+      if @loggedUser.id != 0 and @routeName == ''
         @qtyNum.show(new QtyNum({model: @qtyModel}))
         if !@success
           @qtyChanger.show(new QtyCharger({model: @qtyModel}))
