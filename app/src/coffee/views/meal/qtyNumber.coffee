@@ -11,4 +11,8 @@ define [
     className: 'ordered-qty'
     template: _.template Template
 
+    onBeforeShow: ->
+      if !@model.get('ordered')
+        @$el.hide()
+
   QtyNum

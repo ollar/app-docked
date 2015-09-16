@@ -36,7 +36,7 @@ define [
       @routeName = Backbone.history.getFragment()
 
       @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:success', (model)->
-        @orderedMeal = model
+        @orderedMeal = model.toJSON()
         @orderSuccess()
         @qtyModel.set('ordered', yes)
         @render()
