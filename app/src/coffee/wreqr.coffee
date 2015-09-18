@@ -59,9 +59,9 @@ define [
       order_date: data.order_date
     ,
       success: (model, response, options)=>
-        App.ventFunctions.updateLocalUser()
-        App.execute 'message', {type: 'success', text: translate "meal added to your menu"}
-        App.vent.trigger "order:meal_"+data.meal_id+":create:success", model
+        App.ventFunctions.updateLocalUser ->
+          App.execute 'message', {type: 'success', text: translate "meal added to your menu"}
+          App.vent.trigger "order:meal_"+data.meal_id+":create:success", model
 
       error: (model, response, options)=>
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
@@ -71,9 +71,9 @@ define [
     orderModel = new OrderModel({id: order_id})
     orderModel.destroy
       success: =>
-        App.execute 'message', {type: 'success', text: translate "meal removed from your menu"}
-        App.vent.trigger 'order:meal_'+meal_id+':remove:success'
-        App.ventFunctions.updateLocalUser()
+        App.ventFunctions.updateLocalUser ->
+          App.execute 'message', {type: 'success', text: translate "meal removed from your menu"}
+          App.vent.trigger 'order:meal_'+meal_id+':remove:success'
       error: (model, response, options)=>
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
         App.vent.trigger "order:meal_"+meal_id+":remove:failed"
@@ -90,8 +90,7 @@ define [
     comment = new CommentModel()
     comment.save data,
       success: (model, response, options)=>
-        App.ventFunctions.updateLocalUser()
-        App.vent.on 'localUser:update:success', ->
+        App.ventFunctions.updateLocalUser ->
           App.vent.trigger 'comment:meal_'+data.meal_id+':create:success'
       error: (model, response, options)=>
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
@@ -100,8 +99,7 @@ define [
     comment = new CommentModel({id: id})
     comment.destroy
       success: =>
-        App.ventFunctions.updateLocalUser()
-        App.vent.on 'localUser:update:success', ->
+        App.ventFunctions.updateLocalUser ->
           App.vent.trigger 'comment:meal_'+meal_id+':remove:success'
       error: (model, response, options)=>
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}

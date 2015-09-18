@@ -30,7 +30,6 @@ define [
     initialize: (options)->
       @options = options || {}
       @qtyModel = new QtyModel()
-      @orderedMeal = {}
       @success = no
       @failed = no
       @routeName = Backbone.history.getFragment()
@@ -49,11 +48,8 @@ define [
         @select = no
         @qtyModel = new QtyModel()
         @orderedMeal = {}
+        @selectToggle().render()
 
-        _.delay (=>
-          @selectToggle()
-          @render())
-        , 100
 
       @listenTo App.vent, 'comment:meal_'+@model.get('id')+':create:success comment:meal_'+@model.get('id')+':remove:success', =>
         @render()
@@ -139,6 +135,7 @@ define [
     # ==========================================================================
 
     onBeforeRender: ->
+      @orderedMeal = {}
       @loggedUser = App.ventFunctions.getLoggedUser (localUser)=>
 
         local_comments = localUser.get('comments')
