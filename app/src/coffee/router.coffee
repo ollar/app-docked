@@ -7,11 +7,13 @@ define [
   Router = Mn.AppRouter.extend
 
     execute: (callback, args, name)->
-      callback = _.wrap callback, (_callback)=>
-          # App.vent.trigger 'loading:start'
-          _callback.apply(@, args)
-          # App.vent.trigger 'loading:done'
-          @
+      do =>
+        App.vent.trigger 'loading:start'
+        do =>
+          callback.apply(@, args)
+          do =>
+            App.vent.trigger 'loading:done'
+      @
 
       (callback.apply(@, args)) if (callback)
 

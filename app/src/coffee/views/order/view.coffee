@@ -7,8 +7,9 @@ define [
   'moment'
   'behaviors/select'
   'behaviors/remove'
+  'behaviors/setAttrs'
   'translate'
-  ], ($, _, App, Mn, orderViewTemplate, moment, Select, Remove, translate)->
+  ], ($, _, App, Mn, orderViewTemplate, moment, Select, Remove, SetAttrs, translate)->
   OrderView = Mn.ItemView.extend
     className: 'order pure-menu-item'
 
@@ -31,10 +32,7 @@ define [
       Remove:
         behaviorClass: Remove
         message: translate 'order removed'
-
-    onRender: ->
-      @$el.attr 'data-order-id', @model.get('id')
-
-      @
+      SetAttrs:
+        behaviorClass: SetAttrs
 
   OrderView

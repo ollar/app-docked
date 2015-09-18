@@ -10,7 +10,8 @@ define [
   'moment'
   'translate'
   'behaviors/select'
-  ], (App, $, _, Backbone, Mn, CommentTemplate, moment, translate, Select) ->
+  'behaviors/setAttrs'
+  ], (App, $, _, Backbone, Mn, CommentTemplate, moment, translate, Select, SetAttrs) ->
   CommentView = Mn.ItemView.extend
     className: 'comment pure-menu-item'
 
@@ -22,6 +23,5 @@ define [
     behaviors:
       Select:
         behaviorClass: Select
-
-    onRender: ->
-      @$el.attr("id", "comment-id-" + @model.id)
+      SetAttrs:
+        behaviorClass: SetAttrs

@@ -8,6 +8,7 @@ define [
   'behaviors/select'
   'behaviors/remove'
   'behaviors/edit'
+  'behaviors/setAttrs'
 
   'views/meal/form'
   'views/meal/comment'
@@ -16,7 +17,7 @@ define [
 
   'models/meal'
   'models/mealQty'
-  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, MealFormView, CommentView, QtyCharger, QtyNum, MealModel, QtyModel)->
+  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, SetAttrs, MealFormView, CommentView, QtyCharger, QtyNum, MealModel, QtyModel)->
   MealView = Mn.LayoutView.extend
     className: 'meal pure-menu-item'
 
@@ -81,6 +82,12 @@ define [
       Edit:
         behaviorClass: Edit
         formView: MealFormView
+      SetAttrs:
+        behaviorClass: SetAttrs
+        attrs:
+          'day': 'day_linked'
+          'category': 'category'
+          'order-date': 'order_date'
 
     # ==========================================================================
 
@@ -88,6 +95,8 @@ define [
       @$el.toggleClass 'select', @select
       @$el.toggleClass 'success', @success
       @$el.toggleClass 'failed', @failed
+      @$el.toggleClass 'disabled', !@model.get('enabled')
+
       @
 
     orderSuccess: ->
@@ -160,12 +169,6 @@ define [
       @
 
     onRender: ->
-      @$el.attr 'data-id', @model.get('id')
-      @$el.toggleClass 'disabled', !@model.get('enabled')
-      @$el.attr 'data-day', @model.get('day_linked')
-      @$el.attr 'dats-category', @model.get('category')
-      @$el.attr 'data-order-date', @model.get('order_date')
-
       if @loggedUser.id != 0 and @routeName == ''
         @qtyNum.show(new QtyNum({model: @qtyModel}))
         if !@success

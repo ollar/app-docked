@@ -8,9 +8,10 @@ define [
   'behaviors/select'
   'behaviors/remove'
   'behaviors/edit'
+  'behaviors/setAttrs'
 
   'views/user/form'
-  ], ($, _, App, Mn, Template, translate, Select, Remove, Edit, UserFormView)->
+  ], ($, _, App, Mn, Template, translate, Select, Remove, Edit, SetAttrs, UserFormView)->
   UserView = Mn.ItemView.extend
     className: 'user pure-menu-item'
 
@@ -38,9 +39,7 @@ define [
       Edit:
         behaviorClass: Edit
         formView: UserFormView
-
-    onRender: ->
-      @$el.attr('data-id', @model.get('id'))
-
+      SetAttrs:
+        behaviorClass: SetAttrs
 
   UserView
