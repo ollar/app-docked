@@ -24,7 +24,8 @@ define [
 
       @collection.fetch
         success: (collection, response, options)=>
-          @userStat = _.groupBy collection.models, (model) -> model.get('user').real_name
+          @userStat = _.groupBy collection.models, (model) ->
+            if model.get('user') then model.get('user').real_name else 'deleted'
           @renderData()
         error: (collection, response, options)=>
           App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}

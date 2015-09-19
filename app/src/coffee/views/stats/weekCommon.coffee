@@ -15,27 +15,29 @@ define [
       @options = options || {}
 
       @collection = new OrdersCollection()
-      @collection.url = '/stats/week'
-      @collection.fetch()
-
       @mealsCollection = new MealsCollection()
-      @mealsCollection.fetch
+
+      @collection.url = '/stats/week'
+      @collection.fetch
         success: =>
-          @renderData()
-        error: (collection, response, options)=>
-          App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
+          @mealsCollection.fetch
+            success: =>
+              @renderData()
+            error: (collection, response, options)=>
+              App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 
 
     itemTemplate: _.template(statsWeekViewCommonTemplate)
 
     renderData: ->
-      console.log @collection
-      meals = _.groupBy @mealsCollection.models, (model)-> model.get 'order_date'
       orders = _.groupBy @collection.models, (model)-> model.get 'order_date'
 
-      _.each meals, (_meals, key)=>
-        _orders = _.groupBy orders[key], (model)-> model.get('user').real_name
-        @$el.append @itemTemplate( {date: moment(key).format('dddd, MMMM Do'), meals: _meals, orders: _orders} )
+      _.each @mealsCollection.models, (_meals)=>
+        _orders = _.groupBy orders[_.first(_meals.toJSON()).order_date], (model)->
+          model.get('user').real_name
+        @$el.append @itemTemplate
+          date: moment(_.first(_meals.toJSON()).order_date).format('dddd, MMMM Do'),
+          meals: _meals.toJSON(), orders: _orders
 
       @
 
