@@ -10,13 +10,11 @@ define [
       do =>
         App.vent.trigger 'loading:start'
         do =>
-          callback.apply(@, args)
+          _.defer => (callback.apply(@, args)) if (callback)
           do =>
             App.vent.trigger 'loading:done'
+
       @
-
-      (callback.apply(@, args)) if (callback)
-
 
     appRoutes:
       '': 'home'

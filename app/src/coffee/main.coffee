@@ -55,9 +55,12 @@ require [
     App.Behaviors
 
   App.on "before:start", ->
+    @navigation.show(new TopMenu())
+    @overlay.show(new Overlay())
+
     _.mixin
       t: translate
-      
+
     $.ajaxSetup
       contentType: "application/json; charset=utf-8"
       dataType: "json"
@@ -72,8 +75,6 @@ require [
 
   App.on 'start', ->
     new Router()
-    @navigation.show(new TopMenu())
-    @overlay.show(new Overlay())
     Backbone.history.start()
 
   # ====================================
