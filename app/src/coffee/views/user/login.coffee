@@ -25,11 +25,11 @@ define [
       $.cookie 'id', data.id
       $.cookie 'access_token', data.token
 
-      App.ventFunctions.updateLocalUser()
-      App.execute 'message',
-        text: translate 'welcome username', data.username
+      App.ventFunctions.updateLocalUser ->
+        App.execute 'message',
+          text: translate 'welcome username', data.username
 
-      App.navigate ''
+        App.navigate ''
 
     submitForm: (e)->
       e.preventDefault()

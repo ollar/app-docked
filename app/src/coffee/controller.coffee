@@ -44,9 +44,9 @@ define [
       App.main.show(new LoginView())
 
     logout: (quite=false)->
-      App.ventFunctions.destroyLocalUser()
-      $.removeCookie 'id'
-      $.removeCookie 'access_token'
+      App.ventFunctions.destroyLocalUser ->
+        $.removeCookie 'id'
+        $.removeCookie 'access_token'
 
       if !quite
         App.execute 'message', {text: t 'good bye'}

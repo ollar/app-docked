@@ -35,10 +35,12 @@ define [
                 callback.call(@, arguments)
               App.vent.trigger 'localUser:update:success'
 
-    destroyLocalUser: ->
+    destroyLocalUser: (callback)->
       loggedUser = @getLoggedUser()
       loggedUser.destroy
         success: ->
+          if typeof callback == 'function'
+            callback.call(@)
           App.vent.trigger 'localUser:destroy:success'
 
 
