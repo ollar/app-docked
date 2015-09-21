@@ -118,13 +118,11 @@ define [
   # ============================================================================
 
   App.vent.on 'loading:start', ->
-    console.log 'start', _.now()
     @loader = new Loader()
 
   App.vent.on 'loading:done', ->
-    console.log 'done', _.now()
     @loader.$el.fadeOut()
-    _.delay((=>@loader.remove()), 500)
+    _.delay (=>@loader.remove()), 500
     @trigger 'menu:hide'
 
   # ============================================================================
