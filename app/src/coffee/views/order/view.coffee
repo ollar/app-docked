@@ -18,9 +18,6 @@ define [
       @listenTo App.vent, 'order:meal_'+@model.get('meal_id')+':remove:success', ->
         @remove()
 
-    ui:
-      remove: '.delete'
-
     template: _.template(orderViewTemplate)
     templateHelpers: ->
       moment: moment
