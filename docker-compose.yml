@@ -35,6 +35,8 @@ node:
   command: gulp
   links:
     - flask
+  mem_limit: "300m"
+
 
 db:
   image: postgres
