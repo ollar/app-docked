@@ -35,7 +35,7 @@ node:
     - flask
   environment:
     - PROD_IP=188.166.36.35
-  mem_limit: 100m
+  # mem_limit: 100m
 
 
 db:
