@@ -63,7 +63,7 @@ require [
 
     $.ajaxPrefilter ( options, originalOptions, jqXHR ) ->
       # options.url = 'http://localhost:5000' + options.url
-      options.url = ENV.prod_ip + ':5000' + options.url
+      options.url = 'http://' + ENV.prod_ip + ':5000' + options.url
       options.dataType = "jsonp"
       options.crossDomain = yes
       options.contentType = "application/json; charset=utf-8"
