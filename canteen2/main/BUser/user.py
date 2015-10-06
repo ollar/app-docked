@@ -13,8 +13,8 @@ bp_user = Blueprint('bp_user', __name__, url_prefix='/user')
 class UserAPI(MethodView):
 
     def __init__(self):
-        self.json = request.json
-    
+        self.json = request.get_json(force=True)
+
     @auth_required
     @restrict_users
     def get(self, user_id):
@@ -81,7 +81,7 @@ class UserAPI(MethodView):
 
 @bp_user.route('/login', methods=['POST'])
 def login():
-    json = request.json
+    json = request.get_json(force=True)
     user = db_session.query(User).filter_by(
         username=json.get('username').strip()).first()
     if not user:
@@ -102,7 +102,7 @@ def login():
         logged_user = _parse_user(user)
         logged_user.update({'token': token.token})
 
-        return make_response(jsonify(logged_user), 200)
+        return make_response(jsonify({'status': 'ok'}), 200)
     else:
         return make_response(jsonify({'type': 'error', 'text': 'password incorrect'}), 401)
 

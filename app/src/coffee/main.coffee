@@ -62,7 +62,7 @@ require [
       t: translate
 
     $.ajaxPrefilter ( options, originalOptions, jqXHR ) ->
-      options.url = 'http://188.166.36.35:5000' + options.url
+      options.url = 'http://localhost:5000' + options.url
       originalOptions.dataType = "jsonp"
       originalOptions.crossDomain = yes
       originalOptions.contentType = "application/json; charset=utf-8"
