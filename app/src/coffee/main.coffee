@@ -61,12 +61,11 @@ require [
     _.mixin
       t: translate
 
-    $.ajaxSetup
-      contentType: "application/json; charset=utf-8"
-      dataType: "json"
-
     $.ajaxPrefilter ( options, originalOptions, jqXHR ) ->
       options.url = '//'+ ENV.server_url + ':' + ENV.server_port + options.url
+      originalOptions.dataType = "jsonp"
+      originalOptions.crossDomain = yes
+      originalOptions.contentType = "application/json; charset=utf-8"
 
       options.beforeSend = (xhr)->
         if $.cookie 'access_token'
