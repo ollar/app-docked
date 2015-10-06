@@ -1,5 +1,5 @@
 define [], ()->
   ENV =
-    server_url: '<%= env_ip %>'
+    prod_ip: '<%= env_ip %>'
 
   ENV
