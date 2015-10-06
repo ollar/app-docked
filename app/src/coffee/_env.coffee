@@ -1,6 +1,5 @@
 define [], ()->
   ENV =
-    server_url: '<%= env_path %>'
-    server_port: '<%= env_port %>'
+    server_url: '<%= env_ip %>'
 
   ENV

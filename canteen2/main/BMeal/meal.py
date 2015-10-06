@@ -12,7 +12,8 @@ bp_meal = Blueprint('bp_meal', __name__, url_prefix='/meal')
 class MealAPI(MethodView):
 
     def __init__(self):
-        self.json = request.get_json(force=True)
+        self.json = request.get_json()
+        print(self.json)
 
     def get(self, meal_id):
         if meal_id:

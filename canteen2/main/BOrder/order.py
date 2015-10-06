@@ -12,7 +12,7 @@ bp_order = Blueprint('bp_order', __name__, url_prefix='/order')
 class Order_API(MethodView):
 
     def __init__(self):
-        self.json = request.get_json(force=True)
+        self.json = request.get_json()
 
     def _check_order(self):
         _orders = db_session.query(Order).filter_by(

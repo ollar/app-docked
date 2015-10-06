@@ -1,6 +1,5 @@
 define [], ()->
   ENV =
-    server_url: '172.17.0.34'
-    server_port: '5000'
+    server_url: '188.166.36.35'
 
   ENV

@@ -16,12 +16,11 @@ var gulp = require('gulp'),
     rename = require('gulp-rename');
 
 
-var flask_addr = process.env['FLASK_PORT_5000_TCP_ADDR'],
-    flask_port = process.env['FLASK_PORT_5000_TCP_PORT'];
+var prodId = process.env['PROD_IP'];
 
 gulp.task('prepare_env', function(){
   return gulp.src('src/coffee/_env.coffee')
-  .pipe(template({env_path: flask_addr, env_port: flask_port}))
+  .pipe(template({env_ip: prodId}))
   .pipe(rename('env.coffee'))
   .pipe(gulp.dest('src/coffee'));
 });

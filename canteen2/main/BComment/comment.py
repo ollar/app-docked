@@ -12,7 +12,7 @@ bp_comment = Blueprint('bp_comment', __name__, url_prefix='/comment')
 class CommentApi(MethodView):
 
     def __init__(self):
-        self.json = request.get_json(force=True)
+        self.json = request.get_json()
 
     def get(self, comment_id):
         if comment_id:

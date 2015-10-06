@@ -63,9 +63,9 @@ require [
 
     $.ajaxPrefilter ( options, originalOptions, jqXHR ) ->
       options.url = 'http://localhost:5000' + options.url
-      originalOptions.dataType = "jsonp"
-      originalOptions.crossDomain = yes
-      originalOptions.contentType = "application/json; charset=utf-8"
+      options.dataType = "jsonp"
+      options.crossDomain = yes
+      options.contentType = "application/json; charset=utf-8"
 
       options.beforeSend = (xhr)->
         if $.cookie 'access_token'
