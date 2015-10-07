@@ -13,18 +13,18 @@ requirejs.config
       exports: 'mandrill'
 
   paths:
-    jquery: 'libs/jquery.min'
-    underscore: 'libs/underscore-min'
-    backbone: 'libs/backbone-min'
+    jquery: 'libs/jquery'
+    underscore: 'libs/underscore'
+    backbone: 'libs/backbone'
     text: 'libs/text'
     i18n: 'libs/i18n'
-    localStorage: 'libs/backbone.localStorage-min'
+    localStorage: 'libs/backbone.localStorage'
     'jquery.cookie': 'libs/jquery.cookie'
-    'moment': 'libs/moment.min'
-    'marked': 'libs/marked.min'
-    'hammerjs': 'libs/hammer.min'
+    'moment': 'libs/moment'
+    'marked': 'libs/marked'
+    'hammerjs': 'libs/hammer'
     'jquery.hammer': 'libs/jquery.hammer'
-    'mandrill': 'libs/mandrill.min'
-    'marionette': "libs/backbone.marionette.min"
+    'mandrill': 'libs/mandrill'
+    'marionette': "libs/backbone.marionette"
 
   deps: ['main']

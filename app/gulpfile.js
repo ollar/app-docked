@@ -54,21 +54,21 @@ gulp.task('coffee', function(){
 
 gulp.task('vendor', function(){
   var js = {
-    backbone_localStorage: '../bower_components/backbone.localStorage/backbone.localStorage-min.js',
-    backbone: '../bower_components/backbone/backbone-min.js',
+    backbone_localStorage: '../bower_components/backbone.localStorage/backbone.localStorage.js',
+    backbone: '../bower_components/backbone/backbone.js',
     domReady: '../bower_components/domReady/domReady.js',
     i18n: '../bower_components/requirejs-i18n/i18n.js',
-    jquery: '../bower_components/jquery/dist/jquery.min.js',
+    jquery: '../bower_components/jquery/dist/jquery.js',
     requirejs: '../bower_components/requirejs/require.js',
     text: '../bower_components/text/text.js',
-    underscore: '../bower_components/underscore/underscore-min.js',
+    underscore: '../bower_components/underscore/underscore.js',
     jcookie: '../bower_components/jquery.cookie/jquery.cookie.js',
-    moment: '../bower_components/moment/min/moment.min.js',
-    marked: '../bower_components/marked/marked.min.js',
-    hammerjs: '../bower_components/hammerjs/hammer.min.js',
+    moment: '../bower_components/moment/moment.js',
+    marked: '../bower_components/marked/lib/marked.js',
+    hammerjs: '../bower_components/hammerjs/hammer.js',
     jhammerjs: '../bower_components/jquery-hammerjs/jquery.hammer.js',
-    mandrill: '../bower_components/mandrill-api/mandrill.min.js',
-    marionette: '../bower_components/marionette/lib/backbone.marionette.min.js',
+    mandrill: '../bower_components/mandrill-api/mandrill.js',
+    marionette: '../bower_components/marionette/lib/backbone.marionette.js',
   };
 
   var css = {
@@ -76,7 +76,9 @@ gulp.task('vendor', function(){
   };
 
   gulp.src(_.values(css)).pipe(gulp.dest('public/css'));
-  return gulp.src(_.values(js)).pipe(gulp.dest('public/js/libs'));
+  return gulp.src(_.values(js))
+    .pipe(uglify())
+    .pipe(gulp.dest('public/js/libs'));
 });
 
 
@@ -86,7 +88,7 @@ gulp.task('sass', function(){
   return gulp.src('src/sass/main.scss')
         .pipe(plumber())
         .pipe(sourcemaps.init())
-          .pipe(sass().on('error', gutil.log))
+          .pipe(sass({outputStyle: 'compressed'}).on('error', gutil.log))
         .pipe(autoprefixer())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('public/css'))
