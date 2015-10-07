@@ -74,8 +74,7 @@ define [
           if !@uid
             loginCredentials = {username: model.get('username'),password: model.get('password')}
             $.post '/user/login', JSON.stringify(loginCredentials), (data)->
-              loginView = new LoginView
-              loginView.loginUser(data)
+              LoginView.prototype.loginUser(data)
 
               App.execute 'message',
                 type: 'success'
