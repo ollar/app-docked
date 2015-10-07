@@ -30,6 +30,7 @@ define [
       'click .go': 'makeOrder'
 
     initialize: ->
+      App.ventFunctions.updateLocalUser()
       @collection.fetch()
       @local_user = App.ventFunctions.getLoggedUser()
 

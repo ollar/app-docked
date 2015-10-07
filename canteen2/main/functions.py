@@ -25,7 +25,7 @@ def _parse_user(user_obj, detailed=True):
         # 'password': user_obj.password,
     }
     if detailed:
-        _orders = sorted(user_obj.orders, key=lambda x: x.timestamp_created)
+        _orders = sorted(user_obj.orders, key=lambda x: x.id)
         user.update({
             'timestamp_created': str(user_obj.timestamp_created),
             'timestamp_modified': str(user_obj.timestamp_modified),
@@ -142,7 +142,7 @@ class Pagination():
         self.overall = db_session.query(self.model).count()
 
     def _form_items(self):
-        return list(sorted(db_session.query(self.model).all(), key=lambda x: x.timestamp_created))
+        return db_session.query(self.model).order_by(self.model.id.desc()).all()
 
     def items(self):
         if self.page == 0:
