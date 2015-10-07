@@ -1,5 +1,6 @@
 define [
   'jquery'
+  'jquery.cookie'
   'underscore'
   'app'
   'marionette'
@@ -9,7 +10,7 @@ define [
   'collections/nextWeekMeals'
   'behaviors/select_all'
   'translate'
-  ], ($, _, App, Mn, MealView, DayView, HomeTemplate, NWMealsCollection, SelectAll, translate)->
+  ], ($, jcookie, _, App, Mn, MealView, DayView, HomeTemplate, NWMealsCollection, SelectAll, translate)->
   HomeView = Mn.CompositeView.extend
 
     className: 'pure-menu menu-wrapper'
@@ -30,7 +31,8 @@ define [
       'click .go': 'makeOrder'
 
     initialize: ->
-      App.ventFunctions.updateLocalUser()
+      if $.cookie('id')
+        App.ventFunctions.updateLocalUser()
       @collection.fetch()
       @local_user = App.ventFunctions.getLoggedUser()
 
