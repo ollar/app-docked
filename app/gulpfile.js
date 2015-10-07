@@ -43,7 +43,7 @@ gulp.task('coffee', function(){
         .pipe(plumber())
         .pipe(sourcemaps.init())
           .pipe(coffee({bare: true}).on('error', gutil.log))
-          // .pipe(uglify())
+          .pipe(uglify())
         .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest('public/js'))
         // .pipe(connect.reload());

@@ -80,7 +80,6 @@ define [
                 type: 'success'
                 text: translate 'welcome aboard'
 
-              App.navigate ''
               return
 
     cancelEdit: (e)->
