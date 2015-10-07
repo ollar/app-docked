@@ -144,7 +144,8 @@ define [
     # ==========================================================================
 
     onBeforeRender: ->
-      @orderedMeal = {}
+      if !@orderedMeal?
+        @orderedMeal = {}
       @loggedUser = App.ventFunctions.getLoggedUser (localUser)=>
 
         local_comments = localUser.get('comments')
