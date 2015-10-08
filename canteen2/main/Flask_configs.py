@@ -11,6 +11,7 @@ class Config():
     SECRET_KEY = SECRET_KEY
     SALT = SALT
     SQLALCHEMY_DATABASE_URI = 'postgresql://{0}:{1}@db/{2}'.format(USER, PASS, TABLE_NAME)
+    JSONIFY_PRETTYPRINT_REGULAR = False
 
 
 class DevConfig(Config):
