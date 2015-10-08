@@ -71,11 +71,6 @@ gulp.task('vendor', function(){
     marionette: '../bower_components/marionette/lib/backbone.marionette.js',
   };
 
-  var css = {
-    pure: '../bower_components/pure/pure.css'
-  };
-
-  gulp.src(_.values(css)).pipe(gulp.dest('public/css'));
   return gulp.src(_.values(js))
     .pipe(uglify())
     .pipe(gulp.dest('public/js/libs'));
