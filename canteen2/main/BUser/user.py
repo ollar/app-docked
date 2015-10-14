@@ -1,10 +1,12 @@
-from flask import Blueprint, jsonify, request, abort, make_response
+from flask import Blueprint, jsonify, request, abort, make_response, g
 from flask.views import MethodView
 from sqlalchemy.exc import IntegrityError, StatementError
 from main.database import db_session
 from .models import User, Token
+from main.BComment.models import Comment
+from main.BOrder.models import Order
 from werkzeug import generate_password_hash, check_password_hash
-from main.functions import register_api, _parse_user, auth_required, restrict_users, Pagination
+from main.functions import register_api, _parse_user, _parse_order, _parse_comment, auth_required, restrict_users, Pagination
 import datetime
 
 bp_user = Blueprint('bp_user', __name__, url_prefix='/user')
@@ -78,6 +80,20 @@ class UserAPI(MethodView):
             return jsonify(_parse_user(user, detailed=False))
         return make_response(jsonify({'type': 'error', 'text': 'not found'}), 404)
 
+@auth_required
+@bp_user.route('/details', methods=['GET'])
+def get_details():
+    user_id = g.user.id
+
+    user = db_session.query(User).get(user_id)
+    comments = db_session.query(Comment).filter_by(user_id=user_id).order_by(Comment.timestamp_created.desc()).limit(50).all()
+    orders = db_session.query(Order).filter_by(user_id=user_id).order_by(Order.order_date.desc()).limit(50).all()
+
+    user_dict = _parse_user(user)
+    user_dict['orders'] = [_parse_order(order) for order in orders]
+    user_dict['comments'] = [_parse_comment(comment) for comment in comments]
+
+    return jsonify(user_dict)
 
 @bp_user.route('/login', methods=['POST'])
 def login():

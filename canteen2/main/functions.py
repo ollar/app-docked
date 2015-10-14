@@ -25,12 +25,9 @@ def _parse_user(user_obj, detailed=True):
         # 'password': user_obj.password,
     }
     if detailed:
-        _orders = sorted(user_obj.orders, key=lambda x: x.id)
         user.update({
             'timestamp_created': str(user_obj.timestamp_created),
-            'timestamp_modified': str(user_obj.timestamp_modified),
-            'orders': [_parse_order(order, detailed=False) for (key, order) in enumerate(_orders) if key < 50],
-            'comments': [_parse_comment(comment, detailed=False) for (key, comment) in enumerate(user_obj.comments) if key < 50]
+            'timestamp_modified': str(user_obj.timestamp_modified)
         })
 
     return user
@@ -78,9 +75,7 @@ def _parse_order(order_obj, detailed=True):
     if detailed:
         order.update({
             'timestamp_created': str(order_obj.timestamp_created),
-            'timestamp_modified': str(order_obj.timestamp_modified),
-            'user': _parse_user(order_obj.user, detailed=False),
-            'meal': _parse_meal(order_obj.meal, detailed=False)
+            'timestamp_modified': str(order_obj.timestamp_modified)
         })
     return order
 
@@ -99,9 +94,7 @@ def _parse_comment(comment_obj, detailed=True):
     if detailed:
         comment.update({
             'timestamp_created': str(comment_obj.timestamp_created),
-            'timestamp_modified': str(comment_obj.timestamp_modified),
-            'user': _parse_user(comment_obj.user, detailed=False),
-            'meal': _parse_meal(comment_obj.meals, detailed=False)
+            'timestamp_modified': str(comment_obj.timestamp_modified)
         })
 
     return comment

@@ -2,7 +2,7 @@ define [
   'app'
   'underscore'
   'marionette'
-  'models/user'
+  'models/userDetails'
   'models/loggedUser'
   'models/order'
   'models/comment'
@@ -10,7 +10,7 @@ define [
   'views/loader'
   'mandrill_client'
   'translate'
-  ], (App, _, Mn, UserModel, LoggedUserModel, OrderModel, CommentModel, MessageView, Loader, mandrill_client, translate)->
+  ], (App, _, Mn, UserDetailsModel, LoggedUserModel, OrderModel, CommentModel, MessageView, Loader, mandrill_client, translate)->
 
   App.ventFunctions =
     getLoggedUser: (callback)->
@@ -23,7 +23,7 @@ define [
 
     updateLocalUser: (callback)->
       loggedUser = @getLoggedUser()
-      userModel = new UserModel({id: $.cookie 'id'})
+      userModel = new UserDetailsModel({id: $.cookie 'id'})
       userModel.fetch
         success: (model, request, options)=>
           model.unset 'password'
