@@ -74,6 +74,8 @@ def _parse_order(order_obj, detailed=True):
 
     if detailed:
         order.update({
+            'user': _parse_user(order_obj.user, detailed=False),
+            'meal': _parse_meal(order_obj.meal, detailed=False),
             'timestamp_created': str(order_obj.timestamp_created),
             'timestamp_modified': str(order_obj.timestamp_modified)
         })
@@ -93,6 +95,8 @@ def _parse_comment(comment_obj, detailed=True):
 
     if detailed:
         comment.update({
+            'user': _parse_user(comment_obj.user, detailed=False),
+            'meal': _parse_meal(comment_obj.meals, detailed=False),
             'timestamp_created': str(comment_obj.timestamp_created),
             'timestamp_modified': str(comment_obj.timestamp_modified)
         })

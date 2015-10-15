@@ -31,8 +31,6 @@ node:
     - ./app:/app/code
   working_dir: /app/code
   command: gulp
-  links:
-    - flask
   environment:
     - PROD_IP=188.166.36.35
   # mem_limit: 100m
