@@ -52,6 +52,15 @@ h1{
   display: none;
 }
 
+.item-loader{
+  @extend .loader;
+  position: absolute;
+  display: block;
+  border-radius: 10px;
+  animation-duration: 0.2s;
+  @include size(10px);
+}
+
 @keyframes loading{
   0%{
     transform: rotate(0);

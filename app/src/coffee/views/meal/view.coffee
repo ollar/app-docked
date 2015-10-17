@@ -9,6 +9,7 @@ define [
   'behaviors/remove'
   'behaviors/edit'
   'behaviors/setAttrs'
+  'behaviors/loading'
 
   'views/meal/form'
   'views/meal/comment'
@@ -17,7 +18,7 @@ define [
 
   'models/meal'
   'models/mealQty'
-  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, SetAttrs, MealFormView, CommentView, QtyCharger, QtyNum, MealModel, QtyModel)->
+  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, SetAttrs, Loading, MealFormView, CommentView, QtyCharger, QtyNum, MealModel, QtyModel)->
   MealView = Mn.LayoutView.extend
     className: 'meal pure-menu-item'
 
@@ -39,9 +40,11 @@ define [
         @orderedMeal = model.toJSON()
         @orderSuccess()
         @qtyModel.set('ordered', yes)
+        @trigger 'busy:stop'
         @render()
 
       @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:failed', ->
+        @trigger 'busy:stop'
         @orderFailed()
 
       @listenTo App.vent, 'order:meal_'+@model.get('id')+':remove:success', ->
@@ -49,10 +52,12 @@ define [
         @select = no
         @qtyModel = new QtyModel()
         @orderedMeal = {}
+        @trigger 'busy:stop'
         @selectToggle().render()
 
 
       @listenTo App.vent, 'comment:meal_'+@model.get('id')+':create:success comment:meal_'+@model.get('id')+':remove:success', =>
+        @trigger 'busy:stop'
         @render()
 
     template: _.template Template
@@ -88,6 +93,8 @@ define [
           'day': 'day_linked'
           'category': 'category'
           'order-date': 'order_date'
+      Loading:
+        behaviorClass: Loading
 
     # ==========================================================================
 
@@ -124,6 +131,8 @@ define [
     # ================================
 
     makeOrder: ->
+      @trigger 'busy:start'
+
       if @success
         @orderFailed()
         _.delay(()=>
@@ -139,6 +148,7 @@ define [
         order_date: @model.get 'order_date'
 
     removeOrder: ->
+      @trigger 'busy:start'
       App.execute 'order:remove', @orderedMeal.id, @model.id
 
     # ==========================================================================
