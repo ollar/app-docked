@@ -30,6 +30,8 @@ define [
     events: {}
 
     initialize: (options)->
+      @collection = options.collection || @collection
+
       @collection.fetch()
 
     template: _.template CommentsListTemplate

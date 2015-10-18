@@ -18,7 +18,10 @@ define [
 
   'models/meal'
   'models/mealQty'
-  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, SetAttrs, Loading, MealFormView, CommentView, QtyCharger, QtyNum, MealModel, QtyModel)->
+
+  'collections/comments'
+  'views/comment/simple_list'
+  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, SetAttrs, Loading, MealFormView, CommentView, QtyCharger, QtyNum, MealModel, QtyModel, CommentsCollection, SimpleCommentsListView)->
   MealView = Mn.LayoutView.extend
     className: 'meal pure-menu-item'
 
@@ -77,6 +80,8 @@ define [
       'click @ui.toggleEnabled': 'toggleEnabled'
       'click @ui.makeOrder': 'makeOrder'
       'click @ui.removeOrder': 'removeOrder'
+      'click .show-comments': 'showComments'
+      'click .hide-comments': 'hideComments'
 
     behaviors:
       Select:
@@ -150,6 +155,35 @@ define [
     removeOrder: ->
       @trigger 'busy:start'
       App.execute 'order:remove', @orderedMeal.id, @model.id
+
+    # ==================================
+
+    showComments: (e)->
+      @trigger('busy:start')
+      e.stopPropagation()
+
+      Comments = CommentsCollection.extend
+        url: '/comment/meal/' + @model.id
+      comments = new Comments()
+
+      comments.fetch
+        success: (collection, response)=>
+          _.defer =>
+            commentsList = new SimpleCommentsListView
+              collection: collection
+              origin: 'meals'
+            @comments.show(commentsList)
+            $(e.target).text(_('hide comments').t())
+              .removeClass('show-comments')
+              .addClass('hide-comments')
+            @trigger('busy:stop')
+
+    hideComments: (e)->
+      e.stopPropagation()
+      @comments.empty()
+      $(e.target).text(_('show comments').t())
+        .addClass('show-comments')
+        .removeClass('hide-comments')
 
     # ==========================================================================
 

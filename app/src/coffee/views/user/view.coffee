@@ -9,11 +9,18 @@ define [
   'behaviors/remove'
   'behaviors/edit'
   'behaviors/setAttrs'
+  'behaviors/loading'
+
+  'collections/comments'
 
   'views/user/form'
-  ], ($, _, App, Mn, Template, translate, Select, Remove, Edit, SetAttrs, UserFormView)->
-  UserView = Mn.ItemView.extend
+  'views/comment/simple_list'
+  ], ($, _, App, Mn, Template, translate, Select, Remove, Edit, SetAttrs, Loading, CommentsCollection, UserFormView,  SimpleCommentsListView)->
+  UserView = Mn.LayoutView.extend
     className: 'user pure-menu-item'
+
+    regions:
+      commentsRegion: '.comments-wrapper'
 
     initialize: (options)->
       @options = options || {}
@@ -28,6 +35,8 @@ define [
 
     events:
       'click .stats-menu a': (e)-> e.stopPropagation()
+      'click .show-comments': 'fetchComments'
+      'click .hide-comments': 'hideComments'
 
     behaviors:
       Select:
@@ -41,5 +50,34 @@ define [
         formView: UserFormView
       SetAttrs:
         behaviorClass: SetAttrs
+      Loading:
+        behaviorClass: Loading
+
+    fetchComments: (e)->
+      @trigger('busy:start')
+      e.stopPropagation()
+
+      Comments = CommentsCollection.extend
+        url: '/comment/user/' + @model.id
+      comments = new Comments()
+
+      comments.fetch
+        success: (collection, response)=>
+          _.defer =>
+            commentsList = new SimpleCommentsListView
+              collection: collection
+              origin: 'users'
+            @commentsRegion.show(commentsList)
+            $(e.target).text(translate('hide comments'))
+              .removeClass('show-comments')
+              .addClass('hide-comments')
+            @trigger('busy:stop')
+
+    hideComments: (e)->
+      e.stopPropagation()
+      @commentsRegion.empty()
+      $(e.target).text(translate('show comments'))
+        .addClass('show-comments')
+        .removeClass('hide-comments')
 
   UserView

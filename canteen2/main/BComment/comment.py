@@ -52,4 +52,16 @@ class CommentApi(MethodView):
         return make_response(jsonify({'type': 'error', 'text': 'not found'}), 404)
 
 
+@bp_comment.route('/meal/<meal_id>')
+def get_meal_comments(meal_id):
+    comments = db_session.query(Comment).filter_by(meal_id=meal_id).all()
+    return jsonify({'comments': [_parse_comment(comment) for comment in comments]})
+
+
+@bp_comment.route('/user/<user_id>')
+def get_user_comments(user_id):
+    comments = db_session.query(Comment).filter_by(user_id=user_id).all()
+    return jsonify({'comments': [_parse_comment(comment) for comment in comments]})
+
+
 register_api(CommentApi, 'comment_api', '/comment/', pk='comment_id')

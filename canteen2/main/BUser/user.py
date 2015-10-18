@@ -127,8 +127,4 @@ def login():
         return make_response(jsonify({'type': 'error', 'text': 'password incorrect'}), 401)
 
 
-@bp_user.route('/logout')
-def logout():
-    return ''
-
 register_api(UserAPI, 'user_api', '/user/', pk='user_id')
