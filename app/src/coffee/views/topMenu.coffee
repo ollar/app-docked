@@ -9,7 +9,8 @@ define [
 
   'translate'
   'behaviors/draggable'
-  ], ($, _, App, Mn, Overlay, TopMenuTemplate, LoggedUserModel, translate, Draggable)->
+  'behaviors/link'
+  ], ($, _, App, Mn, Overlay, TopMenuTemplate, LoggedUserModel, translate, Draggable, Link)->
   TopMenu = Mn.ItemView.extend
     tagName: 'nav'
     className: 'pure-menu'
@@ -33,6 +34,8 @@ define [
         callback: @panCallback
         disable: ->
           @move.get('X') > 200
+      Link:
+        behaviorClass: Link
 
     ui:
       'toggle': '.toggle'

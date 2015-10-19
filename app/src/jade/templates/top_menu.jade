@@ -2,43 +2,43 @@
 .pan-tab 
 ul.pure-menu-list
   li.pure-menu-item
-    a.pure-menu-link(href="#") <%= t('home') %>
+    a.pure-menu-link(href="/") <%= t('home') %>
   li.pure-menu-separator
   <% if (!id) { %>
   li.pure-menu-item
-    a.pure-menu-link(href="#login") <%= t('login') %>
+    a.pure-menu-link(href="/login") <%= t('login') %>
   li.pure-menu-item
-    a.pure-menu-link(href="#register") <%= t('register') %>
+    a.pure-menu-link(href="/register") <%= t('register') %>
   li.pure-menu-separator
   <% }; %>
   <% if (id === 1) { %>
   li.pure-menu-item
     span.pure-menu-heading  <%= t('admin menu') %>
   li.pure-menu-item
-    a.pure-menu-link(href="#users") <%= t('users') %>
+    a.pure-menu-link(href="/users") <%= t('users') %>
   li.pure-menu-item
-    a.pure-menu-link(href="#meals") <%= t('meals') %>
+    a.pure-menu-link(href="/meals") <%= t('meals') %>
   li.pure-menu-item
-    a.pure-menu-link(href="#stats/week/all") <%= t('common week stats') %>
+    a.pure-menu-link(href="/stats/week/all") <%= t('common week stats') %>
   li.pure-menu-item
-    a.pure-menu-link(href="#stats/month/all") <%= t('common month stats') %>
+    a.pure-menu-link(href="/stats/month/all") <%= t('common month stats') %>
   li.pure-menu-item
-    a.pure-menu-link(href="#comments") <%= t('comments') %>
+    a.pure-menu-link(href="/comments") <%= t('comments') %>
   li.pure-menu-item
-    a.pure-menu-link(href="#orders") <%= t('orders') %>
+    a.pure-menu-link(href="/orders") <%= t('orders') %>
   li.pure-menu-separator
   <% }; %>
   <% if (id) { %>
   li.pure-menu-item
     span.pure-menu-heading  <%= t('my stats') %>
   li.pure-menu-item
-    a.pure-menu-link(href="#stats/week") <%= t('my week') %>
+    a.pure-menu-link(href="/stats/week") <%= t('my week') %>
   li.pure-menu-item
-    a.pure-menu-link(href="#stats/month") <%= t('my month') %>
+    a.pure-menu-link(href="/stats/month") <%= t('my month') %>
   li.pure-menu-separator
   li.pure-menu-item
-    a.pure-menu-link(href!="#user/<%= id %>") <%= username %>
+    a.pure-menu-link(href!="/user/<%= id %>") <%= username %>
   li.pure-menu-item
-    a.pure-menu-link(href="#logout") <%= t('logout') %>
+    a.pure-menu-link(href="/logout") <%= t('logout') %>
   li.pure-menu-separator
   <% }; %>

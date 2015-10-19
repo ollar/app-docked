@@ -11,7 +11,8 @@ define [
   'translate'
   'behaviors/select'
   'behaviors/setAttrs'
-  ], (App, $, _, Backbone, Mn, CommentTemplate, moment, translate, Select, SetAttrs) ->
+  'behaviors/link'
+  ], (App, $, _, Backbone, Mn, CommentTemplate, moment, translate, Select, SetAttrs, Link) ->
   CommentView = Mn.ItemView.extend
     className: 'comment pure-menu-item'
 
@@ -25,3 +26,5 @@ define [
         behaviorClass: Select
       SetAttrs:
         behaviorClass: SetAttrs
+      Link:
+        behaviorClass: Link

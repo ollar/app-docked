@@ -75,7 +75,9 @@ require [
 
   App.on 'start', ->
     new Router()
-    Backbone.history.start()
+    Backbone.history.start
+      pushState: true
+      root: '/'
 
   # ====================================
   # Specifying regions

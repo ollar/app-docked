@@ -10,12 +10,13 @@ define [
   'behaviors/edit'
   'behaviors/setAttrs'
   'behaviors/loading'
+  'behaviors/link'
 
   'collections/comments'
 
   'views/user/form'
   'views/comment/simple_list'
-  ], ($, _, App, Mn, Template, translate, Select, Remove, Edit, SetAttrs, Loading, CommentsCollection, UserFormView,  SimpleCommentsListView)->
+  ], ($, _, App, Mn, Template, translate, Select, Remove, Edit, SetAttrs, Loading, Link, CommentsCollection, UserFormView,  SimpleCommentsListView)->
   UserView = Mn.LayoutView.extend
     className: 'user pure-menu-item'
 
@@ -52,6 +53,8 @@ define [
         behaviorClass: SetAttrs
       Loading:
         behaviorClass: Loading
+      Link:
+        behaviorClass: Link
 
     fetchComments: (e)->
       @trigger('busy:start')

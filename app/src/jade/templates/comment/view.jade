@@ -1,5 +1,5 @@
 .head 
-  a(href!="#stats/month/u<%= user ? user.id : '' %>") <%= user ? user.username : 'deleted' %>
+  a(href!="/stats/month/u<%= user ? user.id : '' %>") <%= user ? user.username : 'deleted' %>
   span &nbsp;<%= _.t('commented') %>&nbsp; 
   span.meal-title <%= meal ? meal.title : 'deleted' %>
 .content 

@@ -48,9 +48,10 @@ define [
 
       events:
         'click .send-email': 'sendEmail'
+        'click .pager a': 'pagerClicked'
 
       generatePagerUrl: (user_id, month)->
-        _.template('#stats/month<% if (user_id){ %>/u<%= user_id %><% };%><% if (month){ %>/m<%= month %><% };%>')({user_id: user_id, month: month})
+        _.template('/stats/month<% if (user_id){ %>/u<%= user_id %><% };%><% if (month){ %>/m<%= month %><% };%>')({user_id: user_id, month: month})
 
       sendEmail: ->
         user = _.first(@collection.models).get('user')
@@ -64,6 +65,10 @@ define [
           App.execute 'message', {type: 'message', text: 'Orders status sent to user <b>'+user.real_name+'</b>'}
         , ->
           App.execute 'message', {type: 'message', text: 'Oops smthing went wrong'}
+
+      pagerClicked: (e)->
+        e.preventDefault()
+        App.navigate($(e.target).attr('href'))
 
       renderData: ->
         orders = _.groupBy @collection.models, (model)-> model.get 'order_date'
