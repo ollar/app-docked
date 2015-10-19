@@ -1,4 +1,5 @@
 define [
+  'app'
   'jquery'
   'underscore'
   'backbone'
@@ -8,7 +9,7 @@ define [
   'moment'
   'translate'
   'collections/orders'
-  ], ($, _, Backbone, MonthStatTemplate, TotalTemplate, MonthCommonItemTemplate, moment, translate, OrdersCollection) ->
+  ], (App, $, _, Backbone, MonthStatTemplate, TotalTemplate, MonthCommonItemTemplate, moment, translate, OrdersCollection) ->
 
   MonthStatCommonView = Backbone.View.extend
     className: 'common-month-stat'
@@ -34,6 +35,13 @@ define [
     template: _.template(MonthStatTemplate)
     itemTemplate: _.template(MonthCommonItemTemplate)
     totalTemplate: _.template(TotalTemplate)
+
+    events:
+      'click a': 'linkClicked'
+
+    linkClicked: (e)->
+      e.preventDefault()
+      App.navigate($(e.target).attr('href'))
 
     renderData: ->
       res_total = 0
