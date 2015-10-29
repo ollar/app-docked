@@ -25,9 +25,8 @@ define [
       date: moment(order_date).format('DD MMMM YYYY')
 
 
-    initialize: (options)->
-      @options = options || {}
-      @collection = new MealsCollection(_.values(options.model.toJSON()))
+    initialize: ->
+      @collection = new MealsCollection(_.values(@options.model.toJSON()))
 
 
   DayView
