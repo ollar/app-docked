@@ -9,25 +9,25 @@ define [
 
   'collections/meals'
 
-  'text!templates/home/title.html'
+  'text!templates/home/day.html'
 
   'moment'
-], (App, $, _, Backbone, Mn, MealView, MealsCollection, TitleTemplate, moment) ->
+], (App, $, _, Backbone, Mn, MealView, MealsCollection, Template, moment) ->
 
-  DayView = Mn.CollectionView.extend
-
+  DayView = Mn.CompositeView.extend
     className: "weekday"
 
     childView: MealView
 
-    title: _.template(TitleTemplate)
+    template: _.template Template
+    templateHelpers: ->
+      order_date = @collection.first().get('order_date')
+      date: moment(order_date).format('DD MMMM YYYY')
+
 
     initialize: (options)->
       @options = options || {}
       @collection = new MealsCollection(_.values(options.model.toJSON()))
 
-    onBeforeShow: ->
-      order_date = @collection.first().get('order_date')
-      @$el.prepend(@title({date: moment(order_date).format('DD MMMM YYYY')}))
 
   DayView
