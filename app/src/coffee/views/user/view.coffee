@@ -1,6 +1,4 @@
 define [
-  'jquery'
-  'underscore'
   'app'
   'marionette'
   'text!templates/user/view.html'
@@ -16,7 +14,7 @@ define [
 
   'views/user/form'
   'views/comment/simple_list'
-  ], ($, _, App, Mn, Template, translate, Select, Remove, Edit, SetAttrs, Loading, Link, CommentsCollection, UserFormView,  SimpleCommentsListView)->
+  ], (App, Mn, Template, translate, Select, Remove, Edit, SetAttrs, Loading, Link, CommentsCollection, UserFormView,  SimpleCommentsListView)->
   UserView = Mn.LayoutView.extend
     className: 'user pure-menu-item'
 

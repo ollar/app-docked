@@ -1,8 +1,7 @@
 define [
-  'underscore'
   'backbone'
   'models/comment'
-], (_, Backbone, CommentModel) ->
+], (Backbone, CommentModel) ->
   CommentsCollection = Backbone.Collection.extend
 
     model: CommentModel

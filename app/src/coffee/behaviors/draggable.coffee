@@ -1,8 +1,7 @@
 define [
-  'backbone'
   'marionette'
   'jquery.hammer'
-], (Backbone, Mn, hammer)->
+], (Mn, hammer)->
   MoveModel = Backbone.Model.extend
     defaults:
       oldX: 0

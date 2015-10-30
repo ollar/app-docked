@@ -1,9 +1,7 @@
 define [
-  'jquery'
-  'underscore'
   'backbone'
   'models/meal'
-  'collections/meals'], ($, _, Backbone, MealModel, MealsCollection)->
+  'collections/meals'], (Backbone, MealModel, MealsCollection)->
   NWMealsCollection = Backbone.Collection.extend
     url: '/'
 

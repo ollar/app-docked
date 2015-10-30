@@ -1,7 +1,5 @@
 define [
   'app'
-  'jquery'
-  'underscore'
   'marionette'
 
   'marked'
@@ -9,7 +7,7 @@ define [
   'text!templates/meal/comment.html'
   'views/comment/form'
   'models/comment'
-], (App, $, _, Mn, marked, Template, CommentFormView, CommentModel) ->
+], (App, Mn, marked, Template, CommentFormView, CommentModel) ->
 
   Comment = Mn.ItemView.extend
     className: 'inner'

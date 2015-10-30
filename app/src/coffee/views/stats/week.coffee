@@ -1,6 +1,4 @@
 define [
-  'jquery'
-  'underscore'
   'backbone'
   'app'
   'text!templates/stats/week_view.html'
@@ -10,7 +8,7 @@ define [
   'collections/orders'
   'moment'
   'translate'
-  ], ($, _, Backbone, App, statsWeekViewTemplate, TotalTemplate, EmptyTemplate, SendEmailButton, OrdersCollection, moment, translate)->
+  ], (Backbone, App, statsWeekViewTemplate, TotalTemplate, EmptyTemplate, SendEmailButton, OrdersCollection, moment, translate)->
   StatsView = Backbone.View.extend
     className: 'stats-info week-menu'
 

@@ -1,8 +1,7 @@
 define [
   'app'
-  'jquery'
   'marionette'
-], (App, $, Mn)->
+], (App, Mn)->
   LinkBehavior = Mn.Behavior.extend
     events:
       'click a': 'linkClicked'

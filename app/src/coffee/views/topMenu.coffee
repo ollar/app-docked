@@ -1,6 +1,4 @@
 define [
-  'jquery'
-  'underscore'
   'app'
   'marionette'
   'views/common/overlay'
@@ -10,7 +8,7 @@ define [
   'translate'
   'behaviors/draggable'
   'behaviors/link'
-  ], ($, _, App, Mn, Overlay, TopMenuTemplate, LoggedUserModel, translate, Draggable, Link)->
+  ], (App, Mn, Overlay, TopMenuTemplate, LoggedUserModel, translate, Draggable, Link)->
   TopMenu = Mn.ItemView.extend
     tagName: 'nav'
     className: 'pure-menu'

@@ -12,6 +12,12 @@ requirejs.config
     'mandrill':
       exports: 'mandrill'
 
+    'backbone':
+      deps: ['jquery', 'underscore']
+
+    'marionette':
+      deps: ['backbone']
+
   paths:
     jquery: 'libs/jquery'
     underscore: 'libs/underscore'
@@ -26,5 +32,3 @@ requirejs.config
     'jquery.hammer': 'libs/jquery.hammer'
     'mandrill': 'libs/mandrill'
     'marionette': "libs/backbone.marionette"
-
-  deps: ['main']

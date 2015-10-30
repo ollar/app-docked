@@ -1,7 +1,5 @@
 define [
   'app'
-  'jquery'
-  'underscore'
   'backbone'
   'text!templates/stats/month_view_common.html'
   'text!templates/stats/total.html'
@@ -9,7 +7,7 @@ define [
   'moment'
   'translate'
   'collections/orders'
-  ], (App, $, _, Backbone, MonthStatTemplate, TotalTemplate, MonthCommonItemTemplate, moment, translate, OrdersCollection) ->
+  ], (App, Backbone, MonthStatTemplate, TotalTemplate, MonthCommonItemTemplate, moment, translate, OrdersCollection) ->
 
   MonthStatCommonView = Backbone.View.extend
     className: 'common-month-stat'

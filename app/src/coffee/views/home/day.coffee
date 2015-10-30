@@ -1,7 +1,5 @@
 define [
   'app'
-  'jquery'
-  'underscore'
   'backbone'
   'marionette'
 
@@ -12,7 +10,7 @@ define [
   'text!templates/home/day.html'
 
   'moment'
-], (App, $, _, Backbone, Mn, MealView, MealsCollection, Template, moment) ->
+], (App, Backbone, Mn, MealView, MealsCollection, Template, moment) ->
 
   DayView = Mn.CompositeView.extend
     className: "weekday"

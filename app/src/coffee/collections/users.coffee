@@ -1,8 +1,6 @@
 define [
-  'jquery'
-  'underscore'
   'backbone'
-  'models/user'], ($, _, Backbone, UserModel)->
+  'models/user'], (Backbone, UserModel)->
   UsersCollection = Backbone.Collection.extend
     model: UserModel
 

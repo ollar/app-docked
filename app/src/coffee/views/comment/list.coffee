@@ -1,7 +1,5 @@
 define [
   'app'
-  'jquery'
-  'underscore'
   'marionette'
 
   'collections/comments'
@@ -12,10 +10,9 @@ define [
   'text!templates/comment/list_view.html'
 
   'translate'
-  'behaviors/sort'
   'behaviors/select_all'
   'behaviors/infinite_load'
-], (App, $, _, Mn, CommentsCollection, CommentView, EmptyView, CommentsListTemplate, translate, Sort, SelectAll, Infinite) ->
+], (App, Mn, CommentsCollection, CommentView, EmptyView, CommentsListTemplate, translate, SelectAll, Infinite) ->
 
   CommentsListView = Mn.CompositeView.extend
     className: "pure-menu comments-list menu-wrapper"
@@ -29,9 +26,7 @@ define [
 
     events: {}
 
-    initialize: (options)->
-      @collection = options.collection || @collection
-
+    initialize: ->
       @collection.fetch()
 
     template: _.template CommentsListTemplate
@@ -39,8 +34,6 @@ define [
       t: translate
 
     behaviors:
-      Sort:
-        behaviorClass: Sort
       SelectAll:
         behaviorClass: SelectAll
       Infinite:

@@ -1,10 +1,8 @@
 define [
-  'jquery'
-  'underscore'
   'marionette'
 
   'text!templates/meal/qty.html'
-], ($, _, Mn, Template) ->
+], (Mn, Template) ->
 
   Qty = Mn.ItemView.extend
     template: _.template Template

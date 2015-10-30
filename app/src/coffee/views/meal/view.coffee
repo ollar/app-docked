@@ -1,6 +1,4 @@
 define [
-  'jquery'
-  'underscore'
   'app'
   'marionette'
   'text!templates/meal/view.html'
@@ -21,7 +19,7 @@ define [
 
   'collections/comments'
   'views/comment/simple_list'
-  ], ($, _, App, Mn, Template, marked, Select, Remove, Edit, SetAttrs, Loading, MealFormView, CommentView, QtyCharger, QtyNum, MealModel, QtyModel, CommentsCollection, SimpleCommentsListView)->
+  ], (App, Mn, Template, marked, Select, Remove, Edit, SetAttrs, Loading, MealFormView, CommentView, QtyCharger, QtyNum, MealModel, QtyModel, CommentsCollection, SimpleCommentsListView)->
   MealView = Mn.LayoutView.extend
     className: 'meal pure-menu-item'
 

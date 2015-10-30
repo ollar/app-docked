@@ -1,6 +1,4 @@
 define [
-  'jquery'
-  'underscore'
   'backbone'
   'app'
   'text!templates/stats/month_view.html'
@@ -11,7 +9,7 @@ define [
   'moment'
   'translate'
   'collections/orders'
-  ], ($, _, Backbone, App, UserStatsMonthTemplate, TotalTemplate, PagerTemplate, EmptyTemplate, SendEmailButton, moment, translate, OrdersCollection)->
+  ], (Backbone, App, UserStatsMonthTemplate, TotalTemplate, PagerTemplate, EmptyTemplate, SendEmailButton, moment, translate, OrdersCollection)->
     MonthStatsView = Backbone.View.extend
       className: 'stats-info month-stats'
       initialize: (options)->

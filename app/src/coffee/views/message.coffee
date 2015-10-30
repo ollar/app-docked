@@ -1,9 +1,7 @@
 define [
-  'jquery'
-  'underscore'
   'backbone'
   'text!templates/common/message.html'
-  'models/message'], ($, _, Backbone, MessageTemplate, MessageModel)->
+  'models/message'], (Backbone, MessageTemplate, MessageModel)->
   MessageView = Backbone.View.extend
     tagName: 'li'
     className: 'message'

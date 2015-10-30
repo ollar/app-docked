@@ -1,12 +1,10 @@
 define [
-  'jquery'
-  'underscore'
   'app'
   'marionette'
   'text!templates/meal/form.html'
   'collections/meals'
   'models/meal'
-  'translate'], ($, _, App, Mn, MealFormTemplate, MealsCollection, MealModel, translate)->
+  'translate'], (App, Mn, MealFormTemplate, MealsCollection, MealModel, translate)->
 
   MealFormView = Mn.ItemView.extend
     className: 'meal-manage pure-menu-item'

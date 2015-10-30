@@ -1,7 +1,4 @@
-define [
-  'jquery'
-  'underscore'
-  'backbone'], ($, _, Backbone)->
+define ['backbone'], (Backbone)->
   Loader = Backbone.View.extend
     className: 'loader'
 

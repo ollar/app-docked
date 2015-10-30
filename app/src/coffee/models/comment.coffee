@@ -1,7 +1,6 @@
 define [
-  'underscore'
   'backbone'
-], (_, Backbone) ->
+], (Backbone) ->
 
   class Model extends Backbone.Model
 

@@ -1,7 +1,5 @@
 define [
-  'jquery'
   'jquery.cookie'
-  'underscore'
   'app'
   'marionette'
   'views/meal/view'
@@ -10,7 +8,7 @@ define [
   'collections/nextWeekMeals'
   'behaviors/select_all'
   'translate'
-  ], ($, jcookie, _, App, Mn, MealView, DayView, HomeTemplate, NWMealsCollection, SelectAll, translate)->
+  ], (jcookie, App, Mn, MealView, DayView, HomeTemplate, NWMealsCollection, SelectAll, translate)->
   HomeView = Mn.CompositeView.extend
 
     className: 'pure-menu menu-wrapper'

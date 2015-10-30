@@ -1,13 +1,11 @@
 define [
-  'jquery'
-  'underscore'
   'app'
   'marionette'
   'text!templates/user/form.html'
   'models/user'
   'views/user/login'
   'translate'
-  ], ($, _, App, Mn, userFormTemplate, UserModel, LoginView, translate)->
+  ], (App, Mn, userFormTemplate, UserModel, LoginView, translate)->
   UserFormView = Mn.ItemView.extend
     className: 'user-manage pure-menu-item'
 

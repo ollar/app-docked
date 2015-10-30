@@ -1,6 +1,5 @@
 define [
   'app'
-  'underscore'
   'marionette'
   'models/userDetails'
   'models/loggedUser'
@@ -10,7 +9,7 @@ define [
   'views/loader'
   'mandrill_client'
   'translate'
-  ], (App, _, Mn, UserDetailsModel, LoggedUserModel, OrderModel, CommentModel, MessageView, Loader, mandrill_client, translate)->
+  ], (App, Mn, UserDetailsModel, LoggedUserModel, OrderModel, CommentModel, MessageView, Loader, mandrill_client, translate)->
 
   App.ventFunctions =
     getLoggedUser: (callback)->

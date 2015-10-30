@@ -1,8 +1,5 @@
 define [
   'app'
-  'jquery'
-  'underscore'
-  'backbone'
   'marionette'
 
   'text!templates/comment/view.html'
@@ -12,7 +9,7 @@ define [
   'behaviors/select'
   'behaviors/setAttrs'
   'behaviors/link'
-  ], (App, $, _, Backbone, Mn, CommentTemplate, moment, translate, Select, SetAttrs, Link) ->
+  ], (App, Mn, CommentTemplate, moment, translate, Select, SetAttrs, Link) ->
   CommentView = Mn.ItemView.extend
     className: 'comment pure-menu-item'
 

@@ -1,6 +1,4 @@
 define [
-  'jquery'
-  'underscore'
   'app'
   'marionette'
   'text!templates/order/view.html'
@@ -9,7 +7,7 @@ define [
   'behaviors/remove'
   'behaviors/setAttrs'
   'translate'
-  ], ($, _, App, Mn, orderViewTemplate, moment, Select, Remove, SetAttrs, translate)->
+  ], (App, Mn, orderViewTemplate, moment, Select, Remove, SetAttrs, translate)->
   OrderView = Mn.ItemView.extend
     className: 'order pure-menu-item'
 

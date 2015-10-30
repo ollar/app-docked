@@ -1,8 +1,6 @@
 define [
-  'jquery'
-  'underscore'
   'backbone'
-  'models/meal'], ($, _, Backbone, MealModel)->
+  'models/meal'], (Backbone, MealModel)->
   MealsCollection = Backbone.Collection.extend
     model: MealModel
 

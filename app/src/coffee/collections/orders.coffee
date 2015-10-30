@@ -1,9 +1,7 @@
 define [
-  'jquery'
-  'underscore'
   'backbone'
   'models/order'
-  'localStorage'], ($, _, Backbone, OrderModel)->
+  'localStorage'], (Backbone, OrderModel)->
   OrdersCollection = Backbone.Collection.extend
     model: OrderModel
 

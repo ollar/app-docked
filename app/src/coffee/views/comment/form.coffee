@@ -1,12 +1,10 @@
 define [
   'app'
-  'jquery'
-  'underscore'
   'marionette'
 
   'text!templates/comment/form.html'
   'translate'
-], (App, $, _, Mn, FormTemplate, translate) ->
+], (App, Mn, FormTemplate, translate) ->
 
   CommentForm = Mn.ItemView.extend
 

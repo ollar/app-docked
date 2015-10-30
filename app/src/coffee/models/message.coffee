@@ -1,7 +1,4 @@
-define [
-  'jquery'
-  'underscore'
-  'backbone'], ($, _, Backbone)->
+define ['backbone'], (Backbone)->
   MessageModel = Backbone.Model.extend
 
     defaults: ->

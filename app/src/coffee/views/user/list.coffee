@@ -1,6 +1,4 @@
 define [
-  'jquery'
-  'underscore'
   'app'
   'marionette'
   'collections/users'
@@ -9,10 +7,9 @@ define [
   'views/common/empty'
   'text!templates/user/list_view.html'
   'translate'
-  'behaviors/sort'
   'behaviors/add_new'
   'behaviors/infinite_load'
-  ], ($, _, App, Mn, UsersCollection, UserView, UserFormView, EmptyView, UsersListTemplate, translate, Sort, AddNew,
+  ], (App, Mn, UsersCollection, UserView, UserFormView, EmptyView, UsersListTemplate, translate, AddNew,
   Infinite)->
   UsersListView = Mn.CompositeView.extend
     className: 'pure-menu menu-wrapper'
@@ -29,8 +26,6 @@ define [
     childViewContainer: '.pure-menu-list'
 
     behaviors:
-      Sort:
-        behaviorClass: Sort
       AddNew:
         behaviorClass: AddNew
         itemView: UserView

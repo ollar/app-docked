@@ -1,7 +1,4 @@
-define [
-  'jquery'
-  'underscore'
-  'backbone'], ($, _, Backbone)->
+define ['backbone'], (Backbone)->
   UserModel = Backbone.Model.extend
 
     urlRoot: '/user/'

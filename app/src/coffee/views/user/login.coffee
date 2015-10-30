@@ -1,11 +1,9 @@
 define [
-  'jquery'
-  'underscore'
   'app'
   'marionette'
   'text!templates/user/login.html'
   'translate'
-  ], ($, _, App, Mn, LoginTemplate, translate) ->
+  ], (App, Mn, LoginTemplate, translate) ->
 
   LoginView = Mn.ItemView.extend
 

@@ -1,6 +1,4 @@
 define [
-  'jquery'
-  'underscore'
   'marionette'
   'app'
   'collections/meals'
@@ -9,11 +7,10 @@ define [
   'views/common/empty'
   'text!templates/meal/list_view.html'
   'translate'
-  'behaviors/sort'
   'behaviors/select_all'
   'behaviors/add_new'
   'behaviors/infinite_load'
-  ], ($, _, Mn, App, MealsCollection, MealView, MealFormView, EmptyView, MealsListTemplate, translate, Sort, SelectAll, AddNew, Infinite)->
+  ], (Mn, App, MealsCollection, MealView, MealFormView, EmptyView, MealsListTemplate, translate, SelectAll, AddNew, Infinite)->
   MealsListView = Mn.CompositeView.extend
 
     className: 'pure-menu menu-wrapper meals-list'
@@ -32,8 +29,6 @@ define [
       @local_user = App.ventFunctions.getLoggedUser()
 
     behaviors:
-      Sort:
-        behaviorClass: Sort
       SelectAll:
         behaviorClass: SelectAll
       AddNew:

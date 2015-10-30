@@ -1,8 +1,6 @@
 define [
-  'jquery'
-  'underscore'
   'backbone'
-], ($, _, Backbone)->
+], (Backbone)->
   QtyModel = Backbone.Model.extend
     defaults:
       count: 1
