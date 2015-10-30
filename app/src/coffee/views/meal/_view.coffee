@@ -30,41 +30,45 @@ define [
     regions: ->
       qtyNum: '.name .qty-num'
       comments: '.comments'
-      buttons: '.buttons-wrapper'
+      qtyChanger: '.qty-wrapper'
 
-    initialize: ->
+    initialize: (options)->
+      @options = options || {}
       @qtyModel = new QtyModel()
       @success = no
       @failed = no
       @routeName = Backbone.history.getFragment()
 
-      # @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:success', (model)->
-      #   @orderedMeal = model.toJSON()
-      #   @orderSuccess()
-      #   @qtyModel.set('ordered', yes)
-      #   @trigger 'busy:stop'
-      #   @render()
-      #
-      # @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:failed', ->
-      #   @trigger 'busy:stop'
-      #   @orderFailed()
-      #
-      # @listenTo App.vent, 'order:meal_'+@model.get('id')+':remove:success', ->
-      #   @success = no
-      #   @select = no
-      #   @qtyModel = new QtyModel()
-      #   @orderedMeal = {}
-      #   @trigger 'busy:stop'
-      #   @selectToggle().render()
-      #
-      #
-      # @listenTo App.vent, 'comment:meal_'+@model.get('id')+':create:success comment:meal_'+@model.get('id')+':remove:success', =>
-      #   @trigger 'busy:stop'
-      #   @render()
+      @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:success', (model)->
+        @orderedMeal = model.toJSON()
+        @orderSuccess()
+        @qtyModel.set('ordered', yes)
+        @trigger 'busy:stop'
+        @render()
+
+      @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:failed', ->
+        @trigger 'busy:stop'
+        @orderFailed()
+
+      @listenTo App.vent, 'order:meal_'+@model.get('id')+':remove:success', ->
+        @success = no
+        @select = no
+        @qtyModel = new QtyModel()
+        @orderedMeal = {}
+        @trigger 'busy:stop'
+        @selectToggle().render()
+
+
+      @listenTo App.vent, 'comment:meal_'+@model.get('id')+':create:success comment:meal_'+@model.get('id')+':remove:success', =>
+        @trigger 'busy:stop'
+        @render()
 
     template: _.template Template
     templateHelpers: ->
       marked: marked
+      loggedUser: @loggedUser
+      routeName: @routeName
+      success: @success
 
     ui: ->
       toggleEnabled: '.toggle-enabled'
@@ -183,11 +187,6 @@ define [
 
     # ==========================================================================
 
-    onBeforeShow: ->
-      @qtyNum.show(new QtyNum({model: @qtyModel}))
-      # @comments.show(@commentView)
-      # @buttons.show()
-
     onBeforeRender: ->
       if !@orderedMeal?
         @orderedMeal = {}
@@ -199,9 +198,9 @@ define [
         meal_comment = _.find local_comments, (comment)=>
           comment.meal_id == @model.get('id')
 
-        @commentView = new CommentView(
+        @comment = new CommentView(
           model: new Backbone.Model(meal_comment)
-          meal_id: @model.id
+          meal_id: @model.get('id')
         )
 
         if !@orderedMeal.id
@@ -214,5 +213,13 @@ define [
 
       @
 
+    onRender: ->
+      if @loggedUser.id != 0 and @routeName == ''
+        @qtyNum.show(new QtyNum({model: @qtyModel}))
+        if !@success
+          @qtyChanger.show(new QtyCharger({model: @qtyModel}))
+        @comments.show(@comment)
+
+      @
 
   MealView
