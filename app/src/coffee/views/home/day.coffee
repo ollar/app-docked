@@ -3,7 +3,7 @@ define [
   'backbone'
   'marionette'
 
-  'views/meal/view'
+  'views/meal/viewHome'
 
   'collections/meals'
 

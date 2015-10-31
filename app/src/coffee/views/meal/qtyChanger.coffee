@@ -9,8 +9,8 @@ define [
     className: 'table-wrapper pure-form'
 
     initialize: ->
-      @model.on 'change:count', (model)=>
-        @ui.qtyInput.attr 'value', model.get('count')
+      @model.on 'change:qty', (model)=>
+        @$('.qty input').attr 'value', model.get('qty')
 
     ui:
       qtyInput: '.qty input'
@@ -25,10 +25,10 @@ define [
     # ================================
 
     decreaseQty: ->
-      return if @model.get('count') <= 1
-      @model.set('count', @model.get('count')-1)
+      return if @model.get('qty') <= 1
+      @model.set('qty', @model.get('qty')-1)
 
     increaseQty: ->
-      @model.set('count',  @model.get('count')+1)
+      @model.set('qty',  @model.get('qty')+1)
 
   Qty
