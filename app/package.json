@@ -19,15 +19,17 @@
     "gulp-autoprefixer": "*",
     "gulp-coffee": "*",
     "gulp-connect": "*",
+    "gulp-if": "^2.0.0",
     "gulp-jade": "*",
     "gulp-plumber": "*",
+    "gulp-rename": "*",
+    "gulp-requirejs": "^0.1.3",
     "gulp-sass": "*",
     "gulp-sourcemaps": "*",
+    "gulp-template": "*",
     "gulp-uglify": "*",
     "gulp-util": "*",
-    "gulp-watch": "*",
-    "run-sequence": "*",
-    "gulp-template": "*",
-    "gulp-rename": "*"
+    "main-bower-files": "^2.9.0",
+    "run-sequence": "*"
   }
 }

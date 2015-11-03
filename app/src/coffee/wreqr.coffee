@@ -7,9 +7,8 @@ define [
   'models/comment'
   'views/message'
   'views/loader'
-  'mandrill_client'
   'translate'
-  ], (App, Mn, UserDetailsModel, LoggedUserModel, OrderModel, CommentModel, MessageView, Loader, mandrill_client, translate)->
+  ], (App, Mn, UserDetailsModel, LoggedUserModel, OrderModel, CommentModel, MessageView, Loader,  translate)->
 
   App.ventFunctions =
     getLoggedUser: (callback)->

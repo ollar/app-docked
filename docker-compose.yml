@@ -33,7 +33,7 @@ node:
   command: gulp
   environment:
     - PROD_IP=188.166.36.35
-  # mem_limit: 100m
+    - DEV_IP=localhost
 
 
 db:

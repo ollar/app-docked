@@ -21,7 +21,34 @@ define [
 
     model: new MealModel()
 
-    regions: ->
+    template: _.template Template
+    templateHelpers:
+      marked: marked
+
+    ui:
+      title: '.name'
+      makeOrder: '.make-order'
+      removeOrder: '.remove-order'
+
+    events:
+      'click @ui.makeOrder': 'makeOrder'
+      'click @ui.removeOrder': 'removeOrder'
+      'click .show-comments': 'showComments'
+      'click .hide-comments': 'hideComments'
+
+    behaviors:
+      Select:
+        behaviorClass: Select
+      SetAttrs:
+        behaviorClass: SetAttrs
+        attrs:
+          'day': 'day_linked'
+          'category': 'category'
+          'order-date': 'order_date'
+      Loading:
+        behaviorClass: Loading
+
+    regions:
       qtyChanger: '.qty-wrapper'
       comments: '.comments'
       buttons: '.buttons-wrapper'
@@ -32,8 +59,6 @@ define [
       @model.set
         qty: 1
         isOrdered: no
-
-      @qtyCharger = new QtyCharger({model: @model})
 
       @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:success', (model)->
         @orderedMeal = model.toJSON()
@@ -64,32 +89,6 @@ define [
         @comments.currentView.render()
         @render()
 
-    template: _.template Template
-    templateHelpers: ->
-      marked: marked
-
-    ui: ->
-      title: '.name'
-      makeOrder: '.make-order'
-      removeOrder: '.remove-order'
-
-    events:
-      'click @ui.makeOrder': 'makeOrder'
-      'click @ui.removeOrder': 'removeOrder'
-      'click .show-comments': 'showComments'
-      'click .hide-comments': 'hideComments'
-
-    behaviors:
-      Select:
-        behaviorClass: Select
-      SetAttrs:
-        behaviorClass: SetAttrs
-        attrs:
-          'day': 'day_linked'
-          'category': 'category'
-          'order-date': 'order_date'
-      Loading:
-        behaviorClass: Loading
 
     # ==========================================================================
 
@@ -146,36 +145,36 @@ define [
       App.execute 'order:remove', @orderedMeal.id, @model.id
 
     # ==========================================================================
-
-    onBeforeRender: ->
-      if !@orderedMeal?
-        @orderedMeal = {}
-      @loggedUser = App.ventFunctions.getLoggedUser (localUser)=>
-
-        local_comments = localUser.get('comments')
-        local_orders = localUser.get('orders')
-
-        meal_comment = _.find local_comments, (comment)=>
-          comment.meal_id == @model.get('id')
-
-        @commentView = new CommentView(
-          model: new Backbone.Model(meal_comment)
-          meal_id: @model.id
-        )
-
-        if !@orderedMeal.id
-          @orderedMeal = _.find local_orders, (order)=>
-            order.meal_id == @model.get('id') and order.order_date == @model.get('order_date')
-
-        if @orderedMeal
-          @model.set({'qty': @orderedMeal.quantity, isOrdered: yes})
-          @orderSuccess()
-
-      @
+    #
+    # onBeforeRender: ->
+    #   if !@orderedMeal?
+    #     @orderedMeal = {}
+    #   @loggedUser = App.ventFunctions.getLoggedUser (localUser)=>
+    #
+    #     local_comments = localUser.get('comments')
+    #     local_orders = localUser.get('orders')
+    #
+    #     meal_comment = _.find local_comments, (comment)=>
+    #       comment.meal_id == @model.get('id')
+    #
+    #     @commentView = new CommentView(
+    #       model: new Backbone.Model(meal_comment)
+    #       meal_id: @model.id
+    #     )
+    #
+    #     if !@orderedMeal.id
+    #       @orderedMeal = _.find local_orders, (order)=>
+    #         order.meal_id == @model.get('id') and order.order_date == @model.get('order_date')
+    #
+    #     if @orderedMeal
+    #       @model.set({'qty': @orderedMeal.quantity, isOrdered: yes})
+    #       @orderSuccess()
+    #
+    #   @
 
     onRender: ->
       @comments.show(@commentView)
-      @qtyChanger.show(@qtyCharger)
+      @qtyChanger.show(new QtyCharger({model: @model}))
       @setQty()
 
 

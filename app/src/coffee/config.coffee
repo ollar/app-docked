@@ -9,9 +9,6 @@ requirejs.config
       deps: ['jquery', 'hammerjs']
       exports: 'hammer'
 
-    'mandrill':
-      exports: 'mandrill'
-
     'backbone':
       deps: ['jquery', 'underscore']
 
@@ -30,5 +27,6 @@ requirejs.config
     'marked': 'libs/marked'
     'hammerjs': 'libs/hammer'
     'jquery.hammer': 'libs/jquery.hammer'
-    'mandrill': 'libs/mandrill'
     'marionette': "libs/backbone.marionette"
+    'backbone.wreqr': 'libs/backbone.wreqr'
+    'backbone.babysitter': 'libs/backbone.babysitter'
