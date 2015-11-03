@@ -45,37 +45,13 @@ gulp.task('coffee', function(){
 
 // ================================================================= Vendor task
 
-// gulp.task('vendor', function(){
-//   var js = {
-//     backbone_localStorage: '../bower_components/backbone.localStorage/backbone.localStorage.js',
-//     backbone: '../bower_components/backbone/backbone.js',
-//     domReady: '../bower_components/domReady/domReady.js',
-//     i18n: '../bower_components/requirejs-i18n/i18n.js',
-//     jquery: '../bower_components/jquery/dist/jquery.js',
-//     requirejs: '../bower_components/requirejs/require.js',
-//     text: '../bower_components/text/text.js',
-//     underscore: '../bower_components/underscore/underscore.js',
-//     jcookie: '../bower_components/jquery.cookie/jquery.cookie.js',
-//     moment: '../bower_components/moment/moment.js',
-//     marked: '../bower_components/marked/lib/marked.js',
-//     hammerjs: '../bower_components/hammerjs/hammer.js',
-//     jhammerjs: '../bower_components/jquery-hammerjs/jquery.hammer.js',
-//     mandrill: '../bower_components/mandrill-api/mandrill.js',
-//     marionette: '../bower_components/marionette/lib/backbone.marionette.js',
-//   };
-//
-//   return gulp.src(_.values(js))
-//     .pipe(uglify())
-//     .pipe(gulp.dest('public/js/libs'));
-// });
-
 gulp.task('vendor', function(){
   return gulp.src(mainBowerFiles({
       paths: {
         bowerDirectory: '../bower_components'
       }
     }))
-    // .pipe(gulpif(env === 'prod', uglify()))
+    .pipe(gulpif(env === 'prod', uglify()))
     .pipe(gulp.dest('public/js/libs'));
 });
 
@@ -102,7 +78,7 @@ gulp.task('jade', function(){
 
   return gulp.src(['src/jade/**/*.jade', '!src/jade/index.jade'])
         .pipe(plumber())
-        .pipe(jade().on('error', gutil.log))
+        .pipe(gulpif(env === 'prod', jade().on('error', gutil.log), jade({pretty: true}).on('error', gutil.log)) )
         .pipe(gulp.dest('public/js'));
 });
 
@@ -120,6 +96,7 @@ gulp.task('default', ['clean', 'prepare_env'], function(){
 });
 
 
-// gulp.task('dev', ['clean', 'prepare_env'], function(){
-//   runSequence(['vendor', 'coffee', 'sass', 'jade']);
-// });
+gulp.task('prod', ['clean', 'prepare_env'], function(){
+  env = 'prod';
+  runSequence(['vendor', 'coffee', 'sass', 'jade']);
+});
