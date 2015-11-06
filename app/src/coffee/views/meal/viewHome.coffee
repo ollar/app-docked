@@ -61,8 +61,6 @@ define [
         isOrdered: no
         orderId: 0
 
-      @loggedUser = App.ventFunctions.getLoggedUser()
-
       @on 'order:create:success', (model)->
         @orderedMeal = model.toJSON()
         @model.set
@@ -100,7 +98,7 @@ define [
     setQty: ->
       _qty = @model.get('qty')
       return if _qty <= 0 or !@model.get('isOrdered')
-      @ui.title.prepend(_.template(QtyTemplate)({qty: _qty}))
+      @ui.title.html(_.template(QtyTemplate)({qty: _qty}) + @model.get('title'))
 
 
     selectToggle: ->
@@ -174,7 +172,7 @@ define [
       @
 
     onRender: ->
-      if @loggedUser
+      if @loggedUser.id
         @comments.show(@commentView)
         @setQty()
       if (@loggedUser.id && !@model.get('isOrdered'))
