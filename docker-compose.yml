@@ -34,6 +34,7 @@ node:
   environment:
     - PROD_IP=188.166.36.35
     - DEV_IP=localhost
+  mem_limit: 200m
 
 
 db:

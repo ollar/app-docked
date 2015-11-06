@@ -14,10 +14,8 @@ define [
     template: _.template Template
     templateHelpers:
       marked: marked
-    #   routeName: @_parent.routeName
 
-    initialize: (options)->
-      @options = options || {}
+    initialize: ->
       @loggedUser = App.ventFunctions.getLoggedUser()
 
     ui:
@@ -37,7 +35,8 @@ define [
 
       formView = new CommentFormView
         model: new CommentModel()
-        meal_id: @options.meal_id
+        mealView: @options.mealView
+        meal_id: @options.mealView.model.id
         user_id: @loggedUser.id
         frontEl: @$el
       @$el.before formView.render().el
@@ -48,6 +47,6 @@ define [
       e.stopPropagation()
 
       commentId = $(e.target).attr 'data-comment-id'
-      App.execute 'comment:remove', commentId, @options.meal_id
+      App.execute 'comment:remove', commentId, @options.meal_id, @options.mealView
 
   Comment

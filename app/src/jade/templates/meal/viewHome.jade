@@ -6,11 +6,13 @@
   .left
     .qty-wrapper
 
+  <% if (user.id) { %>
   .right
     <% if (!isOrdered) { %>
     button.make-order.pure-button.pure-button-primary <%= _('make order').t() %>
     <% } else { %>
     button.remove-order.pure-button <%= _('remove order').t() %>
     <% }; %>
+  <% }; %>
 // comments
 .comments

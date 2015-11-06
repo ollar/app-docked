@@ -50,7 +50,7 @@ define [
   # =================================================================== ##Orders
   # ============================================================================
 
-  App.commands.setHandler 'order:create', (data)->
+  App.commands.setHandler 'order:create', (data, mealView)->
     orderModel = new OrderModel()
     orderModel.save
       user_id: data.id
@@ -61,29 +61,33 @@ define [
       success: (model, response, options)=>
         App.ventFunctions.updateLocalUser ->
           App.execute 'message', {type: 'success', text: translate "meal added to your menu"}
-          App.vent.trigger "order:meal_"+data.meal_id+":create:success", model
+          if mealView
+            mealView.trigger "order:create:success", model
 
       error: (model, response, options)=>
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
-        App.vent.trigger "order:meal_"+data.meal_id+":create:failed"
+        if mealView
+          mealView.trigger "order:create:failed"
 
-  App.commands.setHandler 'order:remove', (order_id, meal_id)->
+  App.commands.setHandler 'order:remove', (order_id, meal_id, mealView)->
     orderModel = new OrderModel({id: order_id})
     orderModel.destroy
       success: =>
         App.ventFunctions.updateLocalUser ->
           App.execute 'message', {type: 'success', text: translate "meal removed from your menu"}
-          App.vent.trigger 'order:meal_'+meal_id+':remove:success'
+          if mealView
+            mealView.trigger 'order:remove:success'
       error: (model, response, options)=>
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
-        App.vent.trigger "order:meal_"+meal_id+":remove:failed"
+        if mealView
+          mealView.trigger "order:remove:failed"
 
 
   # ============================================================================
   # ================================================================= ##Comments
   # ============================================================================
 
-  App.commands.setHandler 'comment:create', (data)->
+  App.commands.setHandler 'comment:create', (data, mealView)->
     if data.content.length == 0
       App.vent.trigger 'comment:meal_'+data.meal_id+':create:success'
       return
@@ -91,16 +95,18 @@ define [
     comment.save data,
       success: (model, response, options)=>
         App.ventFunctions.updateLocalUser ->
-          App.vent.trigger 'comment:meal_'+data.meal_id+':create:success'
+          if mealView
+            mealView.trigger 'comment:create:success'
       error: (model, response, options)=>
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 
-  App.commands.setHandler 'comment:remove', (id, meal_id)->
+  App.commands.setHandler 'comment:remove', (id, meal_id, mealView)->
     comment = new CommentModel({id: id})
     comment.destroy
       success: =>
         App.ventFunctions.updateLocalUser ->
-          App.vent.trigger 'comment:meal_'+meal_id+':remove:success'
+          if mealView
+            mealView.trigger 'comment:remove:success'
       error: (model, response, options)=>
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 

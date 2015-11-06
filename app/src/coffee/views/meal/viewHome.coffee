@@ -22,8 +22,9 @@ define [
     model: new MealModel()
 
     template: _.template Template
-    templateHelpers:
+    templateHelpers: ->
       marked: marked
+      user: @loggedUser
 
     ui:
       title: '.name'
@@ -51,7 +52,6 @@ define [
     regions:
       qtyChanger: '.qty-wrapper'
       comments: '.comments'
-      buttons: '.buttons-wrapper'
 
     initialize: ->
       @success = no
@@ -59,32 +59,37 @@ define [
       @model.set
         qty: 1
         isOrdered: no
+        orderId: 0
 
-      @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:success', (model)->
+      @loggedUser = App.ventFunctions.getLoggedUser()
+
+      @on 'order:create:success', (model)->
         @orderedMeal = model.toJSON()
-        @model.set('isOrdered', yes)
+        @model.set
+          isOrdered: yes
+          qty: model.get('qty')
+          orderId: model.get('id')
 
         @orderSuccess()
         @trigger 'busy:stop'
         @render()
 
-      @listenTo App.vent, 'order:meal_'+@model.get('id')+':create:failed', ->
+      @on 'order:create:failed', ->
         @trigger 'busy:stop'
         @orderFailed()
 
-      @listenTo App.vent, 'order:meal_'+@model.get('id')+':remove:success', ->
+      @on 'order:remove:success order:remove:failed', ->
         @success = no
         @select = no
-        @orderedMeal = {}
         @model.set
           isOrdered: no
           qty: 1
+          orderId: 0
         @trigger 'busy:stop'
         @selectToggle()
         @render()
 
-
-      @listenTo App.vent, 'comment:meal_'+@model.get('id')+':create:success comment:meal_'+@model.get('id')+':remove:success', =>
+      @on 'comment:create:success comment:remove:success', =>
         @trigger 'busy:stop'
         @comments.currentView.render()
         @render()
@@ -102,8 +107,6 @@ define [
       @$el.toggleClass 'select', @select
       @$el.toggleClass 'success', @success
       @$el.toggleClass 'failed', @failed
-
-      @qtyCharger.$el.toggle(!@model.get('isOrdered'));
 
       @
 
@@ -139,43 +142,43 @@ define [
         qty: @model.get('qty')
         meal_id: @model.get 'id'
         order_date: @model.get 'order_date'
+      , @
 
     removeOrder: ->
       @trigger 'busy:start'
-      App.execute 'order:remove', @orderedMeal.id, @model.id
+      App.execute 'order:remove', @model.get('orderId'), @model.id, @
 
     # ==========================================================================
-    #
-    # onBeforeRender: ->
-    #   if !@orderedMeal?
-    #     @orderedMeal = {}
-    #   @loggedUser = App.ventFunctions.getLoggedUser (localUser)=>
-    #
-    #     local_comments = localUser.get('comments')
-    #     local_orders = localUser.get('orders')
-    #
-    #     meal_comment = _.find local_comments, (comment)=>
-    #       comment.meal_id == @model.get('id')
-    #
-    #     @commentView = new CommentView(
-    #       model: new Backbone.Model(meal_comment)
-    #       meal_id: @model.id
-    #     )
-    #
-    #     if !@orderedMeal.id
-    #       @orderedMeal = _.find local_orders, (order)=>
-    #         order.meal_id == @model.get('id') and order.order_date == @model.get('order_date')
-    #
-    #     if @orderedMeal
-    #       @model.set({'qty': @orderedMeal.quantity, isOrdered: yes})
-    #       @orderSuccess()
-    #
-    #   @
+
+    onBeforeRender: ->
+      @loggedUser = App.ventFunctions.getLoggedUser (localUser)=>
+
+        local_comments = localUser.get('comments')
+        local_orders = localUser.get('orders')
+
+        meal_comment = _.find local_comments, (comment)=>
+          comment.meal_id == @model.get('id')
+
+        @commentView = new CommentView(
+          model: new Backbone.Model(meal_comment)
+          mealView: @
+        )
+
+        orderedMeal = _.find local_orders, (order)=>
+          order.meal_id == @model.get('id') and order.order_date == @model.get('order_date')
+
+        if orderedMeal
+          @model.set({'qty': orderedMeal.quantity, isOrdered: yes, orderId: orderedMeal.id})
+          @orderSuccess()
+
+      @
 
     onRender: ->
-      @comments.show(@commentView)
-      @qtyChanger.show(new QtyCharger({model: @model}))
-      @setQty()
+      if @loggedUser
+        @comments.show(@commentView)
+        @setQty()
+      if (@loggedUser.id && !@model.get('isOrdered'))
+        @qtyChanger.show(new QtyCharger({model: @model}))
 
 
   MealView

@@ -19,17 +19,17 @@ define [
     templateHelpers:
       t:translate
 
-    initialize: (options)->
-      @options = options || {}
-      @meal_id = options.meal_id
-      @user_id = options.user_id
+    initialize: ->
+      @meal_id = @options.meal_id
+      @user_id = @options.user_id
 
     commentSubmit: (e)->
       e.preventDefault()
       formData = $(e.target).serializeObject()
-      App.execute 'comment:create', _.extend formData,
+      App.execute 'comment:create', _.extend(formData, {
         meal_id: @meal_id
         user_id: @user_id
+      }), @options.mealView
 
     cancel: ->
       @options.frontEl.show()
