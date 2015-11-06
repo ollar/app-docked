@@ -29,10 +29,18 @@ define [
     templateHelpers: ->
       marked: marked
 
+    ui:
+      showComments: '.show-comments'
+      hideComments: '.hide-comments'
+
     events:
       'click .toggle-enabled': 'toggleEnabled'
-      'click .show-comments': 'showComments'
-      'click .hide-comments': 'hideComments'
+      'click @ui.showComments': 'showComments'
+      'click @ui.hideComments': 'hideComments'
+
+    initialize: ->
+      @on 'me:clicked', ->
+        @hideComments.call(@) if !@select
 
     behaviors:
       Select:
@@ -77,15 +85,15 @@ define [
               collection: collection
               origin: 'meals'
             @comments.show(commentsList)
-            $(e.target).text(_('hide comments').t())
+            @ui.showComments.text(_('hide comments').t())
               .removeClass('show-comments')
               .addClass('hide-comments')
             @trigger('busy:stop')
 
     hideComments: (e)->
-      e.stopPropagation()
+      e.stopPropagation() if e
       @comments.empty()
-      $(e.target).text(_('show comments').t())
+      @ui.showComments.text(_('show comments').t())
         .addClass('show-comments')
         .removeClass('hide-comments')
 
