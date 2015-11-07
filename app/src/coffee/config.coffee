@@ -1,5 +1,5 @@
 requirejs.config
-  urlArgs: "bust=" + (new Date()).getTime()
+  # urlArgs: "bust=" + (new Date()).getTime()
 
   shim:
     'jquery.cookie':
@@ -30,3 +30,5 @@ requirejs.config
     'marionette': "libs/backbone.marionette"
     'backbone.wreqr': 'libs/backbone.wreqr'
     'backbone.babysitter': 'libs/backbone.babysitter'
+
+  # deps: ['main']

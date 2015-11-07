@@ -15,6 +15,7 @@ var mainBowerFiles = require('main-bower-files');
 var gulpif = require('gulp-if');
 var requirejs = require('gulp-requirejs');
 
+// var env = 'dev';
 var env = 'prod';
 
 var prodIp = process.env['PROD_IP'];
@@ -73,23 +74,27 @@ gulp.task('sass', function(){
 
 gulp.task('jade', function(){
   gulp.src('src/jade/index.jade')
+  .pipe(template({env: env}))
   .pipe(plumber())
   .pipe(jade().on('error', gutil.log))
   .pipe(gulp.dest('public'));
 
   return gulp.src(['src/jade/**/*.jade', '!src/jade/index.jade'])
         .pipe(plumber())
-        .pipe(gulpif(env === 'prod', jade().on('error', gutil.log), jade({pretty: true}).on('error', gutil.log)) )
+        .pipe(jade().on('error', gutil.log) )
         .pipe(gulp.dest('public/js'));
 });
 
 
 gulp.task('rjs', function() {
-  baseUrl: 'public/js',
-    out: 'app.js',
-
-  })
-      .pipe(gulp.dest('./delpoy/'));
+    return requirejs({
+      baseUrl: 'public/js',
+      out: 'application.js',
+			mainConfigFile: 'public/js/config.js',
+      findNestedDependencies: true,
+			name: 'main'
+    })
+    .pipe(gulp.dest('public/js'));
 });
 
 
@@ -98,14 +103,14 @@ gulp.task('rjs', function() {
 // =============================================================================
 
 gulp.task('default', ['clean', 'prepare_env'], function(){
-  runSequence(['vendor', 'coffee', 'sass', 'jade']);
+  if (env === 'dev') {
+    runSequence(['vendor', 'coffee', 'sass', 'jade']);
 
-  gulp.watch('src/coffee/**/*.coffee',['coffee']);
-  gulp.watch('src/sass/**/*.scss',['sass']);
-  gulp.watch('src/jade/**/*.jade',['jade']);
-});
-
-
-gulp.task('prod', ['clean', 'prepare_env'], function(){
-  runSequence(['vendor', 'coffee', 'sass', 'jade']);
+    gulp.watch('src/coffee/**/*.coffee',['coffee']);
+    gulp.watch('src/sass/**/*.scss',['sass']);
+    gulp.watch('src/jade/**/*.jade',['jade']);
+  } else if (env === 'prod') {
+    runSequence(['vendor', 'sass', 'jade'], 'coffee', 'rjs');
+    gulp.watch('src/coffee/**/*.coffee',['coffee']);
+  }
 });
