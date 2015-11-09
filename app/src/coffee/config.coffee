@@ -30,5 +30,3 @@ requirejs.config
     'marionette': "libs/backbone.marionette"
     'backbone.wreqr': 'libs/backbone.wreqr'
     'backbone.babysitter': 'libs/backbone.babysitter'
-
-  # deps: ['main']
