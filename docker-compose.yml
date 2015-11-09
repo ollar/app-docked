@@ -7,7 +7,7 @@ web:
   working_dir: /app/code/public
   ports:
     - "8800:80"
-  mem_limit: 50m
+  mem_limit: 8m
 
 
 flask:
@@ -23,7 +23,7 @@ flask:
     - "5000:5000"
   links:
    - db
-  mem_limit: 256m
+  mem_limit: 64m
 
 
 node:
@@ -38,7 +38,7 @@ node:
   environment:
     - PROD_IP=188.166.36.35
     - DEV_IP=localhost
-  mem_limit: 100m
+  mem_limit: 32m
 
 
 db:
@@ -46,4 +46,4 @@ db:
   environment:
     - POSTGRES_USER=WeCeheerdEtvicsOgjotenwof
     - POSTGRES_PASSWORD=gadJesEttOditneogulrijvok
-  mem_limit: 50m
+  mem_limit: 32m
