@@ -15,8 +15,8 @@ var mainBowerFiles = require('main-bower-files');
 var gulpif = require('gulp-if');
 var requirejs = require('gulp-requirejs');
 
-// var env = 'dev';
-var env = 'prod';
+var env = 'dev';
+// var env = 'prod';
 
 var prodIp = process.env['PROD_IP'];
 var devIp = process.env['DEV_IP'];
@@ -35,7 +35,16 @@ gulp.task('clean', function(){
 // ================================================================= Coffee task
 
 gulp.task('coffee', function(){
-  return gulp.src('src/coffee/**')
+
+  gulp.src('src/coffee/config.coffee')
+    .pipe(template({env: env}))
+    .pipe(plumber())
+    .pipe(coffee({bare: true}).on('error', gutil.log))
+    .pipe(gulpif(env === 'prod', uglify() ))
+    .pipe(gulp.dest('public/js'));
+
+
+  return gulp.src(['src/coffee/**', '!src/coffee/config.coffee'])
         .pipe(plumber())
         .pipe(sourcemaps.init())
           .pipe(coffee({bare: true}).on('error', gutil.log))

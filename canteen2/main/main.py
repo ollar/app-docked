@@ -31,7 +31,7 @@ from main.functions import _parse_meal
 
 @app.before_request
 def get_token():
-    token = request.headers.get('access_token')
+    token = request.headers.get('Authorization')
     session['access_token'] = token
     g.user = get_user(token)
 

@@ -1,5 +1,7 @@
 requirejs.config
-  # urlArgs: "bust=" + (new Date()).getTime()
+  <% if (env === 'dev') { %>
+  urlArgs: "bust=" + (new Date()).getTime()
+  <% }; %>
 
   shim:
     'jquery.cookie':
