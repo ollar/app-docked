@@ -1,15 +1,15 @@
 define [
+  'app'
   'backbone'
-], (Backbone) ->
+], (App, Backbone) ->
 
-  class Model extends Backbone.Model
+  CommentModel = Backbone.Model.extend
 
-    urlRoot: '/comment/'
+    urlRoot: App.url '/comment/'
 
     defaults:
       user_id: 1
       meal_id: 1
       content: ''
 
-    initialize: (args...)->
-      super
+  CommentModel

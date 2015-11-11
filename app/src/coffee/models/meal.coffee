@@ -1,6 +1,9 @@
-define ['backbone'], (Backbone)->
+define [
+  'app'
+  'backbone'
+], (App, Backbone)->
   MealModel = Backbone.Model.extend
-    urlRoot: '/meal/'
+    urlRoot: App.url '/meal/'
 
     initialize: ->
       @attributes.daysObj = {0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 3: 'Thursday', 4: 'Friday'}

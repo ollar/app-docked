@@ -1,4 +1,7 @@
-define ['backbone'], (Backbone)->
+define [
+  'app'
+  'backbone'
+], (App, Backbone)->
   MessageModel = Backbone.Model.extend
 
     defaults: ->

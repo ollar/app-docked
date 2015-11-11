@@ -1,10 +1,12 @@
 define [
+  'app'
   'backbone'
-  'models/user'], (Backbone, UserModel)->
+  'models/user'
+], (App, Backbone, UserModel)->
   UsersCollection = Backbone.Collection.extend
     model: UserModel
 
-    url: '/user/'
+    url: App.url '/user/'
 
     parse: (data, options)->
       return data.users

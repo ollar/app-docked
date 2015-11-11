@@ -1,11 +1,13 @@
 define [
+  'app'
   'backbone'
   'models/order'
-  'localStorage'], (Backbone, OrderModel)->
+  'localStorage'
+], (App, Backbone, OrderModel)->
   OrdersCollection = Backbone.Collection.extend
     model: OrderModel
 
-    url: '/order/'
+    url: App.url '/order/'
 
     parse: (data)->
       data.orders

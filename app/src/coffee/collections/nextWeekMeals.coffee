@@ -1,9 +1,10 @@
 define [
+  'app'
   'backbone'
   'models/meal'
-  'collections/meals'], (Backbone, MealModel, MealsCollection)->
+  'collections/meals'], (App, Backbone, MealModel, MealsCollection)->
   NWMealsCollection = Backbone.Collection.extend
-    url: '/'
+    url: App.url '/'
 
     parse: (data)->
       return data.days

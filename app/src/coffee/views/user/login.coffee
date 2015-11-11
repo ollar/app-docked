@@ -25,7 +25,7 @@ define [
 
       App.ventFunctions.updateLocalUser ->
         App.execute 'message',
-          text: translate 'welcome username', data.username
+          text: _.t 'welcome username', data.username
 
         App.navigate ''
 
@@ -34,7 +34,11 @@ define [
 
       formData = $(e.target).serializeObject()
 
-      $.post '/user/login', JSON.stringify(formData), (data, status, xhr)=>
-        @loginUser(data)
+      App.ajax
+        type: 'post'
+        url: '/user/login'
+        data: JSON.stringify(formData)
+        success: (data, status, xhr)=>
+          @loginUser(data)
 
   LoginView

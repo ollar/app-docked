@@ -1,12 +1,13 @@
 define [
+  'app'
   'backbone'
   'models/comment'
-], (Backbone, CommentModel) ->
+], (App, Backbone, CommentModel) ->
   CommentsCollection = Backbone.Collection.extend
 
     model: CommentModel
 
-    url: '/comment/'
+    url: App.url '/comment/'
 
     parse: (data)->
       return data.comments

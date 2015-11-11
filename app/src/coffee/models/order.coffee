@@ -1,6 +1,9 @@
-define ['backbone'], (Backbone)->
+define [
+  'app'
+  'backbone'
+], (App, Backbone)->
   OrderModel = Backbone.Model.extend
-    urlRoot: '/order/'
+    urlRoot: App.url '/order/'
 
     defaults: ->
       user_id: ''

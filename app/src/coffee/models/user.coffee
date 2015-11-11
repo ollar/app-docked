@@ -1,7 +1,10 @@
-define ['backbone'], (Backbone)->
+define [
+  'app'
+  'backbone'
+], (App, Backbone)->
   UserModel = Backbone.Model.extend
 
-    urlRoot: '/user/'
+    urlRoot: App.url '/user/'
 
     defaults: ->
       username: ''

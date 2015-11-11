@@ -71,14 +71,16 @@ define [
           # Register new user
           if !@uid
             loginCredentials = {username: model.get('username'),password: model.get('password')}
-            $.post '/user/login', JSON.stringify(loginCredentials), (data)->
-              LoginView.prototype.loginUser(data)
 
-              App.execute 'message',
-                type: 'success'
-                text: translate 'welcome aboard'
-
-              return
+            App.ajax
+              type: 'post'
+              url: '/user/login'
+              data: JSON.stringify(loginCredentials)
+              success: (data)->
+                LoginView.prototype.loginUser(data)
+                App.execute 'message',
+                  type: 'success'
+                  text: _.t('welcome aboard')
 
     cancelEdit: (e)->
       e.preventDefault()

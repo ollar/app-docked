@@ -2,9 +2,8 @@ define [
   'app'
   'marionette'
   'translate'
-  'env'
   'marked'
-], (App, Mn, translate, ENV, marked)->
+], (App, Mn, translate, marked)->
   Prefix = ()->
 
     # ====================================
@@ -34,8 +33,6 @@ define [
       smartLists: true
       smartypants: false
 
-    # ====================================
-
     # Backbone Tweaks ==============================================================================
 
     BackboneSync = Backbone.sync
@@ -43,23 +40,12 @@ define [
       if $.cookie('access_token')
         options.headers = {'Authorization': $.cookie('access_token')}
 
-      # App.vent.trigger 'loading:start'
       BackboneSync.apply(@, arguments)
-      # App.vent.trigger 'loading:done'
-
 
     # Underscore tweaks ============================================================================
 
     _.mixin
       t: translate
 
-
-    # AJAX Tweaks ==================================================================================
-
-    $.ajaxPrefilter ( options, originalOptions, jqXHR ) ->
-      options.url = 'http://' + ENV.prod_ip + ':5000' + options.url
-      options.dataType = "jsonp"
-      options.crossDomain = yes
-      options.contentType = "application/json; charset=utf-8"
 
   do Prefix

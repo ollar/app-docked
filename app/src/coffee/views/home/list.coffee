@@ -29,15 +29,9 @@ define [
       'click .go': 'makeOrder'
 
     initialize: ->
-      console.log @collection
-
       if $.cookie('id')
         App.ventFunctions.updateLocalUser()
-      @collection.fetch
-        success: (collection, response)->
-          console.log collection, response
-        error: (response)->
-          console.log 'error', response
+      @collection.fetch()
       @local_user = App.ventFunctions.getLoggedUser()
 
     behaviors:

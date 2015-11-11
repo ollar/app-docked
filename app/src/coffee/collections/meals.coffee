@@ -1,10 +1,12 @@
 define [
+  'app'
   'backbone'
-  'models/meal'], (Backbone, MealModel)->
+  'models/meal'
+], (App, Backbone, MealModel)->
   MealsCollection = Backbone.Collection.extend
     model: MealModel
 
-    url: '/meal/'
+    url: App.url '/meal/'
 
     parse: (data)->
       return data.meals
