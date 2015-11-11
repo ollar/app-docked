@@ -40,7 +40,7 @@ class MonthStats(View):
     @auth_required
     def dispatch_request(self):
         if self.month_number and self.month_number not in range(1,13):
-            return make_response(jsonify({'type': 'error', 'text': 'Wrong month number'}), 401)
+            return make_response(jsonify({'type': 'error', 'text': 'Wrong month number'}), 403)
 
         if self.user_id != self.head_user_id and self.head_user_id != 1:
             return make_response(jsonify({'type': 'error', 'text': 'Access denied'}), 403)

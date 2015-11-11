@@ -101,7 +101,7 @@ def login():
     user = db_session.query(User).filter_by(
         username=json.get('username').strip()).first()
     if not user:
-        return make_response(jsonify({'type': 'error', 'text': 'no users with such username'}), 401)
+        return make_response(jsonify({'type': 'error', 'text': 'no users with such username'}), 403)
     elif check_password_hash(user.password, json.get('password').strip()):
         token = {}
         tokens = db_session.query(Token).filter_by(user_id=user.id).all()
@@ -124,7 +124,7 @@ def login():
             'username': logged_user.get('username')
             }), 200)
     else:
-        return make_response(jsonify({'type': 'error', 'text': 'password incorrect'}), 401)
+        return make_response(jsonify({'type': 'error', 'text': 'password incorrect'}), 403)
 
 
 register_api(UserAPI, 'user_api', '/user/', pk='user_id')
