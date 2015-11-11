@@ -19,10 +19,12 @@ define [
     className: 'user pure-menu-item'
 
     regions:
-      commentsRegion: '.comments-wrapper'
+      commentsRegion: '.comments'
 
     initialize: (options)->
       @options = options || {}
+      @on 'me:clicked', ->
+        @hideComments.call(@) if !@select
 
     template: _.template Template
     templateHelpers: ->
@@ -31,11 +33,13 @@ define [
     ui:
       remove: '.remove'
       edit: '.edit'
+      showComments: '.show-comments'
+      hideComments: '.hide-comments'
 
     events:
       'click .stats-menu a': (e)-> e.stopPropagation()
-      'click .show-comments': 'fetchComments'
-      'click .hide-comments': 'hideComments'
+      'click @ui.showComments': 'fetchComments'
+      'click @ui.hideComments': 'hideComments'
 
     behaviors:
       Select:
@@ -59,7 +63,7 @@ define [
       e.stopPropagation()
 
       Comments = CommentsCollection.extend
-        url: '/comment/user/' + @model.id
+        url: App.url '/comment/user/' + @model.id
       comments = new Comments()
 
       comments.fetch
@@ -69,15 +73,15 @@ define [
               collection: collection
               origin: 'users'
             @commentsRegion.show(commentsList)
-            $(e.target).text(translate('hide comments'))
+            @ui.showComments.text(translate('hide comments'))
               .removeClass('show-comments')
               .addClass('hide-comments')
             @trigger('busy:stop')
 
     hideComments: (e)->
-      e.stopPropagation()
+      e.stopPropagation() if e
       @commentsRegion.empty()
-      $(e.target).text(translate('show comments'))
+      @ui.showComments.text(translate('show comments'))
         .addClass('show-comments')
         .removeClass('hide-comments')
 

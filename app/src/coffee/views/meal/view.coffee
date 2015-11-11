@@ -76,7 +76,7 @@ define [
       e.stopPropagation()
 
       comments = new CommentsCollection()
-      comments.url = '/comment/meal/' + @model.id
+      comments.url = App.url '/comment/meal/' + @model.id
 
       comments.fetch
         success: (collection, response)=>

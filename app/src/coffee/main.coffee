@@ -43,6 +43,9 @@ require ['config'], ->
       messages: "#message-wrapper"
       overlay: "#overlay"
 
+    # App.Region.attachHtml = ()-> no
+    console.log App
+
     # ====================================
     # Starting the App
     # ====================================

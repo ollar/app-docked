@@ -34,16 +34,6 @@
   .increase{
     border-radius: 0 3px 3px 0;
   }
-
-  .comments{
-    font-size: 0.85em;
-    color: lighten($text_color, 20%);
-    .inner{
-      border-top: 1px solid $border_color;
-      margin: 20px 0 0;
-      padding: 20px 0 0;
-    }
-  }
 }
 
 .meal-manage{
