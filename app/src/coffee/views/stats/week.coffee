@@ -17,9 +17,9 @@ define [
 
       @collection = new OrdersCollection()
       if @options.user_id
-        @collection.url = '/stats/week?user_id=' + @options.user_id
+        @collection.url = App.url '/stats/week?user_id=' + @options.user_id
       else
-        @collection.url = '/stats/week?user_id=' + $.cookie('id')
+        @collection.url = App.url '/stats/week?user_id=' + $.cookie('id')
 
       @collection.fetch
         success: (collection, response, options)=>

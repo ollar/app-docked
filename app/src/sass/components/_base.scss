@@ -18,6 +18,11 @@ h1{
   max-width: 700px;
   margin: 40px auto;
   padding: 1em;
+  transition: opacity 0.4s;
+
+  &.page-change{
+    opacity: 0;
+  }
 }
 
 .buttons-wrapper{

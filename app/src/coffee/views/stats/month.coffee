@@ -18,9 +18,9 @@ define [
 
         @collection = new OrdersCollection()
         if @user_id
-          @collection.url = '/stats/month?user_id=' + @user_id
+          @collection.url = App.url '/stats/month?user_id=' + @user_id
         else
-          @collection.url = '/stats/month?user_id=' + $.cookie('id')
+          @collection.url = App.url '/stats/month?user_id=' + $.cookie('id')
 
         if @options.month
           @collection.url += '&month_number=' + @options.month
@@ -86,8 +86,14 @@ define [
         else
           @$el.html _.template(EmptyTemplate)({t: translate})
 
-        @$el.prepend @pagerTemplate({prev: @generatePagerUrl(@user_id, @prevMonth), next: @generatePagerUrl(@user_id, @nextMonth), t: translate})
-        @$el.append @pagerTemplate({prev: @generatePagerUrl(@user_id, @prevMonth), next: @generatePagerUrl(@user_id, @nextMonth), t: translate})
+        @$el.prepend @pagerTemplate({
+          prev: @generatePagerUrl(@user_id, @prevMonth)
+          next: @generatePagerUrl(@user_id, @nextMonth)
+          t: translate})
+        @$el.append @pagerTemplate({
+          prev: @generatePagerUrl(@user_id, @prevMonth)
+          next: @generatePagerUrl(@user_id, @nextMonth)
+          t: translate})
 
         @
 

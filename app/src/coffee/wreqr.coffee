@@ -123,11 +123,11 @@ define [
 
   App.vent.on 'loading:start', ->
     @loader = new Loader()
+    @trigger 'menu:hide'
 
   App.vent.on 'loading:done', ->
     @loader.$el.fadeOut()
     _.delay (=>@loader.remove()), 500
-    @trigger 'menu:hide'
 
   # ============================================================================
   # ============================================================================

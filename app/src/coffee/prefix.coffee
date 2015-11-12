@@ -35,11 +35,7 @@ define [
 
     # Marionette Tweaks ============================================================================
 
-    Marionette.Region.prototype.attachHtml = (view)->
-      @$el.fadeOut()
-      @$el.html(view.el)
-      @$el.fadeIn()
-      return
+    
 
     # Backbone Tweaks ==============================================================================
 

@@ -15,7 +15,7 @@ define [
       @collection = new OrdersCollection()
       @mealsCollection = new MealsCollection()
 
-      @collection.url = '/stats/week'
+      @collection.url = App.url '/stats/week'
       @collection.fetch
         success: =>
           @mealsCollection.fetch

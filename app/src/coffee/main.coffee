@@ -43,8 +43,23 @@ require ['config'], ->
       messages: "#message-wrapper"
       overlay: "#overlay"
 
-    # App.Region.attachHtml = ()-> no
-    console.log App
+    App.getRegion('main').attachHtml = (view)->
+
+      promise = new Promise (resolve, reject)=>
+        App.vent.trigger 'loading:start'
+        @$el.addClass('page-change')
+        _.delay =>
+          resolve()
+        , 400
+
+      promise
+        .then =>
+          _.defer =>
+            Mn.Region::attachHtml.call(@, view)
+        .then =>
+          _.defer =>
+            App.vent.trigger 'loading:done'
+            @$el.removeClass('page-change')
 
     # ====================================
     # Starting the App

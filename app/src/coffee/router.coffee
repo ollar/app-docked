@@ -5,17 +5,6 @@ define [
   ], (App, Mn, routeController)->
 
   Router = Mn.AppRouter.extend
-
-    execute: (callback, args, name)->
-      do =>
-        App.vent.trigger 'loading:start'
-        do =>
-          _.defer => (callback.apply(@, args)) if (callback)
-          do =>
-            App.vent.trigger 'loading:done'
-
-      @
-
     appRoutes:
       '': 'home'
       'register': 'register'

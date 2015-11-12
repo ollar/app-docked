@@ -19,7 +19,7 @@ define [
       @$list = @$el.find('.stats-menu')
 
       @collection = new OrdersCollection()
-      @collection.url = '/stats/month?full'
+      @collection.url = App.url '/stats/month?full'
 
       @collection.fetch
         success: (collection, response, options)=>
