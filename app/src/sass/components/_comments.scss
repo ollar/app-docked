@@ -1,0 +1,51 @@
+.comment{
+  &.simple{
+    font-size: 0.8em;
+    margin: 1em 0;
+
+    .head, .date, .meal-title{
+      margin: 0;
+      font-size: 1em;
+    }
+
+    .content{
+      padding: 0.3em 0;
+    }
+  }
+
+  .head{
+    font-size: 0.75em;
+    color: lighten($text_color, 20%);
+  }
+
+  .meal-title{
+    font-size: 1.25em;
+    color: $text_color;
+  }
+
+  .content{
+    font-style: italic;
+    font-family: georgia;
+    padding: 10px 0;
+
+    span{
+      &:before{
+        content: "\00AB";
+      }
+
+      &:after{
+        content: "\00BB";
+      }
+    }
+  }
+}
+
+.comments{
+  font-size: 0.85em;
+  color: lighten($text_color, 20%);
+  .inner{
+    border-top: 1px solid $border_color;
+    margin: 20px 0 0;
+    padding: 20px 0 0;
+  }
+}

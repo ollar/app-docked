@@ -1,0 +1,8 @@
+.sort-wrapper.pure-form
+  <% if (local_user.id) {%>
+  button.pure-button.add-new <%= _('add new').t() %>
+  <% }; %>
+.items-list.pure-menu-list
+.buttons-wrapper.table-wrapper
+  .left
+    button.pure-button.select-all <%= _('select all').t() %>

@@ -1,0 +1,18 @@
+//- <% if (routeName === '') {%>
+<% if (typeof(id) == 'undefined') {%>
+button.add-comment.pure-button <%= _('add comment').t() %>
+<% } else { %>
+.comments-wrapper
+  .text(data-id!="<%= id %>") <%= marked(content) %>
+  button.remove-comment.pure-button(data-comment-id!="<%= id %>") <%= _('remove comment').t() %>
+<% }; %>
+
+//- <% }; %>
+
+//- <% if (routeName === 'meals') {%>
+//- .comments
+//-   .comments-wrapper
+//-     <% _.each(comments, function(comment){ %>
+//-     .text(data-id!="<%= comment.id %>", data-user-id!="<%= comment.user_id %>") <%= marked(comment.content) %>
+//-     <% }); %>
+//- <% }; %>

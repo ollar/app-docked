@@ -1,0 +1,11 @@
+.head 
+  <% if (origin == 'meals') { %>
+  span <%= user ? user.username : 'deleted' %> &nbsp;
+  <% }; %>
+  span <%= _.t('commented') %>&nbsp; 
+  <% if (origin == 'users') { %>
+  span.meal-title <%= meal ? meal.title : 'deleted' %>
+  <% }; %>
+.content 
+  span <%= content %>
+.date <%= moment(timestamp_modified).startOf('hour').fromNow() %>

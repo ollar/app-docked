@@ -1,0 +1,86 @@
+#navigation{
+  .pure-menu{
+    position: fixed;
+    top: 0;
+    left: -200px;
+    width: 200px;
+    height: 100%;
+    transform: translateX(0px);
+    transition: transform 0.5s;
+    transition-delay: -0.3s;
+    border-right: 1px solid $border_color;
+    background: $body_bg;
+    z-index: 11;
+
+    &.dragged{
+      transition: none;
+    }
+
+    &.opened{
+      transform: translateX(200px);
+
+      .toggle:after{
+        content: "\00D7";
+      }
+    }
+  }
+
+  .toggle{
+    position: absolute;
+    top: 0;
+    right: 0;
+    @include size(40px);
+    line-height: 40px;
+    text-align: center;
+    background: darken($body_bg, 10%);
+    margin-right: -40px;
+
+    &:after{
+      content: "\2630";
+    }
+  }
+
+  .pan-tab{
+    position: absolute;
+    top: 40px;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    margin-right: -40px;
+    z-index: -1;
+  }
+}
+
+#overlay > div{
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0;
+  z-index: -1;
+  background: rgba(0,0,0,0.3);
+  transition: 0.4s;
+
+  &.opened{
+    z-index: 10;
+    opacity: 1;
+  }
+}
+
+@include lg{
+  #navigation{
+    .pure-menu{
+      transform: translateX(0);
+      left: 0;
+    }
+
+    .toggle{
+      display: none;
+    }
+  }
+
+  .pan-tab{
+    display: none;
+  }
+}

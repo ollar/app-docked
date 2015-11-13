@@ -1,0 +1,10 @@
+FROM node
+
+ADD ./app/package.json /app/package.json
+ADD ./app/bower.json /app/bower.json
+WORKDIR /app
+
+RUN npm install -g bower && \
+    npm install -g gulp && \
+    npm install && \
+    bower install --allow-root

@@ -1,0 +1,17 @@
+.order-date{
+  font-size: 2em;
+}
+
+.order{
+  .user{
+    font-size: 1.4em;
+  }
+
+  .meal-wrapper{
+    margin: 10px 0;
+
+    .qty{
+      text-align: right;
+    }
+  }
+}

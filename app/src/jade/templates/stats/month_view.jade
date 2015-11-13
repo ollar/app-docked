@@ -1,0 +1,10 @@
+dl
+  dt.date <%= date %>
+  dd
+    ol.pure-menu.orders-list
+      <% _.each(orders, function(_order){ %>
+      li
+        span
+          | <%= _order.get('meal') ? _order.get('meal').title : 'deleted' %>
+          | &nbsp;&mdash;&nbsp;<%= _order.get('quantity') %>
+      <% }); %>

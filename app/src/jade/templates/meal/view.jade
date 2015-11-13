@@ -1,0 +1,16 @@
+.name <%= title %>
+.description <%= marked(description) %>
+
+//- Buttons wrapper
+.buttons-wrapper
+  .right
+    button.edit.pure-button <%= _('edit').t() %>
+    button.toggle-enabled.pure-button <%= enabled ? _('disable').t() : _('enable').t() %>
+    button.pure-button.show-comments <%= _('show comments').t() %>
+
+    <% if (!enabled) { %>
+    button.remove.pure-button <%= _('delete').t() %>
+    <% }; %>
+
+//- comments
+.comments

@@ -1,0 +1,8 @@
+node_modules/*
+public/*
+bower_components/*
+venv/*
+__pycache__
+node_modules/*
+.pyc
+app/src/coffee/env.coffee

@@ -1,0 +1,9 @@
+.items-list.pure-menu-list
+<% if (local_user.id) {%>
+.buttons-wrapper.table-wrapper
+  .left
+    button.pure-button.select-all <%= t('select all') %>
+
+  .right
+    button.pure-button.pure-button-primary.go <%= t('make order') %>
+<% }; %>

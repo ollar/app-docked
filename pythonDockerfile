@@ -1,0 +1,9 @@
+FROM python
+
+ADD ./canteen2/requirments.txt /back/requirments.txt
+#ADD ./canteen2 /back
+WORKDIR /back
+RUN pip install -r requirments.txt
+
+CMD gunicorn --bind 0.0.0.0:5000 wsgi:app
+# CMD python run_werg.py -d

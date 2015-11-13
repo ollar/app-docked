@@ -1,0 +1,31 @@
+form.pure-form.pure-form-stacked(name='meal_form', id="meal_form")
+  fieldset.pure-group
+    input(id="title", class="pure-input-1-2" name="title", placeholder!="<%= _('title').t() %>", type="text", value!="<%= title ? title : '' %>")
+
+    textarea(id="description", name="description", placeholder!="<%= _('description').t() %>")
+      <%= description ? description : '' %>
+      
+  fieldset.pure-g
+    div.pure-group.pure-u-1-2
+      input.pure-input-1-2(id="source_price", name="source_price", placeholder!="<%= _('sources price').t() %>", type="text", value!="<%= source_price ? source_price : '' %>")
+      input.pure-input-1-2(id="price", name="price", placeholder!="<%= _('price').t() %>", type="text", value!="<%= price ? price : '' %>") 
+
+    div.pure-control-group.pure-u-1-2
+      label(for="category") <%= _('category').t() %>
+      select.pure-input-1(id="category", name="category")
+        <% _.each(categoriesObj, function(value, key){ %>
+        <option value="<%= key %>" <% if (category === parseInt(key)){%>selected<%};%> > <%= value %>
+        <% }); %>
+      label(for="day_linked") <%= _('day assigned').t() %>
+      select.pure-input-1(id="day_linked", name="day_linked")
+        <% _.each(daysObj, function(value, key){ %>
+        <option value="<%= key %>" <% if (day_linked === parseInt(key)){%>selected<%};%> > <%= value %>
+        <% }); %>
+
+  div.pure-control-group.buttons-wrapper.visible
+    button.pure-button.pure-button-primary(type="submit") <%= _('submit').t() %>
+    button.pure-button.cancel <%= _('cancel').t() %>
+
+    <% if (typeof id !== "undefined" && id !== null) { %>
+    input(name="id", type="hidden", value!="<%= id %>")
+    <% }; %>

@@ -1,0 +1,35 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "Marionette front app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "marionette",
+    "api",
+    "test"
+  ],
+  "author": "ollar",
+  "license": "ISC",
+  "devDependencies": {
+    "del": "*",
+    "gulp": "*",
+    "gulp-autoprefixer": "*",
+    "gulp-coffee": "*",
+    "gulp-connect": "*",
+    "gulp-if": "^2.0.0",
+    "gulp-jade": "*",
+    "gulp-plumber": "*",
+    "gulp-rename": "*",
+    "gulp-requirejs": "^0.1.3",
+    "gulp-sass": "*",
+    "gulp-sourcemaps": "*",
+    "gulp-template": "*",
+    "gulp-uglify": "*",
+    "gulp-util": "*",
+    "main-bower-files": "^2.9.0",
+    "run-sequence": "*"
+  }
+}

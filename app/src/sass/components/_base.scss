@@ -1,0 +1,77 @@
+body{
+  user-select: none;
+}
+
+a{
+  color: $links;
+}
+
+h1{
+  font-weight: normal;
+}
+
+#main-wrapper{
+  position: relative;
+}
+
+#main-content{
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 1em;
+  transition: opacity 0.4s;
+
+  &.page-change{
+    opacity: 0;
+  }
+}
+
+.buttons-wrapper{
+  white-space: nowrap;
+  padding: 5px 0;
+
+  button,
+  button[type="submit"]{
+    margin: 0 3px;
+
+    &:first-of-type{
+      margin-left: 0;
+    }
+
+    &:last-of-type{
+      margin-right: 0;
+    }
+  }
+}
+
+// =============================================================================
+
+.loader{
+  position: fixed;
+  right: 5px;
+  top: 5px;
+  border: 2px solid;
+  border-color: transparent $links $links $links;
+  border-radius: 40px;
+  @include size(40px);
+  animation: loading 0.4s linear infinite;
+  display: none;
+}
+
+.item-loader{
+  @extend .loader;
+  position: absolute;
+  display: block;
+  border-radius: 10px;
+  animation-duration: 0.2s;
+  @include size(10px);
+}
+
+@keyframes loading{
+  0%{
+    transform: rotate(0);
+  }
+
+  100%{
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,7 @@
+form.pure-form.pure-form-stacked(name='login_form', id="login_form")
+  fieldset.pure-group
+    input(id="username", placeholder!="<%= t('username') %>", name="username", type="text", value="")
+    input(id="password", name="password", placeholder!="<%= t('password') %>", type="text", value="")
+
+  div.pure-control-group.buttons-wrapper
+    button.pure-button.pure-button-primary(type="submit") <%= t('login') %>
