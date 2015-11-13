@@ -15,8 +15,8 @@ var mainBowerFiles = require('main-bower-files');
 var gulpif = require('gulp-if');
 var requirejs = require('gulp-requirejs');
 
-// var env = 'dev';
-var env = 'prod';
+var env = 'dev';
+// var env = 'prod';
 
 var prodIp = process.env['PROD_IP'];
 var devIp = process.env['DEV_IP'];

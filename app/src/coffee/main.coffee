@@ -37,29 +37,28 @@ require ['config'], ->
     # Specifying regions
     # ====================================
 
-    App.addRegions
-      navigation: "#navigation"
-      main: "#main-content"
-      messages: "#message-wrapper"
-      overlay: "#overlay"
-
-    App.getRegion('main').attachHtml = (view)->
-
-      promise = new Promise (resolve, reject)=>
+    MainRegion = Mn.Region.extend
+      show: (view, options)->
+        _args = arguments
         App.vent.trigger 'loading:start'
         @$el.addClass('page-change')
-        _.delay =>
-          resolve()
-        , 400
 
-      promise
-        .then =>
-          _.defer =>
-            Mn.Region::attachHtml.call(@, view)
-        .then =>
-          _.defer =>
-            App.vent.trigger 'loading:done'
-            @$el.removeClass('page-change')
+        _.delay =>
+          Mn.Region::show.apply(@, _args)
+        , 500
+
+        _.delay =>
+          App.vent.trigger 'loading:done'
+          @$el.removeClass('page-change')
+        , 1000
+
+    App.addRegions
+      navigation: "#navigation"
+      messages: "#message-wrapper"
+      overlay: "#overlay"
+      main:
+        regionClass: MainRegion
+        selector: "#main-content"
 
     # ====================================
     # Starting the App
