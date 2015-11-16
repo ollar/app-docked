@@ -5,7 +5,7 @@ define [
   App = new Mn.Application()
 
   App.url = (_url)->
-    'http://' + ENV.prod_ip + ':5000' + _url
+    'http://' + ENV.prod_ip + ':5000' + _url + '?nocache=' + _.now()
 
   App.ajax = (options)->
     $.ajax

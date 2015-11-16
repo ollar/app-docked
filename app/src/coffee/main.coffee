@@ -45,12 +45,12 @@ require ['config'], ->
 
         _.delay =>
           Mn.Region::show.apply(@, _args)
-        , 500
+        , 300
 
         _.delay =>
           App.vent.trigger 'loading:done'
           @$el.removeClass('page-change')
-        , 1000
+        , 700
 
     App.addRegions
       navigation: "#navigation"

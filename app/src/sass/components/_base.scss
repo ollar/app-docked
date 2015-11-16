@@ -1,3 +1,7 @@
+* {
+  -ms-scroll-chaining: none;
+}
+
 body{
   user-select: none;
 }
@@ -10,15 +14,97 @@ h1{
   font-weight: normal;
 }
 
+@keyframes border-color{
+  0%{
+    border-color: #1abc9c #1abc9c transparent #1abc9c;
+  }
+
+  20%{
+    border-color: #3498db #3498db transparent #3498db;
+  }
+
+  40%{
+    border-color: #9b59b6 #9b59b6 transparent #9b59b6;
+  }
+
+  60%{
+    border-color: #f1c40f #f1c40f transparent #f1c40f;
+  }
+
+  80%{
+    border-color: #e74c3c #e74c3c transparent #e74c3c;
+  }
+
+  100%{
+    border-color: #1abc9c #1abc9c transparent #1abc9c;
+  }
+}
+
+#appIsLoading{
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  top: 50%;
+  left: 50%;
+  margin: -10px 0 0 -10px;
+  animation-name: loading, border-color;
+  animation-duration: 1s, 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+  border: 6px solid;
+  border-color: #1abc9c #1abc9c transparent #1abc9c;
+  border-radius: 100%;
+
+  // &:before,
+  // &:after{
+  //   content: "";
+  //   position: absolute;
+  //   left: 0;
+  //   top: 0;
+  //   right: 0;
+  //   bottom: 0;
+  //   border: 3px solid;
+  //   border-radius: 100%;
+  //
+  //   animation-name: loading;
+  //   animation-duration: 1s;
+  //   animation-iteration-count: infinite;
+  //   animation-timing-function: linear;
+  // }
+  //
+  // &:before{
+  //   border-color: #c0392b #c0392b transparent #c0392b;
+  //   animation-direction: reverse;
+  //   border-width: 6px;
+  // }
+  //
+  // &:after{
+  //   left: 6px;
+  //   top: 6px;
+  //   right: 6px;
+  //   bottom: 6px;
+  //   border-width: 8px;
+  //   border-color: #3498db #3498db transparent #3498db;
+  //   animation-duration: 0.5s;
+  // }
+}
+
 #main-wrapper{
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 #main-content{
   max-width: 700px;
   margin: 40px auto;
   padding: 1em;
-  transition: opacity 0.4s;
+  transition: opacity 0.2s;
 
   &.page-change{
     opacity: 0;
@@ -49,7 +135,7 @@ h1{
   position: fixed;
   right: 5px;
   top: 5px;
-  border: 2px solid;
+  border: 3px solid;
   border-color: transparent $links $links $links;
   border-radius: 40px;
   @include size(40px);
