@@ -2,9 +2,10 @@ web:
   build: .
   dockerfile: nginxDockerfile
 
-  volumes_from:
-    - node
-  working_dir: /app/code/public
+  volumes:
+    - ./app/public/:/app/
+  links:
+    - flask
   ports:
     - "8800:80"
   mem_limit: 8m
@@ -23,7 +24,7 @@ flask:
     - "5000:5000"
   links:
    - db
-  mem_limit: 64m
+  mem_limit: 128m
 
 
 node:
@@ -38,7 +39,6 @@ node:
   environment:
     - PROD_IP=188.166.36.35
     - DEV_IP=localhost
-  mem_limit: 128m
 
 
 db:
