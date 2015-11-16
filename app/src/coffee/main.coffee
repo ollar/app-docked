@@ -33,6 +33,8 @@ require ['config'], ->
         pushState: true
         root: '/'
 
+      $('#main-wrapper').removeClass('loading')
+
     # ====================================
     # Specifying regions
     # ====================================
@@ -45,7 +47,7 @@ require ['config'], ->
 
         _.delay =>
           Mn.Region::show.apply(@, _args)
-        , 300
+        , 400
 
         _.delay =>
           App.vent.trigger 'loading:done'
