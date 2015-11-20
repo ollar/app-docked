@@ -14,6 +14,7 @@ var gulp = require('gulp'),
 var mainBowerFiles = require('main-bower-files');
 var gulpif = require('gulp-if');
 var requirejs = require('gulp-requirejs');
+var minifyHtml = require('gulp-minify-html');
 
 // var env = 'dev';
 var env = 'prod';
@@ -85,7 +86,8 @@ gulp.task('jade', function(){
   gulp.src('src/jade/index.jade')
   .pipe(template({env: env}))
   .pipe(plumber())
-  .pipe(jade().on('error', gutil.log))
+  .pipe(jade({pretty: true}).on('error', gutil.log))
+  .pipe(gulpif(env === 'prod', minifyHtml()))
   .pipe(gulp.dest('public'));
 
   return gulp.src(['src/jade/**/*.jade', '!src/jade/index.jade'])
@@ -120,6 +122,5 @@ gulp.task('default', ['clean', 'prepare_env'], function(){
     gulp.watch('src/jade/**/*.jade',['jade']);
   } else if (env === 'prod') {
     runSequence(['vendor', 'sass', 'jade'], 'coffee', 'rjs');
-    gulp.watch('src/coffee/**/*.coffee',['coffee']);
   }
 });

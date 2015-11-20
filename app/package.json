@@ -21,6 +21,7 @@
     "gulp-connect": "*",
     "gulp-if": "^2.0.0",
     "gulp-jade": "*",
+    "gulp-minify-html": "^1.0.4",
     "gulp-plumber": "*",
     "gulp-rename": "*",
     "gulp-requirejs": "^0.1.3",
