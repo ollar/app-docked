@@ -118,12 +118,11 @@ h1{
 }
 
 .buttons-wrapper{
-  white-space: nowrap;
   padding: 5px 0;
 
   button,
   button[type="submit"]{
-    margin: 0 3px;
+    margin: 0 3px 3px;
 
     &:first-of-type{
       margin-left: 0;

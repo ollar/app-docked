@@ -29,7 +29,7 @@ define
   'enabled': 'активно'
   'enable': 'вкл'
   'disable': 'выкл'
-  'add new': 'добавить новый'
+  'add new': 'добавить еще'
   'edit': 'редактировать'
   'delete': 'удалить'
   'order made at': 'заказ сделан'
@@ -64,3 +64,22 @@ define
   'send email': 'отправить письмо'
 
   'orders': 'заказы'
+
+  'show comments': 'показать комментарии'
+  'hide comments': 'скрыть комментарии'
+
+  # messages
+  'user removed': 'пользователь удален'
+  'user updated': 'инфо пользователя <b><%= arg %></b> обновлено'
+  'your profile updated': 'ваг профиль обновлен'
+  'meal added to your menu': 'блюдо добавлено в ваше меню'
+  'meal removed from your menu': 'блюдо убрано из вашего меню'
+  'order removed': 'заказ удален'
+
+  'not allowed remove old order': 'запрещено удалять заказы, сделанные позднее 2-х недель'
+  'not allowed create old order': 'запрещено создавать заказы, сделанные позднее 2-х недел'
+  'meal already in order': 'блюдо уже добавлено'
+
+  'welcome username': 'добро пожаловать, <b><%= arg %></b>!'
+  'welcome aboard': 'с возвращением'
+  'good bye': 'пока'

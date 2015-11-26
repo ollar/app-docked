@@ -29,9 +29,10 @@ define [
       Draggable:
         behaviorClass: Draggable
         direction: 'H'
-        callback: @panCallback
-        disable: ->
-          @move.get('X') > 200
+        callback: @panCallback.bind(@)
+        disable: =>
+          (@move.get('gesture').direction == 4 && @move.get('X') > 200) ||
+          (@move.get('gesture').direction == 2 && @move.get('X') < 0)
       Link:
         behaviorClass: Link
 
@@ -48,15 +49,15 @@ define [
 
     panCallback: ->
       if @move.get('gesture').direction == 4
-        @view.opened = yes
+        @opened = yes
         @move.set({X:200, oldX: 200})
       else if @move.get('gesture').direction == 2
-        @view.opened = no
+        @opened = no
         @move.set({X:0, oldX: 0})
       else
-        @view.opened = !@view.opened
+        @opened = !@opened
 
-      @view.updateState()
+      @updateState()
 
     toggleOpen: ->
       @opened = !@opened

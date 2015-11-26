@@ -66,6 +66,9 @@ define
 
     'orders': 'orders'
 
+    'show comments': 'show comments'
+    'hide comments': 'hide comments'
+
     # messages
     'user removed': 'user removed'
     'user updated': 'user <b><%= arg %></b> updated'

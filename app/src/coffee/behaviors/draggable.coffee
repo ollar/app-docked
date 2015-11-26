@@ -17,9 +17,9 @@ define [
       disable: null
 
     initialize: ->
-      @move = new MoveModel()
+      @view.move = new MoveModel()
 
-      @listenTo @move, 'change:X change:Y', (model)->
+      @listenTo @view.move, 'change:X change:Y', (model)->
         @$el.css({'transform': 'translate3d('+model.get('X')+'px, '+model.get('Y')+'px, 0)'})
 
     events:
@@ -34,7 +34,7 @@ define [
     end: (e)->
       @$el.removeClass 'dragged'
 
-      @move.set({'oldX': @move.get('X'), 'oldY': @move.get('Y')})
+      @view.move.set({'oldX': @view.move.get('X'), 'oldY': @view.move.get('Y')})
 
       if typeof(@options.callback) == 'function'
         @options.callback.call(@)
@@ -43,16 +43,16 @@ define [
       if typeof(@options.disable) == 'function'
         return if _.bind(@options.disable, @)()
 
-      @move.set('gesture', e.gesture)
+      @view.move.set('gesture', e.gesture)
 
       if @options.direction in ['H', 'A']
-        @move.set('X', @move.get('oldX') + e.gesture.deltaX)
+        @view.move.set('X', @view.move.get('oldX') + e.gesture.deltaX)
 
       if @options.direction in ['V', 'A']
-        @move.set('Y', @move.get('oldY') + e.gesture.deltaY)
+        @view.move.set('Y', @view.move.get('oldY') + e.gesture.deltaY)
 
     resetMove: ()->
-      @move.set({'X': 0, 'Y': 0, 'oldX': 0, 'OldY': 0, 'gesture': {}})
+      @view.move.set({'X': 0, 'Y': 0, 'oldX': 0, 'OldY': 0, 'gesture': {}})
 
     onRender: ->
       @hammer = @ui.panEl.hammer()
