@@ -2,7 +2,7 @@
 
 @mixin message($color){
   // box-shadow: 0 0 5px $color;
-  border-left: 3px solid $color;
+  border-left-color: $color;
 }
 
 #message-wrapper{
@@ -26,8 +26,7 @@
   background: $body_bg;
   box-shadow: 0 0 5px $border_color;
   color: lighten($text_color, 15%);
-  border-left: 3px solid $border_color;
-  border-radius: 3px;
+  border-left: 2px solid $border_color;
   transition: 0.5s;
   max-width: 100%;
   opacity: 1;

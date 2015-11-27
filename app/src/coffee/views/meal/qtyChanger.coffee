@@ -6,7 +6,7 @@ define [
 
   Qty = Mn.ItemView.extend
     template: _.template Template
-    className: 'table-wrapper pure-form'
+    className: 'flex-wrapper pure-form'
 
     initialize: ->
       @model.on 'change:qty', (model)=>

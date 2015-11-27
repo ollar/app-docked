@@ -1,6 +1,5 @@
 .menu-wrapper{
   padding: 5px;
-  border-radius: 5px;
   border: 1px solid $border_color;
 }
 
@@ -16,19 +15,20 @@
   }
 
   .pure-menu-item{
-    transition: 0.4s;
+    transition: background 0.3s, border 0.3;
     padding: 10px;
     margin: 0 0 5px;
     border: 1px solid $border_color;
-    border-radius: 3px;
+    border-left-width: 2px;
     background: $body_bg;
+    position: relative;
 
     &.dragged{
       transition: 0s;
     }
 
     &:hover{
-      background: darken($body_bg, 5%);
+      background: darken($body_bg, 2%);
     }
 
     &.disabled{
@@ -36,21 +36,26 @@
     }
 
     &.success{
-      background: linear-gradient($body_bg, darken($body_bg, 5%));
-      box-shadow: 0 0 0 1px $success, inset 0 0 0 1px $success;
+      border-left-color: $success;
+
+      &:before{
+        background-color: $success;
+      }
     }
 
     &.failed{
-      background: linear-gradient($body_bg, darken($body_bg, 5%));
-      box-shadow: 0 0 0 1px $error, inset 0 0 0 1px $error;
+      border-left-color: $error;
+
+      &:before{
+        background-color: $error;
+      }
     }
 
     &.selected{
-      background: linear-gradient($body_bg, darken($body_bg, 5%));
-      box-shadow: 0 0 0 1px $links, inset 0 0 0 1px $links;
+      border-left-color: $links;
 
       .buttons-wrapper{
-        display: table;
+        display: flex;
       }
 
       .stats-menu,

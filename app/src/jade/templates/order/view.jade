@@ -1,6 +1,6 @@
 .order-date <%= moment(order_date).format('DD MMMM YYYY') %>
 .user(id!="user_<%= user ? user.id : 0 %>") <%= user ? user.username : 'deleted' %>
-.table-wrapper.meal-wrapper
+.flex-wrapper.meal-wrapper
   .name(id!="meal_<%= meal ? meal.id : 0 %>") <%= meal ? meal.title : 'deleted' %>
   .qty &times; <%= quantity %>
 .date <%= _.t('order made at') %> <%= moment(timestamp_created).format('DD MMMM YYYY') %>

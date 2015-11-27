@@ -1,11 +1,13 @@
-.table-wrapper{
-  display: table;
+.flex-wrapper{
+  align-content: stretch;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
   width: 100%;
 
-  &>div{
-    vertical-align: middle;
-    display: table-cell;
-  }
+  // &>div{
+  //   vertical-align: middle;
+  // }
 }
 
 .left{
