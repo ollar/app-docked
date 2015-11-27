@@ -5,13 +5,13 @@
     
 ul.stats-menu.pure-menu-list
   li
-    a(href!="/stats/week/u<%= id %>") <%= t('week stats') %>
+    a(href!="/stats/week/u<%= id %>") <%= _.t('week stats') %>
   li
-    a(href!="/stats/month/u<%= id %>") <%= t('month stats') %>
+    a(href!="/stats/month/u<%= id %>") <%= _.t('month stats') %>
 
   .buttons-wrapper
-    button.pure-button.edit <%= t('edit') %>
-    button.pure-button.remove <%= t('delete') %>
-    button.pure-button.show-comments <%= t('show comments') %>
+    button.pure-button.edit <%= _.t('edit') %>
+    button.pure-button.remove <%= _.t('delete') %>
+    button.pure-button.show-comments <%= _.t('show comments') %>
   
 .comments

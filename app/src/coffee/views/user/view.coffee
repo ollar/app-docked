@@ -2,7 +2,6 @@ define [
   'app'
   'marionette'
   'text!templates/user/view.html'
-  'translate'
   'behaviors/select'
   'behaviors/remove'
   'behaviors/edit'
@@ -14,7 +13,7 @@ define [
 
   'views/user/form'
   'views/comment/simple_list'
-  ], (App, Mn, Template, translate, Select, Remove, Edit, SetAttrs, Loading, Link, CommentsCollection, UserFormView,  SimpleCommentsListView)->
+  ], (App, Mn, Template, Select, Remove, Edit, SetAttrs, Loading, Link, CommentsCollection, UserFormView,  SimpleCommentsListView)->
   UserView = Mn.LayoutView.extend
     className: 'user pure-menu-item'
 
@@ -27,8 +26,6 @@ define [
         @hideComments.call(@) if !@select
 
     template: _.template Template
-    templateHelpers: ->
-      t: translate
 
     ui:
       remove: '.remove'
@@ -47,7 +44,7 @@ define [
       Remove:
         behaviorClass: Remove
         # text: 'user "<i>'+@model.get('real_name')+'</i>" removed'
-        message: translate 'user removed'
+        message: _.t 'user removed'
       Edit:
         behaviorClass: Edit
         formView: UserFormView
@@ -73,7 +70,7 @@ define [
               collection: collection
               origin: 'users'
             @commentsRegion.show(commentsList)
-            @ui.showComments.text(translate('hide comments'))
+            @ui.showComments.text(_.t('hide comments'))
               .removeClass('show-comments')
               .addClass('hide-comments')
             @trigger('busy:stop')
@@ -81,7 +78,7 @@ define [
     hideComments: (e)->
       e.stopPropagation() if e
       @commentsRegion.empty()
-      @ui.showComments.text(translate('show comments'))
+      @ui.showComments.text(_.t('show comments'))
         .addClass('show-comments')
         .removeClass('hide-comments')
 

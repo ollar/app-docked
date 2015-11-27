@@ -7,8 +7,7 @@ define [
   'text!templates/common/send_email_button.html'
   'collections/orders'
   'moment'
-  'translate'
-  ], (Backbone, App, statsWeekViewTemplate, TotalTemplate, EmptyTemplate, SendEmailButton, OrdersCollection, moment, translate)->
+  ], (Backbone, App, statsWeekViewTemplate, TotalTemplate, EmptyTemplate, SendEmailButton, OrdersCollection, moment)->
   StatsView = Backbone.View.extend
     className: 'stats-info week-menu'
 
@@ -61,11 +60,11 @@ define [
             res_price += _order.get('meal').price * _order.get('quantity')
 
       if res_price
-        @$el.append _.template(@resTemplate({price: res_price, t: translate}))
+        @$el.append _.template(@resTemplate({price: res_price}))
         if App.ventFunctions.getLoggedUser().id == 1
-          @$el.append _.template(@sendEmailTemplate({t: translate}))
+          @$el.append _.template(@sendEmailTemplate())
       else
-        @$el.html _.template(EmptyTemplate)({t: translate})
+        @$el.html _.template(EmptyTemplate)()
 
       @
 

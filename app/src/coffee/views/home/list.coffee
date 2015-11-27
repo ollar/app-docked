@@ -7,8 +7,7 @@ define [
   'text!templates/home/view.html'
   'collections/nextWeekMeals'
   'behaviors/select_all'
-  'translate'
-  ], (jcookie, App, Mn, MealView, DayView, HomeTemplate, NWMealsCollection, SelectAll, translate)->
+  ], (jcookie, App, Mn, MealView, DayView, HomeTemplate, NWMealsCollection, SelectAll)->
   HomeView = Mn.CompositeView.extend
 
     className: 'pure-menu menu-wrapper'
@@ -19,7 +18,6 @@ define [
 
     template: _.template HomeTemplate
     templateHelpers: ->
-      t: translate
       local_user: @local_user
 
     ui:

@@ -4,13 +4,10 @@ define [
   'collections/orders'
   'views/order/view'
   'views/common/empty'
-  'translate'
   'behaviors/infinite_load'
-  ], (App, Mn, OrdersCollection, OrderView, EmptyView, translate, Infinite)->
+  ], (App, Mn, OrdersCollection, OrderView, EmptyView, Infinite)->
   OrdersListView = Mn.CollectionView.extend
     className: 'menu-wrapper items-list'
-    templateHelpers: ->
-      t: translate
 
     childView: OrderView
 

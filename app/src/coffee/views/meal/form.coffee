@@ -4,7 +4,7 @@ define [
   'text!templates/meal/form.html'
   'collections/meals'
   'models/meal'
-  'translate'], (App, Mn, MealFormTemplate, MealsCollection, MealModel, translate)->
+  ], (App, Mn, MealFormTemplate, MealsCollection, MealModel)->
 
   MealFormView = Mn.ItemView.extend
     className: 'meal-manage pure-menu-item'
@@ -18,7 +18,6 @@ define [
     templateHelpers: ->
       humanizeDay: @model.humanizeDay
       humanizeCategory: @model.humanizeCategory
-      t: translate
 
     events:
       'submit': 'updateMeal'

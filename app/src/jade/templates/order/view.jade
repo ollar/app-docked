@@ -3,7 +3,7 @@
 .table-wrapper.meal-wrapper
   .name(id!="meal_<%= meal ? meal.id : 0 %>") <%= meal ? meal.title : 'deleted' %>
   .qty &times; <%= quantity %>
-.date <%= t('order made at') %> <%= moment(timestamp_created).format('DD MMMM YYYY') %>
+.date <%= _.t('order made at') %> <%= moment(timestamp_created).format('DD MMMM YYYY') %>
 
 .buttons-wrapper
-  button.pure-button.remove <%= t('delete') %>
+  button.pure-button.remove <%= _.t('delete') %>

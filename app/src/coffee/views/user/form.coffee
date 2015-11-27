@@ -4,8 +4,7 @@ define [
   'text!templates/user/form.html'
   'models/user'
   'views/user/login'
-  'translate'
-  ], (App, Mn, userFormTemplate, UserModel, LoginView, translate)->
+  ], (App, Mn, userFormTemplate, UserModel, LoginView)->
   UserFormView = Mn.ItemView.extend
     className: 'user-manage pure-menu-item'
 
@@ -22,8 +21,6 @@ define [
       @uid = @model.get('id')
 
     template: _.template(userFormTemplate)
-    templateHelpers: ->
-      t: translate
 
     events:
       'submit #user_form': 'updateUser'
@@ -46,7 +43,7 @@ define [
             @remove()
             App.execute 'message',
               type: 'success'
-              text: translate 'user created'
+              text: _.t 'user created'
             return
 
           # Updating user from user list page
@@ -56,14 +53,14 @@ define [
             @remove()
             App.execute 'message',
               type: 'success'
-              text: translate 'user updated', model.get('username')
+              text: _.t 'user updated', model.get('username')
             return
 
           # Updating profile
           if @uid and !@options.front_view
             App.execute 'message',
               type: 'success'
-              text: translate 'your profile updated'
+              text: _.t 'your profile updated'
 
             App.navigate ''
             return

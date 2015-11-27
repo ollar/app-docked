@@ -6,8 +6,7 @@ define [
   'behaviors/select'
   'behaviors/remove'
   'behaviors/setAttrs'
-  'translate'
-  ], (App, Mn, orderViewTemplate, moment, Select, Remove, SetAttrs, translate)->
+  ], (App, Mn, orderViewTemplate, moment, Select, Remove, SetAttrs)->
   OrderView = Mn.ItemView.extend
     className: 'order pure-menu-item'
 
@@ -19,14 +18,13 @@ define [
     template: _.template(orderViewTemplate)
     templateHelpers: ->
       moment: moment
-      t: translate
 
     behaviors:
       Select:
         behaviorClass: Select
       Remove:
         behaviorClass: Remove
-        message: translate 'order removed'
+        message: _.t 'order removed'
       SetAttrs:
         behaviorClass: SetAttrs
 

@@ -6,10 +6,9 @@ define [
   'views/user/form'
   'views/common/empty'
   'text!templates/user/list_view.html'
-  'translate'
   'behaviors/add_new'
   'behaviors/infinite_load'
-  ], (App, Mn, UsersCollection, UserView, UserFormView, EmptyView, UsersListTemplate, translate, AddNew,
+  ], (App, Mn, UsersCollection, UserView, UserFormView, EmptyView, UsersListTemplate, AddNew,
   Infinite)->
   UsersListView = Mn.CompositeView.extend
     className: 'pure-menu menu-wrapper'
@@ -19,8 +18,6 @@ define [
       @collection.fetch()
 
     template: _.template UsersListTemplate
-    templateHelpers: ->
-      t: translate
 
     childView: UserView
     childViewContainer: '.pure-menu-list'

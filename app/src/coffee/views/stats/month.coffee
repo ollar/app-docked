@@ -7,9 +7,8 @@ define [
   'text!templates/common/empty.html'
   'text!templates/common/send_email_button.html'
   'moment'
-  'translate'
   'collections/orders'
-  ], (Backbone, App, UserStatsMonthTemplate, TotalTemplate, PagerTemplate, EmptyTemplate, SendEmailButton, moment, translate, OrdersCollection)->
+  ], (Backbone, App, UserStatsMonthTemplate, TotalTemplate, PagerTemplate, EmptyTemplate, SendEmailButton, moment, OrdersCollection)->
     MonthStatsView = Backbone.View.extend
       className: 'stats-info month-stats'
       initialize: (options)->
@@ -80,20 +79,20 @@ define [
               res_price += _order.get('meal').price * _order.get('quantity')
 
         if res_price
-          @$el.append _.template(@resTemplate({price: res_price, t: translate}))
+          @$el.append _.template(@resTemplate({price: res_price}))
           if App.ventFunctions.getLoggedUser().id == 1
-            @$el.append _.template(@sendEmailTemplate({t: translate}))
+            @$el.append _.template(@sendEmailTemplate())
         else
-          @$el.html _.template(EmptyTemplate)({t: translate})
+          @$el.html _.template(EmptyTemplate)()
 
         @$el.prepend @pagerTemplate({
           prev: @generatePagerUrl(@user_id, @prevMonth)
           next: @generatePagerUrl(@user_id, @nextMonth)
-          t: translate})
+        })
         @$el.append @pagerTemplate({
           prev: @generatePagerUrl(@user_id, @prevMonth)
           next: @generatePagerUrl(@user_id, @nextMonth)
-          t: translate})
+        })
 
         @
 

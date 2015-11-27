@@ -3,8 +3,7 @@ define [
   'marionette'
 
   'text!templates/comment/form.html'
-  'translate'
-], (App, Mn, FormTemplate, translate) ->
+], (App, Mn, FormTemplate) ->
 
   CommentForm = Mn.ItemView.extend
 
@@ -16,8 +15,6 @@ define [
       'click .cancel': 'cancel'
 
     template: _.template FormTemplate
-    templateHelpers:
-      t:translate
 
     initialize: ->
       @meal_id = @options.meal_id

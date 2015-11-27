@@ -2,16 +2,13 @@ define [
   'app'
   'marionette'
   'text!templates/user/login.html'
-  'translate'
-  ], (App, Mn, LoginTemplate, translate) ->
+  ], (App, Mn, LoginTemplate) ->
 
   LoginView = Mn.ItemView.extend
 
     className: "login-form"
 
     template: _.template(LoginTemplate)
-    templateHelpers: ->
-      t: translate
 
     events:
       'submit #login_form': 'submitForm'

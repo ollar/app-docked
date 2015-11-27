@@ -5,9 +5,8 @@ define [
   'text!templates/stats/total.html'
   'text!templates/stats/month_common_item.html'
   'moment'
-  'translate'
   'collections/orders'
-  ], (App, Backbone, MonthStatTemplate, TotalTemplate, MonthCommonItemTemplate, moment, translate, OrdersCollection) ->
+  ], (App, Backbone, MonthStatTemplate, TotalTemplate, MonthCommonItemTemplate, moment, OrdersCollection) ->
 
   MonthStatCommonView = Backbone.View.extend
     className: 'common-month-stat'

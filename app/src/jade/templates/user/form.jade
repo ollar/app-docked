@@ -1,16 +1,16 @@
 form.pure-form.pure-form-stacked(name='user_form', id="user_form")
   fieldset.pure-group
-    input(id="real_name", name="real_name", placeholder!="<%= t('real name') %>", type="text", value!="<%= real_name ? real_name : '' %>")
+    input(id="real_name", name="real_name", placeholder!="<%= _.t('real name') %>", type="text", value!="<%= real_name ? real_name : '' %>")
 
-    input(id="username", name="username", placeholder!="<%= t('username') %>", type="text", value!="<%= username ? username : '' %>")
+    input(id="username", name="username", placeholder!="<%= _.t('username') %>", type="text", value!="<%= username ? username : '' %>")
     
-    input(id="email", name="email", placeholder!="<%= t('email') %>", type="text", value!="<%= email ? email : '' %>")
+    input(id="email", name="email", placeholder!="<%= _.t('email') %>", type="text", value!="<%= email ? email : '' %>")
 
-    input(id="password", name="password", placeholder!="<%= t('password') %>", type="password", value="")
+    input(id="password", name="password", placeholder!="<%= _.t('password') %>", type="password", value="")
 
   div.pure-control-group.buttons-wrapper.visible
-    button.pure-button.pure-button-primary(type="submit") <%= t('submit') %>
-    button.pure-button.cancel <%= t('cancel') %>
+    button.pure-button.pure-button-primary(type="submit") <%= _.t('submit') %>
+    button.pure-button.cancel <%= _.t('cancel') %>
 
     <% if (typeof id !== "undefined" && id !== null) { %>
     input(name="id", type="hidden", value!="<%= id %>")

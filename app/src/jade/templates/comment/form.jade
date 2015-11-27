@@ -1,8 +1,8 @@
 form.pure-form(name='comment_form', id="comment_form")
   div.pure-control-group
-    textarea(id="content", name="content", placeholder!="<%= t('text') %>")
+    textarea(id="content", name="content", placeholder!="<%= _.t('text') %>")
       <%= content ? content : '' %>
       
   div.pure-control-group.buttons-wrapper
-    button.pure-button.pure-button-primary(type="submit") <%= t('submit') %>
-    button.pure-button.cancel <%= t('cancel') %>
+    button.pure-button.pure-button-primary(type="submit") <%= _.t('submit') %>
+    button.pure-button.cancel <%= _.t('cancel') %>

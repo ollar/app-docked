@@ -5,10 +5,9 @@ define [
   'text!templates/top_menu.html'
   'models/loggedUser'
 
-  'translate'
   'behaviors/draggable'
   'behaviors/link'
-  ], (App, Mn, Overlay, TopMenuTemplate, LoggedUserModel, translate, Draggable, Link)->
+  ], (App, Mn, Overlay, TopMenuTemplate, LoggedUserModel, Draggable, Link)->
   TopMenu = Mn.ItemView.extend
     tagName: 'nav'
     className: 'pure-menu'
@@ -44,8 +43,6 @@ define [
       "click @ui.toggle": "toggleOpen"
 
     template: _.template(TopMenuTemplate)
-    templateHelpers: ->
-      t: translate
 
     panCallback: ->
       if @move.get('gesture').direction == 4
