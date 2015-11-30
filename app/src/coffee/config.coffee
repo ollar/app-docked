@@ -15,6 +15,9 @@ requirejs.config
       deps: ['jquery', 'underscore']
 
     'marionette':
+      deps: ['backbone', 'backbone.stickit']
+
+    'backbone.stickit':
       deps: ['backbone']
 
   paths:
@@ -32,3 +35,4 @@ requirejs.config
     'marionette': "libs/backbone.marionette"
     'backbone.wreqr': 'libs/backbone.wreqr'
     'backbone.babysitter': 'libs/backbone.babysitter'
+    'backbone.stickit': 'libs/backbone.stickit'

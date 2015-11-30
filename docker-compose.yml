@@ -24,7 +24,7 @@ flask:
     - "5000:5000"
   links:
    - db
-  mem_limit: 128m
+  mem_limit: 256m
 
 
 node:
@@ -46,4 +46,4 @@ db:
   environment:
     - POSTGRES_USER=WeCeheerdEtvicsOgjotenwof
     - POSTGRES_PASSWORD=gadJesEttOditneogulrijvok
-  mem_limit: 32m
+  mem_limit: 64m

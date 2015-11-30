@@ -10,12 +10,11 @@ define [
 
   'views/meal/form'
   'views/meal/comment'
-  'views/meal/qtyChanger'
 
   'models/meal'
 
   'collections/comments'
-  ], (App, Mn, Template, QtyTemplate, marked, Select, SetAttrs, Loading, MealFormView, CommentView, QtyCharger, MealModel,  CommentsCollection)->
+  ], (App, Mn, Template, QtyTemplate, marked, Select, SetAttrs, Loading, MealFormView, CommentView, MealModel,  CommentsCollection)->
   MealView = Mn.LayoutView.extend
     className: 'meal pure-menu-item'
 
@@ -24,18 +23,23 @@ define [
     template: _.template Template
     templateHelpers: ->
       marked: marked
-      user: @loggedUser
 
     ui:
       title: '.name'
       makeOrder: '.make-order'
       removeOrder: '.remove-order'
 
+      decrease: '.decrease'
+      increase: '.increase'
+
     events:
       'click @ui.makeOrder': 'makeOrder'
       'click @ui.removeOrder': 'removeOrder'
       'click .show-comments': 'showComments'
       'click .hide-comments': 'hideComments'
+
+      'click @ui.decrease': 'decreaseQty'
+      'click @ui.increase': 'increaseQty'
 
     behaviors:
       Select:
@@ -53,86 +57,129 @@ define [
       qtyChanger: '.qty-wrapper'
       comments: '.comments'
 
+    bindings:
+      '.qty-wrapper':
+        attributes: [
+          observe: 'isOrdered'
+          name: 'class'
+          onGet: (value)->
+            'hidden' if value or !@loggedUser.id
+        ]
+
+      '.qty-wrapper .qty':
+        observe: 'qty'
+
+      '.name .qty':
+        observe: ['qty', 'isOrdered']
+        onGet: 'setQty'
+
+      ':el':
+        attributes: [
+          observe: 'state'
+          name: 'class'
+          onGet: (value)->
+            value
+        ]
+
+      'button.pure-button':
+        attributes: [
+          observe: ['isLogged', 'isOrdered']
+          name: 'class'
+          onGet: (values)->
+            if !values[0]
+              return 'hidden'
+            else
+              if values[1] then 'remove-order' else 'make-order pure-button-primary'
+          ]
+        observe: 'isOrdered'
+        onGet: (value)->
+          if value then _.t('remove order') else _.t('make order')
+
+      '.comments':
+        attributes: [
+          name: 'class'
+          observe: 'isLogged'
+          onGet: (value)->
+            if !value then 'hidden' else ''
+        ]
+
+
     initialize: ->
-      @success = no
-      @failed = no
       @model.set
+        state: ''
         qty: 1
         isOrdered: no
         orderId: 0
+        isLogged: App.ventFunctions.getLoggedUser().id
+
+      @commentView = new CommentView(
+        model: new Backbone.Model()
+        mealView: @
+      )
+
+      # ============================================================================================
 
       @on 'order:create:success', (model)->
-        @orderedMeal = model.toJSON()
         @model.set
           isOrdered: yes
-          qty: model.get('qty')
+          qty: model.get('quantity')
           orderId: model.get('id')
+          state: 'success'
 
-        @orderSuccess()
         @trigger 'busy:stop'
-        @render()
 
       @on 'order:create:failed', ->
         @trigger 'busy:stop'
         @orderFailed()
 
       @on 'order:remove:success order:remove:failed', ->
-        @success = no
         @select = no
         @model.set
           isOrdered: no
           qty: 1
           orderId: 0
+          state: ''
         @trigger 'busy:stop'
-        @selectToggle()
-        @render()
+
 
       @on 'comment:create:success comment:remove:success', =>
         @trigger 'busy:stop'
         @comments.currentView.render()
-        @render()
 
 
     # ==========================================================================
 
-    setQty: ->
-      _qty = @model.get('qty')
-      return if _qty <= 0 or !@model.get('isOrdered')
-      @ui.title.html(_.template(QtyTemplate)({qty: _qty}) + @model.get('title'))
+    decreaseQty: ()->
+      return false if @model.get('qty') <= 1
+      @model.set('qty', @model.get('qty')-1)
+      no
 
+    increaseQty: ()->
+      @model.set('qty',  @model.get('qty')+1)
+      no
 
-    selectToggle: ->
-      @$el.toggleClass 'select', @select
-      @$el.toggleClass 'success', @success
-      @$el.toggleClass 'failed', @failed
+    # ==========================================================================
 
-      @
+    setQty: (values)->
+      return if values[0] <= 0 or !values[1]
+      values[0] + ' \u00D7 '
 
-    orderSuccess: ->
-      @select = no
-      @success = yes
-      @selectToggle()
 
     orderFailed: ->
-      @failed = yes
-      @select = no
-      @selectToggle()
-      _.delay =>
-        @failed = no
-        @selectToggle()
-      , 1000
+      _prevState = @model.get('state')
+
+      @model.set('state', 'failed')
+      _.delay(=>
+        @model.set('state', _prevState)
+      , 1000)
 
     # ================================
 
     makeOrder: ->
       @trigger 'busy:start'
 
-      if @success
+      if @model.get('state') == 'success'
         @orderFailed()
-        _.delay(()=>
-          @failed = no
-          @orderSuccess()
-        , 1000)
         return
 
       App.execute 'order:create',
@@ -166,17 +213,20 @@ define [
           order.meal_id == @model.get('id') and order.order_date == @model.get('order_date')
 
         if orderedMeal
-          @model.set({'qty': orderedMeal.quantity, isOrdered: yes, orderId: orderedMeal.id})
-          @orderSuccess()
+          @model.set
+            qty: orderedMeal.quantity
+            isOrdered: yes
+            orderId: orderedMeal.id
+            state: 'success'
 
       @
 
+    onBeforeShow: ->
+      @comments.show(@commentView)
+
+
     onRender: ->
-      if @loggedUser.id
-        @comments.show(@commentView)
-        @setQty()
-      if (@loggedUser.id && !@model.get('isOrdered'))
-        @qtyChanger.show(new QtyCharger({model: @model}))
+      @stickit()
 
 
   MealView

@@ -1,18 +1,20 @@
-.name <%= title %>
+.name
+  span.qty
+  | <%= title %>
 .description <%= marked(description) %>
 
 // Buttons wrapper
 .buttons-wrapper.flex-wrapper
   .left
     .qty-wrapper
+      .decrease.pure-button -
+      .qty
+        //- <%= qty %>
+      .increase.pure-button +
 
-  <% if (user.id) { %>
-  .right
-    <% if (!isOrdered) { %>
-    button.make-order.pure-button.pure-button-primary <%= _('make order').t() %>
-    <% } else { %>
-    button.remove-order.pure-button <%= _('remove order').t() %>
-    <% }; %>
-  <% }; %>
+  .right    
+    button.pure-button 
+      //- make/remove order
+    
 // comments
 .comments
