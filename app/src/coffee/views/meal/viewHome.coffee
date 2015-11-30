@@ -14,7 +14,9 @@ define [
   'models/meal'
 
   'collections/comments'
-  ], (App, Mn, Template, QtyTemplate, marked, Select, SetAttrs, Loading, MealFormView, CommentView, MealModel,  CommentsCollection)->
+
+  'backbone.stickit'
+  ], (App, Mn, Template, QtyTemplate, marked, Select, SetAttrs, Loading, MealFormView, CommentView, MealModel,  CommentsCollection, stickit)->
   MealView = Mn.LayoutView.extend
     className: 'meal pure-menu-item'
 

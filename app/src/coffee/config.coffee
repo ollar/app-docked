@@ -15,9 +15,6 @@ requirejs.config
       deps: ['jquery', 'underscore']
 
     'marionette':
-      deps: ['backbone', 'backbone.stickit']
-
-    'backbone.stickit':
       deps: ['backbone']
 
   paths:
