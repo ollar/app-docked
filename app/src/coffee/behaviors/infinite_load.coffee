@@ -40,7 +40,7 @@ define [
       new_items.fetch
         success: (collection)=>
           return if collection.length == 0
-          @view.collection.add(collection.models)
+          @view.collection.add(collection.toJSON())
           @busy = no
 
   InfScroll
