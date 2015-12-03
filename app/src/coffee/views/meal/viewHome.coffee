@@ -2,7 +2,6 @@ define [
   'app'
   'marionette'
   'text!templates/meal/viewHome.html'
-  'text!templates/meal/qty_el.html'
   'marked'
   'behaviors/select'
   'behaviors/setAttrs'
@@ -16,7 +15,7 @@ define [
   'collections/comments'
 
   'backbone.stickit'
-  ], (App, Mn, Template, QtyTemplate, marked, Select, SetAttrs, Loading, MealFormView, CommentView, MealModel,  CommentsCollection, stickit)->
+  ], (App, Mn, Template, marked, Select, SetAttrs, Loading, MealFormView, CommentView, MealModel,  CommentsCollection, stickit)->
   MealView = Mn.LayoutView.extend
     className: 'meal pure-menu-item'
 
