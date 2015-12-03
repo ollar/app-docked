@@ -89,14 +89,14 @@ define [
 
   App.commands.setHandler 'comment:create', (data, mealView)->
     if data.content.length == 0
-      App.vent.trigger 'comment:meal_'+data.meal_id+':create:success'
+      mealView.trigger 'comment:create:success', ''
       return
     comment = new CommentModel()
     comment.save data,
       success: (model, response, options)=>
         App.ventFunctions.updateLocalUser ->
           if mealView
-            mealView.trigger 'comment:create:success'
+            mealView.trigger 'comment:create:success', model
       error: (model, response, options)=>
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 
@@ -106,7 +106,7 @@ define [
       success: =>
         App.ventFunctions.updateLocalUser ->
           if mealView
-            mealView.trigger 'comment:remove:success'
+            mealView.trigger 'comment:remove:success', ''
       error: (model, response, options)=>
         App.execute 'message', {type: response.responseJSON.type, text: response.responseJSON.text}
 

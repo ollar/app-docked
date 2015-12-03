@@ -156,9 +156,13 @@ define [
         @trigger 'busy:stop'
 
 
-      @on 'comment:create:success comment:remove:success', =>
+      @on 'comment:create:success comment:remove:success', (comment)=>
         @trigger 'busy:stop'
-        @comments.currentView.render()
+
+        if comment
+          @comments.currentView.model.set(comment.toJSON())
+        else
+          @comments.currentView.model.clear()
 
 
     # ==========================================================================

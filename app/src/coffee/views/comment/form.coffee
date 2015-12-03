@@ -7,7 +7,7 @@ define [
 
   CommentForm = Mn.ItemView.extend
 
-    className: 'commend-add'
+    className: 'commend-add inner'
 
     events:
       'click': (e)-> e.stopPropagation()
@@ -27,6 +27,7 @@ define [
         meal_id: @meal_id
         user_id: @user_id
       }), @options.mealView
+      @cancel()
 
     cancel: ->
       @options.frontEl.show()

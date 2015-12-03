@@ -12,6 +12,7 @@ define [
   Comment = Mn.ItemView.extend
     className: 'inner'
     template: _.template Template
+    model: new CommentModel()
     templateHelpers:
       marked: marked
 
@@ -26,6 +27,9 @@ define [
       'click @ui.addComment': 'addComment'
       'click @ui.removeComment': 'removeComment'
       'click': (e)-> e.stopPropagation()
+
+    modelEvents:
+      'change:content': 'render'
 
     # ================================
 
