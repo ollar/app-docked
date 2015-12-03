@@ -60,7 +60,7 @@ define [
       comments: '.comments'
 
     bindings:
-      '.qty-wrapper':
+      '.qty-change':
         attributes: [
           observe: 'isOrdered'
           name: 'class'
@@ -70,10 +70,16 @@ define [
 
       '.qty-wrapper .qty':
         observe: 'qty'
+        onGet: 'setQty'
 
       '.name .qty':
         observe: ['qty', 'isOrdered']
         onGet: 'setQty'
+
+      '.name .res-price':
+        observe: ['qty', 'price', 'isOrdered']
+        onGet: (values)->
+          return values[0] * values[1] if values[0]
 
       ':el':
         attributes: [
@@ -83,7 +89,7 @@ define [
             value
         ]
 
-      'button.pure-button':
+      '.pure-button':
         attributes: [
           observe: ['isLogged', 'isOrdered']
           name: 'class'
@@ -93,9 +99,17 @@ define [
             else
               if values[1] then 'remove-order' else 'make-order pure-button-primary'
           ]
+
+      '.pure-button .text':
         observe: 'isOrdered'
         onGet: (value)->
           if value then _.t('remove order') else _.t('make order')
+
+      '.pure-button .qty':
+        observe: ['qty', 'isOrdered']
+        onGet: (values)->
+          return if values[0] <= 1 or values[1]
+          values[0] + ' \u00D7 '
 
       '.comments':
         attributes: [
@@ -104,7 +118,6 @@ define [
           onGet: (value)->
             if !value then 'hidden' else ''
         ]
-
 
     initialize: ->
       @model.set

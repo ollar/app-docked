@@ -1,20 +1,20 @@
 .name
   span.qty
   | <%= title %>
+  span.res-price
+  
 .description <%= marked(description) %>
 
 // Buttons wrapper
-.buttons-wrapper.flex-wrapper
-  .left
-    .qty-wrapper
-      .decrease.pure-button -
-      .qty
-        //- <%= qty %>
-      .increase.pure-button +
-
-  .right    
-    button.pure-button 
+.buttons-wrapper
+  .right
+    .qty-wrapper.flex-wrapper
+      .decrease.qty-change -
+      .pure-button 
+        span.qty
+        span.text
       //- make/remove order
+      .increase.qty-change +
     
 // comments
 .comments

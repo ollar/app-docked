@@ -54,10 +54,7 @@
     &.selected{
       border-left-color: $links;
 
-      .buttons-wrapper{
-        display: flex;
-      }
-
+      .buttons-wrapper,
       .stats-menu,
       .comments{
         display: block;

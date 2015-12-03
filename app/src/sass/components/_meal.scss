@@ -1,6 +1,12 @@
 .meal{
   .name{
     font-size: 24px;
+
+    .res-price{
+      color: lighten($text_color, 40%);
+      font-size: 0.8em;
+      margin-left: 20px;
+    }
   }
 
   .description{
@@ -13,11 +19,12 @@
     width: auto;
   }
 
-  .qty input{
-    border: none;
-    width: 40px;
-    text-align: center;
-    margin-bottom: 0;
+  .right{
+    float: right;
+  }
+
+  .buttons-wrapper{
+    @include clearfix;
   }
 
   .decrease,
@@ -25,14 +32,7 @@
     text-align: center;
     width: 35px;
     padding: 0.5em 0;
-  }
-
-  .decrease{
-    border-radius: 3px 0 0 3px;
-  }
-
-  .increase{
-    border-radius: 0 3px 3px 0;
+    border-radius: 100%;
   }
 }
 
