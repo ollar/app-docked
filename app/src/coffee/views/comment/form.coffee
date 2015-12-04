@@ -27,7 +27,9 @@ define [
         meal_id: @meal_id
         user_id: @user_id
       }), @options.mealView
-      @cancel()
+
+      @options.mealView.trigger 'busy:start'
+      @options.mealView.on 'comment:create:success', @cancel, @
 
     cancel: ->
       @options.frontEl.show()
