@@ -27,7 +27,7 @@ define [
       renderer: new marked.Renderer()
       gfm: true
       tables: true
-      breaks: false
+      breaks: true
       pedantic: false
       sanitize: true
       smartLists: true
@@ -35,7 +35,7 @@ define [
 
     # Marionette Tweaks ============================================================================
 
-    
+
 
     # Backbone Tweaks ==============================================================================
 
