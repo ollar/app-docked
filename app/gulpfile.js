@@ -16,8 +16,8 @@ var gulpif = require('gulp-if');
 var requirejs = require('gulp-requirejs');
 var minifyHtml = require('gulp-minify-html');
 
-var env = 'dev';
-// var env = 'prod';
+// var env = 'dev';
+var env = 'prod';
 
 var prodIp = process.env['PROD_IP'];
 var devIp = process.env['DEV_IP'];
