@@ -1,5 +1,5 @@
 node_modules/*
-public/*
+app/public/js/(?!application.js).+
 bower_components/*
 venv/*
 __pycache__
